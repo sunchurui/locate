@@ -45,7 +45,7 @@ swift sft --model_type qwen3_vl \
   --model "$MODEL_DIR" \
   --dataset "$DATA/annotations/train_qwen.jsonl" \
   --val_dataset "$DATA/annotations/val_qwen.jsonl" \
-  --train_type lora \
+  --tuner_type lora \
   --torch_dtype bfloat16 \
   --num_train_epochs "$NUM_EPOCHS" \
   --per_device_train_batch_size "$TRAIN_BATCH_SIZE" \
