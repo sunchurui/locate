@@ -1,0 +1,19 @@
+# Large inputs and generated artifacts
+/model/
+/data/
+/checkpoints/
+/evaluation/
+/logs/
+/venv/
+/.venv/
+/__pycache__/
+*.py[cod]
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.jsonl
+*.resume.json
+.ranges_*/
+.train2017_ranges/
