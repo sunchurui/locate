@@ -41,7 +41,7 @@ python "$ROOT/prepare_coco_jsonl.py" \
   --output "$DATA/annotations/val_qwen.jsonl"
 
 nvidia-smi
-swift sft --model_type qwen3_vl \
+python "$ROOT/compat/run_swift_sft.py" --model_type qwen3_vl \
   --model "$MODEL_DIR" \
   --dataset "$DATA/annotations/train_qwen.jsonl" \
   --val_dataset "$DATA/annotations/val_qwen.jsonl" \
