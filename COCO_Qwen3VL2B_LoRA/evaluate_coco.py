@@ -62,8 +62,10 @@ def main():
             ap.error("batch-size must be positive")
         processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
         processor.tokenizer.padding_side = "left"
+        capability = torch.cuda.get_device_capability()
+        inference_dtype = torch.bfloat16 if capability[0] >= 8 else torch.float16
         model = Qwen3VLForConditionalGeneration.from_pretrained(
-            args.model, torch_dtype=torch.bfloat16, device_map="cuda", trust_remote_code=True
+            args.model, torch_dtype=inference_dtype, device_map="cuda", trust_remote_code=True
         )
         if args.adapter:
             model = PeftModel.from_pretrained(model, args.adapter)

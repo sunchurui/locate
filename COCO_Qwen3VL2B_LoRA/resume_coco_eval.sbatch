@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --gres=gpu:a100-sxm4-80gb:1
+#SBATCH --gres=gpu:tesla_v100-sxm2-32gb:1
 #SBATCH --cpus-per-task=12
 #SBATCH --mem=64G
 #SBATCH --time=1-00:00:00
