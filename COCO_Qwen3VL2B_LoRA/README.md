@@ -23,7 +23,7 @@ A reproducible single-GPU supervised fine-tuning (SFT) baseline for COCO 2017 ob
 
 The Slurm job runs data preparation, SFT, validation-loss evaluation, then greedy generation on COCO val and `pycocotools.COCOeval` for AP@[.50:.95], AP50, AP75, size-specific AP, and AR. The detection score uses generated object order because the target format has no calibrated confidence value; this caveat is written to the metrics JSON.
 
-If full validation generation is interrupted, `resume_coco_eval.sbatch` first evaluates the unmodified base model on the same first 1,600 validation images for a direct comparison, then resumes the LoRA predictions across all allocated GPUs with batched inference (default batch size 8, reduced automatically if GPU memory runs low), merges the complete 5,000-image output, and computes the COCO metrics. Its Slurm GPU request uses this cluster's free 32 GB V100; change that typed GRES name to a GPU available on another cluster. Inference uses BF16 on Ampere-class GPUs and FP16 on older GPUs. The evaluator automatically uses every GPU allocated to the job.
+For a direct full-set comparison, `evaluate_base_full.sbatch` evaluates the unmodified base model on all 5,000 COCO validation images, writes predictions and metrics under `evaluation/base_val2017_full`, and requests one GPU of any type. It uses batched inference (default batch size 8, reduced automatically if GPU memory runs low). If full LoRA validation generation is interrupted, `resume_coco_eval.sbatch` first evaluates the base model on the same first 1,600 validation images, then resumes the LoRA predictions across all allocated GPUs, merges the complete 5,000-image output, and computes the COCO metrics. Inference uses BF16 on Ampere-class GPUs and FP16 on older GPUs. The evaluator automatically uses every GPU allocated to the job.
 
 ## Setup on a new Linux/HPC machine
 
@@ -54,6 +54,7 @@ The default data paths are relative to the repository. `EXPERIMENT_ROOT` can ove
 - `prepare_coco_jsonl.py`: converts COCO instance annotations to Qwen3-VL grounding JSONL.
 - `train_and_evaluate.sbatch`: one-GPU LoRA SFT and end-to-end validation.
 - `evaluate_coco.py`: resumable detection generation and COCO metric calculation, with optional image sharding.
+- `evaluate_base_full.sbatch`: full 5,000-image COCO validation for the unmodified Qwen3-VL-2B base model on one available GPU.
 - `resume_coco_eval.sbatch`, `split_coco_predictions.py`, and `merge_coco_predictions.py`: resume interrupted validation generation across available GPUs and calculate metrics on the merged predictions.
 - `download_coco.sh`: sequential mirror fallback with official SHA-1 verification.
 
