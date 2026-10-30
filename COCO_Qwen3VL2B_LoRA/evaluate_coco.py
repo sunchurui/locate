@@ -31,7 +31,7 @@ def parse_output(text):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
-    ap.add_argument("--adapter", required=True)
+    ap.add_argument("--adapter", default=None)
     ap.add_argument("--annotations", required=True)
     ap.add_argument("--image-dir", required=True)
     ap.add_argument("--output-dir", required=True)
@@ -65,7 +65,8 @@ def main():
         model = Qwen3VLForConditionalGeneration.from_pretrained(
             args.model, torch_dtype=torch.bfloat16, device_map="cuda", trust_remote_code=True
         )
-        model = PeftModel.from_pretrained(model, args.adapter)
+        if args.adapter:
+            model = PeftModel.from_pretrained(model, args.adapter)
         model.eval()
 
         done = set()

@@ -14,6 +14,7 @@ DATA="$ROOT/data/coco2017"
 MODEL_DIR="${MODEL_DIR:-$ROOT/model}"
 ADAPTER="${ADAPTER:-$ROOT/checkpoints/v2-20261029-191142/checkpoint-14786}"
 OUT="$ROOT/evaluation/val2017"
+BASE_OUT="$ROOT/evaluation/base_val2017_first1600"
 NUM_GPUS="${SLURM_GPUS_ON_NODE:-$(nvidia-smi --query-gpu=name --format=csv,noheader | wc -l)}"
 NUM_SHARDS="$NUM_GPUS"
 BATCH_SIZE="${EVAL_BATCH_SIZE:-8}"
@@ -23,6 +24,13 @@ export QWENVL_BBOX_FORMAT=new
 export IMAGE_MAX_TOKEN_NUM=1024
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export TOKENIZERS_PARALLELISM=false
+
+python "$ROOT/evaluate_coco.py" \
+  --model "$MODEL_DIR" \
+  --annotations "$DATA/annotations/instances_val2017.json" \
+  --image-dir "$DATA/val2017" \
+  --output-dir "$BASE_OUT" \
+  --limit 1600 --batch-size "$BATCH_SIZE"
 
 python "$ROOT/split_coco_predictions.py" \
   --annotations "$DATA/annotations/instances_val2017.json" \
