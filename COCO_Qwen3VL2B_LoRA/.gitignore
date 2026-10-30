@@ -2,6 +2,7 @@
 /model/
 /data/
 /checkpoints/
+/grpo_checkpoints/
 /evaluation/
 /logs/
 /venv/
