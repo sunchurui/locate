@@ -1,6 +1,6 @@
 # COCO 2017 + Qwen3-VL-2B LoRA baseline
 
-A reproducible single-GPU supervised fine-tuning (SFT) baseline and fixed reinforcement-learning subset for COCO 2017 object detection using `Qwen/Qwen3-VL-2B-Instruct` and ms-swift. The GroundingPI-based reinforcement-learning stage is not yet runnable: the public GroundingPI VLM training launcher supports SFT only, and an official GRPO reward implementation has not been found.
+A reproducible single-GPU supervised fine-tuning (SFT) baseline and fixed reinforcement-learning subset for COCO 2017 object detection using `Qwen/Qwen3-VL-2B-Instruct` and ms-swift. A GroundingPI-inspired adaptation of Rex-Omni's RL code is in progress and is not yet a runnable training recipe.
 
 ## Dataset
 
@@ -62,7 +62,7 @@ Annotations with `iscrowd=1` and invalid boxes are excluded; boxes are clipped a
 
 The intended RL method follows [GroundingPI section 7.6](https://arxiv.org/html/2609.39601): initialize from SFT with a frozen SFT reference; use GRPO with eight completions per prompt, beta 0.02, clip epsilon 0.2, and separately normalized set-completeness and strict-localization rewards weighted 0.7 and 0.3. Freeze the vision encoder and projector. The paper uses learning rate 5e-7, a constant schedule without warmup, weight decay 0.01, seed/data seed 20260812, and 256 GPUs. Its 256-GPU full-language update is not the requested Qwen3-VL 2B LoRA setup; batch size and memory requirements must be adapted and verified when an appropriate implementation is available. Validation during training and final COCO AP evaluation remain requirements.
 
-GroundingPI's [published VLM configuration](https://github.com/groundingpi/GroundingPI/blob/main/configs/train/vlm.yaml) uses `swift_module: sft`, and its [training parameter validation](https://github.com/groundingpi/GroundingPI/blob/main/train/release_parameters.py) only accepts that VLM module. The official RL entrypoint and the exact two grounding reward functions have not been located. The earlier independently written GRPO job and reward are not GroundingPI implementations and have been withdrawn from the repository; their HPC copies are preserved under `legacy_previous_grpo/`. Do not start RL training from them; the fixed subset does not depend on them.
+GroundingPI's [published VLM configuration](https://github.com/groundingpi/GroundingPI/blob/main/configs/train/vlm.yaml) uses `swift_module: sft`, and its [training parameter validation](https://github.com/groundingpi/GroundingPI/blob/main/train/release_parameters.py) only accepts that VLM module. The official RL entrypoint and the exact two grounding reward functions have not been located. `rex_groundingpi_adaptation/` contains an incomplete adaptation of Rex-Omni's official GRPO trainer and a two-component reward plugin, with explicit approximations and integration gaps. The earlier independently written GRPO job and reward have been withdrawn from the repository; their HPC copies are preserved under `legacy_previous_grpo/`. Do not start RL training from either prototype until the integration checks are complete.
 
 ## Files
 
@@ -71,6 +71,7 @@ GroundingPI's [published VLM configuration](https://github.com/groundingpi/Groun
 - `download_coco.sbatch`, `finish_coco_modelscope.sh`, and the two range downloaders: resumable dataset download, checksum validation, extraction, and image-count checks.
 - `prepare_coco_jsonl.py`: converts COCO instance annotations to Qwen3-VL grounding JSONL.
 - `prepare_rl_subset.py`, `rl_train_10000_manifest.json`, `rl_val_manifest.json`: deterministically reproduce RL subsets and create local JSONL files.
+- `rex_groundingpi_adaptation/`: incomplete Rex-Omni GRPO trainer patch and GroundingPI-inspired rewards; see its README for limitations.
 - `train_and_evaluate.sbatch`: one-GPU LoRA SFT and end-to-end validation.
 - `evaluate_coco.py`: resumable detection generation and COCO metric calculation, with optional image sharding.
 - `evaluate_base_full.sbatch`: full 5,000-image COCO validation for the unmodified Qwen3-VL-2B base model on one available 16 GB V100.
