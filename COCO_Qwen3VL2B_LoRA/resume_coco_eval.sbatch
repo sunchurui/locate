@@ -3,7 +3,7 @@
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:tesla_v100-sxm2-32gb:1
 #SBATCH --cpus-per-task=12
-#SBATCH --mem=64G
+#SBATCH --mem=32G
 #SBATCH --time=1-00:00:00
 #SBATCH --job-name=coco_qwen2b_eval
 #SBATCH --output=logs/%x_%j.log
