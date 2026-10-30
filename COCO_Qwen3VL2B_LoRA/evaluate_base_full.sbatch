@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #SBATCH --partition=compute
 #SBATCH --nodes=1
-#SBATCH --gres=gpu:tesla_v100-sxm2-32gb:1
+#SBATCH --gres=gpu:tesla_v100-sxm2-16gb:1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=24G
+#SBATCH --mem=12G
 #SBATCH --time=1-00:00:00
 #SBATCH --job-name=coco_qwen2b_base
 #SBATCH --output=logs/%x_%j.log
