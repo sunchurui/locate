@@ -3,6 +3,8 @@
 /data/
 /checkpoints/
 /grpo_checkpoints/
+/rex_token_sft_outputs/
+/references/
 /evaluation/
 /logs/
 /venv/
