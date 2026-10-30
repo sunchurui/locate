@@ -31,14 +31,14 @@ CUDA_VISIBLE_DEVICES=0 python "$ROOT/evaluate_coco.py" \
   --model "$MODEL_DIR" --adapter "$ADAPTER" \
   --annotations "$DATA/annotations/instances_val2017.json" \
   --image-dir "$DATA/val2017" --output-dir "$OUT" \
-  --prediction-file predictions.rank0.jsonl --shard-index 0 --num-shards "$NUM_SHARDS" \
+  --prediction-file predictions.rank0.jsonl --shard-index 0 --num-shards "$NUM_SHARDS" --batch-size 4 \
   --skip-coco-eval > "$OUT/eval_rank0.log" 2>&1 &
 PID0=$!
 CUDA_VISIBLE_DEVICES=1 python "$ROOT/evaluate_coco.py" \
   --model "$MODEL_DIR" --adapter "$ADAPTER" \
   --annotations "$DATA/annotations/instances_val2017.json" \
   --image-dir "$DATA/val2017" --output-dir "$OUT" \
-  --prediction-file predictions.rank1.jsonl --shard-index 1 --num-shards "$NUM_SHARDS" \
+  --prediction-file predictions.rank1.jsonl --shard-index 1 --num-shards "$NUM_SHARDS" --batch-size 4 \
   --skip-coco-eval > "$OUT/eval_rank1.log" 2>&1 &
 PID1=$!
 wait "$PID0"

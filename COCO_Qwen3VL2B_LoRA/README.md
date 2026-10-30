@@ -22,7 +22,7 @@ A reproducible single-GPU supervised fine-tuning (SFT) baseline for COCO 2017 ob
 
 The Slurm job runs data preparation, SFT, validation-loss evaluation, then greedy generation on COCO val and `pycocotools.COCOeval` for AP@[.50:.95], AP50, AP75, size-specific AP, and AR. The detection score uses generated object order because the target format has no calibrated confidence value; this caveat is written to the metrics JSON.
 
-If full validation generation is interrupted, `resume_coco_eval.sbatch` requests two A100 GPUs, resumes from saved per-image predictions across two shards, merges the complete 5,000-image output, and computes the COCO metrics.
+If full validation generation is interrupted, `resume_coco_eval.sbatch` requests two A100 GPUs, resumes from saved per-image predictions across two shards with batched inference (batch size 4, reduced automatically if GPU memory runs low), merges the complete 5,000-image output, and computes the COCO metrics.
 
 ## Setup on a new Linux/HPC machine
 

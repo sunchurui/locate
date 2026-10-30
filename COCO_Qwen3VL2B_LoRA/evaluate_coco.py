@@ -36,6 +36,7 @@ def main():
     ap.add_argument("--image-dir", required=True)
     ap.add_argument("--output-dir", required=True)
     ap.add_argument("--max-new-tokens", type=int, default=1024)
+    ap.add_argument("--batch-size", type=int, default=4)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--prediction-file", default="predictions.jsonl")
     ap.add_argument("--shard-index", type=int, default=0)
@@ -57,7 +58,10 @@ def main():
     images = images[args.shard_index::args.num_shards]
 
     if not args.skip_inference:
+        if args.batch_size < 1:
+            ap.error("batch-size must be positive")
         processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
+        processor.tokenizer.padding_side = "left"
         model = Qwen3VLForConditionalGeneration.from_pretrained(
             args.model, torch_dtype=torch.bfloat16, device_map="cuda", trust_remote_code=True
         )
@@ -71,53 +75,68 @@ def main():
                     try: done.add(json.loads(line)["image_id"])
                     except Exception: pass
 
+        pending = [info for info in images if info["id"] not in done]
         started = time.time()
         with pred_file.open("a", encoding="utf-8") as out:
-            for idx, info in enumerate(images, 1):
-                image_id = info["id"]
-                if image_id in done:
-                    continue
-                path = os.path.join(args.image_dir, info["file_name"])
-                messages = [{"role": "user", "content": [
-                    {"type": "image", "image": path},
+            offset = 0
+            batch_size = args.batch_size
+            while offset < len(pending):
+                batch = pending[offset:offset + batch_size]
+                conversations = [[{"role": "user", "content": [
+                    {"type": "image", "image": os.path.join(args.image_dir, info["file_name"])},
                     {"type": "text", "text": PROMPT},
-                ]}]
-                text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-                image_inputs, video_inputs = process_vision_info(messages)
-                inputs = processor(text=[text], images=image_inputs, videos=video_inputs,
+                ]}] for info in batch]
+                texts = [processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+                         for messages in conversations]
+                image_inputs, video_inputs = process_vision_info(conversations)
+                inputs = processor(text=texts, images=image_inputs, videos=video_inputs,
                                    padding=True, return_tensors="pt").to("cuda")
-                with torch.inference_mode():
-                    generated = model.generate(**inputs, max_new_tokens=args.max_new_tokens,
-                                               do_sample=False, use_cache=True)
-                trimmed = [g[len(i):] for i, g in zip(inputs.input_ids, generated)]
-                response = processor.batch_decode(trimmed, skip_special_tokens=True,
-                                                  clean_up_tokenization_spaces=False)[0]
-                boxes = parse_output(response)
-                dets = []
-                width, height = info["width"], info["height"]
-                for rank, item in enumerate(boxes):
-                    if not isinstance(item, dict):
-                        continue
-                    label = str(item.get("label", "")).strip().lower()
-                    bbox = item.get("bbox_2d")
-                    if label not in cats or not isinstance(bbox, (list, tuple)) or len(bbox) != 4:
-                        continue
-                    try:
-                        x1, y1, x2, y2 = [float(v) for v in bbox]
-                    except Exception:
-                        continue
-                    x1, x2 = sorted((max(0.0, min(1000.0, x1)), max(0.0, min(1000.0, x2))))
-                    y1, y2 = sorted((max(0.0, min(1000.0, y1)), max(0.0, min(1000.0, y2))))
-                    bw, bh = (x2-x1)*width/1000.0, (y2-y1)*height/1000.0
-                    if bw <= 0 or bh <= 0:
-                        continue
-                    dets.append({"category_id": cats[label],
-                                 "bbox": [x1*width/1000.0, y1*height/1000.0, bw, bh],
-                                 "score": max(0.001, 1.0 - rank*0.001)})
-                out.write(json.dumps({"image_id": image_id, "detections": dets}) + "\n")
+                try:
+                    with torch.inference_mode():
+                        generated = model.generate(**inputs, max_new_tokens=args.max_new_tokens,
+                                                   do_sample=False, use_cache=True)
+                except torch.cuda.OutOfMemoryError:
+                    if batch_size == 1:
+                        raise
+                    batch_size = max(1, batch_size // 2)
+                    del inputs, conversations, texts, image_inputs, video_inputs
+                    torch.cuda.empty_cache()
+                    print(f"CUDA memory limit reached; retrying with batch_size={batch_size}", flush=True)
+                    continue
+
+                prompt_length = inputs.input_ids.shape[1]
+                trimmed = generated[:, prompt_length:]
+                responses = processor.batch_decode(trimmed, skip_special_tokens=True,
+                                                   clean_up_tokenization_spaces=False)
+                for info, response in zip(batch, responses):
+                    boxes = parse_output(response)
+                    dets = []
+                    width, height = info["width"], info["height"]
+                    for rank, item in enumerate(boxes):
+                        if not isinstance(item, dict):
+                            continue
+                        label = str(item.get("label", "")).strip().lower()
+                        bbox = item.get("bbox_2d")
+                        if label not in cats or not isinstance(bbox, (list, tuple)) or len(bbox) != 4:
+                            continue
+                        try:
+                            x1, y1, x2, y2 = [float(v) for v in bbox]
+                        except Exception:
+                            continue
+                        x1, x2 = sorted((max(0.0, min(1000.0, x1)), max(0.0, min(1000.0, x2))))
+                        y1, y2 = sorted((max(0.0, min(1000.0, y1)), max(0.0, min(1000.0, y2))))
+                        bw, bh = (x2-x1)*width/1000.0, (y2-y1)*height/1000.0
+                        if bw <= 0 or bh <= 0:
+                            continue
+                        dets.append({"category_id": cats[label],
+                                     "bbox": [x1*width/1000.0, y1*height/1000.0, bw, bh],
+                                     "score": max(0.001, 1.0 - rank*0.001)})
+                    out.write(json.dumps({"image_id": info["id"], "detections": dets}) + "\n")
                 out.flush()
-                if idx % 100 == 0 or idx == len(images):
-                    print(f"processed {idx}/{len(images)} images; elapsed {time.time()-started:.0f}s", flush=True)
+                offset += len(batch)
+                if offset % 100 < batch_size or offset == len(pending):
+                    print(f"processed {len(done) + offset}/{len(images)} images; "
+                          f"elapsed {time.time()-started:.0f}s; batch_size={batch_size}", flush=True)
 
     if args.skip_coco_eval:
         return
