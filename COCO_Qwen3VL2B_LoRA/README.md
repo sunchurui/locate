@@ -1,6 +1,6 @@
 # COCO 2017 + Qwen3-VL-2B LoRA baseline
 
-A reproducible single-GPU supervised fine-tuning (SFT) and GRPO workflow for COCO 2017 object detection using `Qwen/Qwen3-VL-2B-Instruct` and ms-swift.
+A reproducible single-GPU supervised fine-tuning (SFT) baseline and fixed reinforcement-learning subset for COCO 2017 object detection using `Qwen/Qwen3-VL-2B-Instruct` and ms-swift. The GroundingPI-based reinforcement-learning stage is not yet runnable: the public GroundingPI VLM training launcher supports SFT only, and an official GRPO reward implementation has not been found.
 
 ## Dataset
 
@@ -48,11 +48,21 @@ The default data paths are relative to the repository. `EXPERIMENT_ROOT` can ove
 
 ## Reinforcement learning
 
-`train_grpo.sbatch` starts from the SFT LoRA adapter, using that same adapter as the reference policy. Set `SFT_ADAPTER` to your checkpoint path on another machine; `MODEL_DIR`, `VENV_PATH`, `OUTPUT_DIR` and `EXPERIMENT_ROOT` can also be overridden. Change the Slurm GPU type as needed and submit from the experiment root with `sbatch train_grpo.sbatch`. To continue a saved run, set `RESUME_FROM_CHECKPOINT` to its GRPO checkpoint before submission. RL training is not started by the preparation step.
+The training subset contains 10,000 COCO train2017 images; the validation subset contains 256 val2017 images. Both use seed 42. Rank every official image ID by the SHA-256 digest of the UTF-8 string `coco2017:{split}:seed=42:image_id={id}`, breaking ties by numeric ID, take the first 10,000 or 256, and store the selected IDs in ascending order. The 10,000-image subset contains all images from the earlier 5,000-image selection. `rl_train_10000_manifest.json` and `rl_val_manifest.json` record the IDs and SHA-256 of the exact source annotation files. The older 5,000-image manifest is retained for provenance.
 
-The training subset contains 5,000 COCO train2017 images; the validation subset contains 256 val2017 images. Both use seed 42. For each split, rank every official image ID by the SHA-256 digest of the UTF-8 string `coco2017:{split}:seed=42:image_id={id}`, breaking ties by numeric ID, take the first 5,000 or 256, and store the selected IDs in ascending order. The committed `rl_train_manifest.json` and `rl_val_manifest.json` record the IDs and SHA-256 of the exact source annotation file. `prepare_rl_subset.py` checks an existing manifest against the source before generating machine-specific image paths. Annotations with `iscrowd=1` and invalid boxes are excluded; boxes are clipped and normalized to 0–1000. All selected images are retained, including those with no eligible objects.
+`prepare_rl_subset.py` checks an existing manifest against the source before generating machine-specific paths and annotations. For example, to reproduce the training JSONL from the experiment root:
 
-The GRPO configuration uses four sampled completions per prompt, one epoch, learning rate 1e-5, KL coefficient 0.01, and a single A100 80 GB. Training batch is one completion per microbatch with four accumulation steps; validation uses four completions per batch. It logs validation reward every 100 optimizer steps and saves checkpoints at the same interval. The sample-based validation reward is not COCO AP; run the separate COCO evaluator for the final metrics. Each completion is scored by strict JSON validity plus a class-aware greedy matching of boxes at IoU >= 0.5: `0.1 + 0.7 * F1 + 0.2 * mean_matched_IoU`; invalid JSON scores zero, and a correct empty prediction for an empty image scores one. Invalid detections count as false positives. The 768-token completion cap may truncate dense scenes. Full training time and GPU memory use have not yet been measured.
+```bash
+python prepare_rl_subset.py --instances data/coco2017/annotations/instances_train2017.json \
+  --image-dir data/coco2017/train2017 --split train2017 --count 10000 --seed 42 \
+  --manifest rl_train_10000_manifest.json --output data/coco2017/annotations/train_rl_10000.jsonl
+```
+
+Annotations with `iscrowd=1` and invalid boxes are excluded; boxes are clipped and normalized to 0–1000. All selected images are retained, including those with no eligible objects. This JSONL is a dataset preparation output, not a GroundingPI training cache.
+
+The intended RL method follows [GroundingPI section 7.6](https://arxiv.org/html/2609.39601): initialize from SFT with a frozen SFT reference; use GRPO with eight completions per prompt, beta 0.02, clip epsilon 0.2, and separately normalized set-completeness and strict-localization rewards weighted 0.7 and 0.3. Freeze the vision encoder and projector. The paper uses learning rate 5e-7, a constant schedule without warmup, weight decay 0.01, seed/data seed 20260812, and 256 GPUs. Its 256-GPU full-language update is not the requested Qwen3-VL 2B LoRA setup; batch size and memory requirements must be adapted and verified when an appropriate implementation is available. Validation during training and final COCO AP evaluation remain requirements.
+
+GroundingPI's [published VLM configuration](https://github.com/groundingpi/GroundingPI/blob/main/configs/train/vlm.yaml) uses `swift_module: sft`, and its [training parameter validation](https://github.com/groundingpi/GroundingPI/blob/main/train/release_parameters.py) only accepts that VLM module. The official RL entrypoint and the exact two grounding reward functions have not been located. The earlier independently written GRPO job and reward are not GroundingPI implementations and have been withdrawn from the repository; their HPC copies are preserved under `legacy_previous_grpo/`. Do not start RL training from them; the fixed subset does not depend on them.
 
 ## Files
 
@@ -60,8 +70,7 @@ The GRPO configuration uses four sampled completions per prompt, one epoch, lear
 - `download_model.sh`: downloads the base model from ModelScope.
 - `download_coco.sbatch`, `finish_coco_modelscope.sh`, and the two range downloaders: resumable dataset download, checksum validation, extraction, and image-count checks.
 - `prepare_coco_jsonl.py`: converts COCO instance annotations to Qwen3-VL grounding JSONL.
-- `prepare_rl_subset.py`, `rl_train_manifest.json`, `rl_val_manifest.json`: deterministically reproduce GRPO subsets and create local JSONL files.
-- `coco_grpo_reward.py`, `train_grpo.sbatch`, `compat/run_swift_rlhf.py`: detection reward, LoRA GRPO job, and compatibility launcher.
+- `prepare_rl_subset.py`, `rl_train_10000_manifest.json`, `rl_val_manifest.json`: deterministically reproduce RL subsets and create local JSONL files.
 - `train_and_evaluate.sbatch`: one-GPU LoRA SFT and end-to-end validation.
 - `evaluate_coco.py`: resumable detection generation and COCO metric calculation, with optional image sharding.
 - `evaluate_base_full.sbatch`: full 5,000-image COCO validation for the unmodified Qwen3-VL-2B base model on one available 16 GB V100.
