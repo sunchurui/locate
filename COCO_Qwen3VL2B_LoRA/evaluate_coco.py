@@ -82,16 +82,17 @@ def main():
             batch_size = args.batch_size
             while offset < len(pending):
                 batch = pending[offset:offset + batch_size]
-                conversations = [[{"role": "user", "content": [
-                    {"type": "image", "image": os.path.join(args.image_dir, info["file_name"])},
-                    {"type": "text", "text": PROMPT},
-                ]}] for info in batch]
-                texts = [processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-                         for messages in conversations]
-                image_inputs, video_inputs = process_vision_info(conversations)
-                inputs = processor(text=texts, images=image_inputs, videos=video_inputs,
-                                   padding=True, return_tensors="pt").to("cuda")
+                conversations = texts = image_inputs = video_inputs = inputs = None
                 try:
+                    conversations = [[{"role": "user", "content": [
+                        {"type": "image", "image": os.path.join(args.image_dir, info["file_name"])},
+                        {"type": "text", "text": PROMPT},
+                    ]}] for info in batch]
+                    texts = [processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+                             for messages in conversations]
+                    image_inputs, video_inputs = process_vision_info(conversations)
+                    inputs = processor(text=texts, images=image_inputs, videos=video_inputs,
+                                       padding=True, return_tensors="pt").to("cuda")
                     with torch.inference_mode():
                         generated = model.generate(**inputs, max_new_tokens=args.max_new_tokens,
                                                    do_sample=False, use_cache=True)

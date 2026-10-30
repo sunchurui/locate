@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 #SBATCH --partition=compute
-#SBATCH --gres=gpu:a100-sxm4-80gb:2
-#SBATCH --cpus-per-task=12
-#SBATCH --mem=64G
-#SBATCH --time=10:00:00
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:4
+#SBATCH --cpus-per-task=24
+#SBATCH --mem=128G
+#SBATCH --time=1-00:00:00
 #SBATCH --job-name=coco_qwen2b_eval
 #SBATCH --output=logs/%x_%j.log
 
@@ -13,7 +14,9 @@ DATA="$ROOT/data/coco2017"
 MODEL_DIR="${MODEL_DIR:-$ROOT/model}"
 ADAPTER="${ADAPTER:-$ROOT/checkpoints/v2-20261029-191142/checkpoint-14786}"
 OUT="$ROOT/evaluation/val2017"
-NUM_SHARDS=2
+NUM_GPUS="${SLURM_GPUS_ON_NODE:-$(nvidia-smi --query-gpu=name --format=csv,noheader | wc -l)}"
+NUM_SHARDS="$NUM_GPUS"
+BATCH_SIZE="${EVAL_BATCH_SIZE:-8}"
 source "${VENV_PATH:-$ROOT/venv}/bin/activate"
 cd "$ROOT"
 export QWENVL_BBOX_FORMAT=new
@@ -27,22 +30,20 @@ python "$ROOT/split_coco_predictions.py" \
   --output-dir "$OUT" \
   --num-shards "$NUM_SHARDS"
 
-CUDA_VISIBLE_DEVICES=0 python "$ROOT/evaluate_coco.py" \
-  --model "$MODEL_DIR" --adapter "$ADAPTER" \
-  --annotations "$DATA/annotations/instances_val2017.json" \
-  --image-dir "$DATA/val2017" --output-dir "$OUT" \
-  --prediction-file predictions.rank0.jsonl --shard-index 0 --num-shards "$NUM_SHARDS" --batch-size 4 \
-  --skip-coco-eval > "$OUT/eval_rank0.log" 2>&1 &
-PID0=$!
-CUDA_VISIBLE_DEVICES=1 python "$ROOT/evaluate_coco.py" \
-  --model "$MODEL_DIR" --adapter "$ADAPTER" \
-  --annotations "$DATA/annotations/instances_val2017.json" \
-  --image-dir "$DATA/val2017" --output-dir "$OUT" \
-  --prediction-file predictions.rank1.jsonl --shard-index 1 --num-shards "$NUM_SHARDS" --batch-size 4 \
-  --skip-coco-eval > "$OUT/eval_rank1.log" 2>&1 &
-PID1=$!
-wait "$PID0"
-wait "$PID1"
+PIDS=()
+for ((rank=0; rank<NUM_GPUS; rank++)); do
+  CUDA_VISIBLE_DEVICES="$rank" python "$ROOT/evaluate_coco.py" \
+    --model "$MODEL_DIR" --adapter "$ADAPTER" \
+    --annotations "$DATA/annotations/instances_val2017.json" \
+    --image-dir "$DATA/val2017" --output-dir "$OUT" \
+    --prediction-file "predictions.rank${rank}.jsonl" \
+    --shard-index "$rank" --num-shards "$NUM_SHARDS" --batch-size "$BATCH_SIZE" \
+    --skip-coco-eval > "$OUT/eval_rank${rank}.log" 2>&1 &
+  PIDS+=("$!")
+done
+for pid in "${PIDS[@]}"; do
+  wait "$pid"
+done
 
 python "$ROOT/merge_coco_predictions.py" \
   --annotations "$DATA/annotations/instances_val2017.json" \

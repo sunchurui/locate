@@ -59,10 +59,12 @@ python "$ROOT/compat/run_swift_sft.py" --model_type qwen3_vl \
   --target_modules all-linear \
   --gradient_checkpointing true \
   --max_length 4096 \
-  --eval_strategy epoch \
+  --eval_strategy steps \
+  --eval_steps 1000 \
   --save_strategy steps \
-  --save_steps 2500 \
+  --save_steps 1000 \
   --save_total_limit 3 \
+  --load_best_model_at_end true \
   --logging_steps 20 \
   --dataset_num_proc 8 \
   --dataloader_num_workers 8 \

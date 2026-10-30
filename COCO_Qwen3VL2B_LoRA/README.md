@@ -18,11 +18,12 @@ A reproducible single-GPU supervised fine-tuning (SFT) baseline for COCO 2017 ob
 - LoRA rank 16, alpha 32, all linear layers.
 - Per-device training batch 4, gradient accumulation 2 (effective batch 8); evaluation batch 4.
 - Learning rate 1e-4, cosine schedule, 3% warmup, gradient checkpointing.
+- Validation loss every 1,000 optimizer steps; save and select the best validation-loss checkpoint.
 - Image token cap 1024; maximum sequence length 4096.
 
 The Slurm job runs data preparation, SFT, validation-loss evaluation, then greedy generation on COCO val and `pycocotools.COCOeval` for AP@[.50:.95], AP50, AP75, size-specific AP, and AR. The detection score uses generated object order because the target format has no calibrated confidence value; this caveat is written to the metrics JSON.
 
-If full validation generation is interrupted, `resume_coco_eval.sbatch` requests two A100 GPUs, resumes from saved per-image predictions across two shards with batched inference (batch size 4, reduced automatically if GPU memory runs low), merges the complete 5,000-image output, and computes the COCO metrics.
+If full validation generation is interrupted, `resume_coco_eval.sbatch` requests four generic GPUs on one node, resumes from saved per-image predictions across all allocated GPUs with batched inference (default batch size 8, reduced automatically if GPU memory runs low), merges the complete 5,000-image output, and computes the COCO metrics.
 
 ## Setup on a new Linux/HPC machine
 
@@ -53,7 +54,7 @@ The default data paths are relative to the repository. `EXPERIMENT_ROOT` can ove
 - `prepare_coco_jsonl.py`: converts COCO instance annotations to Qwen3-VL grounding JSONL.
 - `train_and_evaluate.sbatch`: one-GPU LoRA SFT and end-to-end validation.
 - `evaluate_coco.py`: resumable detection generation and COCO metric calculation, with optional image sharding.
-- `resume_coco_eval.sbatch`, `split_coco_predictions.py`, and `merge_coco_predictions.py`: resume interrupted validation generation across two GPUs and calculate metrics on the merged predictions.
+- `resume_coco_eval.sbatch`, `split_coco_predictions.py`, and `merge_coco_predictions.py`: resume interrupted validation generation across available GPUs and calculate metrics on the merged predictions.
 - `download_coco.sh`: sequential mirror fallback with official SHA-1 verification.
 
 Large files (COCO archives/images/annotations, model weights, checkpoints, generated predictions, metrics, logs, virtual environments, and caches) are excluded by `.gitignore`.
