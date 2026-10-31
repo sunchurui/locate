@@ -33,9 +33,9 @@ python -u "$ROOT/rex_id_grpo/run_rlhf.py" \
   --reward_funcs rex_id_set rex_id_strict --reward_weights 0.7 0.3 \
   --scale_rewards gdpo --advantage_estimator grpo --kl_in_reward false \
   --loss_type grpo --importance_sampling_level token --epsilon 0.2 --epsilon_high 0.2 --beta 0.02 \
-  --dataset "$ROOT/data/coco2017/annotations/train_rex_id_grpo_10000.jsonl" \
+  --dataset "$ROOT/data/coco2017/annotations/train_rex_id_grpo_epoch.jsonl" \
   --val_dataset "$ROOT/data/coco2017/annotations/val_rex_id_grpo_256.jsonl" \
-  --split_dataset_ratio 0 --remove_unused_columns false \
+  --split_dataset_ratio 0 --remove_unused_columns false --dataset_shuffle false \
   --num_generations 8 --num_generations_eval 1 --num_iterations 1 \
   --per_device_train_batch_size 1 --gradient_accumulation_steps 256 \
   --generation_batch_size 256 \

@@ -1,7 +1,8 @@
 {
   "source": "https://arxiv.org/html/2609.39601v2#S7.SS6",
   "source_table": 11,
-  "unpublished_details_confirmed": false,
+  "unpublished_details_confirmed": true,
+  "confirmation": "User instructed on 2026-10-31: 只是没有代码罢了，这不是实现方法已经说得很详细了吗？就按这个跑吧. Proceed with the discussed reward interpretation and documented experimental conventions.",
   "published_output_convention": "Section 7.1: boxes within each label are stably sorted by x1; implemented by the within-class x-order check.",
   "user_proposed_reward_interpretation": {
     "format": "binary 0/1",
@@ -63,14 +64,15 @@
     "generation_chunk_size": 16,
     "note": "Chunk size controls memory only; all 256 rewards are collected before advantage normalization and one optimizer update. The paper uses 256 GPUs, accumulation 1, ZeRO-2."
   },
-  "unpublished_details_pending_confirmation": {
+  "accepted_experiment_conventions_not_claimed_as_official_code": {
     "strict_reward_matching": "Existing adaptation uses class-aware maximum-cardinality matching; exact matching/tie-breaking not published.",
     "strict_reward_matched_iou": "Existing adaptation averages matches at IoU >= 0.5; exact averaging convention not published.",
-    "strict_reward_duplicates": "Draft now counts later same-class predictions having IoU >= 0.9 with an earlier prediction. Per-box counting follows the user proposal; the .9 threshold and exact duplicate definition are not published or confirmed.",
-    "strict_reward_oversize": "Draft now counts boxes with area > 0.8 and no same-class GT at IoU >= 0.5. Per-box unmatched-only counting follows the user proposal; area/support thresholds are not published or confirmed.",
+    "strict_reward_duplicates": "Count each later same-class prediction having IoU >= 0.9 with an earlier prediction once. Use the user's per-box counting interpretation; do not claim the official visual-prompt evaluation's pair-count ratio is the RL implementation.",
+    "strict_reward_oversize": "Count each box with area > 0.8 and no same-class GT at IoU >= 0.5 once. Use the discussed area/support thresholds as experimental conventions.",
     "strict_reward_format": "Existing adaptation gives 0 to both rewards on globally invalid Rex format; paper specifies a strict format component but not full parser/error gating.",
     "rollout_sampling_and_length": "Current experimental values temperature=1, top_p=1, top_k=0, completion=1024, max_length=4096; no matching RL table values located.",
-    "training_duration": "Current experiment has one epoch over the fixed 10000-image subset; RL epoch/step budget not stated in Table 11. 10000 is not divisible by 32, so treatment of the final 16 prompts also needs confirmation."
+    "training_duration": "One epoch over all 10000 distinct images, plus 16 deterministic repeated image prompts to complete the last 32-prompt batch: 313 optimizer updates and 80128 sampled responses.",
+    "epoch_order": "Sort the fixed 10000 images by SHA256 UTF-8 of coco2017:rl-order:seed=20260812:image_id={id}, tie-break image ID, append the first 16 rows. Disable backend dataset shuffle to preserve this complete-group order."
   },
   "experiment_operations_not_paper_hyperparameters": {
     "validation_count": 256,

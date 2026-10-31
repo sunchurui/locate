@@ -1,12 +1,9 @@
 # Rex original-ID LoRA GRPO
 
-**Launch disabled pending user confirmation of unpublished details.** The old
-16-response jobs 203833–203836 and their evaluations 203852–203855 were cancelled
-before training started. No replacement training jobs have been submitted.
-`check_alignment.py --require-confirmation` and the training launcher both
-refuse to start while `alignment.json` has `unpublished_details_confirmed=false`.
-Do not change that flag without the user's explicit confirmation of the
-listed outstanding choices.
+**User authorized this recipe on 2026-10-31.** `alignment.json` records the
+confirmation and the accepted reward conventions. The obsolete 16-response
+jobs 203833–203836 and evaluations 203852–203855 were cancelled before training.
+The replacement recipe uses the complete 256-response update below.
 
 Continue `rex_id_sft_outputs_a800_80`, preserving `<0>` through `<999>` at IDs
 150643–151642, LoRA rank 16 / alpha 32 and the SFT-trained coordinate embedding
@@ -40,17 +37,18 @@ penalty interpretation: exact total count equality gives 0/1; each later
 duplicate costs .03; each oversized box without same-class GT support costs
 .07. The draft uses maximum-cardinality class-aware matching, duplicate IoU .9,
 oversized area .8, support IoU .5, and mean IoU over matches at .5; those
-thresholds/matching conventions remain pending, not official GroundingPI values.
+thresholds/matching conventions are accepted experiment definitions, not
+claimed as official GroundingPI source code.
 This is an adaptation, not an official GroundingPI release. Empty GT rewards
 only empty valid predictions as 1, following the official Rex empty-GT rule.
-Invalid output still receives 0 for both rewards pending format-gating review.
+Globally invalid output receives 0 for both rewards under the accepted recipe.
 See [the official Rex component mapping](REX_REWARD_MAPPING.md) for the exact
 overlap: its soft F1 does not implement the GroundingPI three-threshold F1,
 and its inspected box reward has no separate count/order/duplicate/oversize
 terms. Its top-level box reward therefore cannot replace either GroundingPI
 reward wholesale.
 
-## Prepare; launch only after outstanding details are confirmed
+## Prepare and launch
 
 Prepare the existing fixed manifests and JSONL sources with `prepare_rl_subset.py`
 (see the repository's RL data instructions), then:
@@ -59,7 +57,6 @@ Prepare the existing fixed manifests and JSONL sources with `prepare_rl_subset.p
 bash rex_id_grpo/setup.sh
 python rex_id_grpo/prepare_rl.py --root "$PWD"
 mkdir -p logs
-# These commands remain blocked until the documented choices are confirmed:
 sbatch rex_id_grpo/train.sbatch
 # After a successful complete training run:
 sbatch --dependency=afterok:TRAIN_JOB_ID rex_id_grpo/evaluate.sbatch
@@ -68,7 +65,15 @@ sbatch --dependency=afterok:TRAIN_JOB_ID rex_id_grpo/evaluate.sbatch
 The preparation verifies the existing 10,000 train / 256 validation image IDs
 against the saved manifests and changes only the user prompt to the Rex SFT
 prompt. Membership uses SHA256 ranking with seed 42; RL training/data order
-seed is 20260812. Validation contains no training images.
+seed is 20260812. Validation contains no training images. To use every selected
+image with complete 32-prompt updates, preparation additionally writes
+`train_rex_id_grpo_epoch.jsonl`: sort by the SHA256 digest of UTF-8
+`coco2017:rl-order:seed=20260812:image_id={id}`, tie-break image ID, and append
+the first 16 rows. This gives 10,016 prompt draws over 10,000 unique images,
+313 optimizer updates and 80,128 responses. `dataset_shuffle=false` preserves
+that predetermined shuffled order; each 32-prompt update has distinct IDs.
+The exact draw order is saved in `rex_id_grpo_epoch_manifest.json`. This
+avoids the upstream sampler silently dropping the final 16 unique images.
 
 Prepared recipe: one GPU with at least 80GB, HF generation, 8 responses per image,
 microbatch 1 / accumulation 256 (256 response sequences per optimizer update),
@@ -135,19 +140,17 @@ updates, Rex original-ID tokenizer, COCO subset and >=80GB requirement are
 explicit user constraints. They are not claimed to reproduce GroundingPI's
 model architecture, data or trainable parameter set.
 
-## Unpublished details: launch remains disabled
+## Accepted experiment conventions
 
 `alignment.json` separates published optimization, user constraints, physical
-execution settings and unresolved choices. The pending choices include strict
+execution settings and accepted choices. The accepted choices include strict
 matching definitions, mean matched IoU, duplicate threshold
 and exact duplicate definition, oversized-box definition, parser/error gating,
-generation sampling/length limits and training
-duration. The 10,000-image subset is not divisible by the 32-prompt batch;
-treatment of the last 16 prompts also awaits confirmation. Existing adapter
-reward code is retained for review; its approximations are not approved as
-GroundingPI-equivalent. Binary count/order and raw per-box penalties are now
-explicit user-proposed conventions; valid-empty handling follows Rex under
-the user's overlap-reuse instruction. No reward training has been started.
+generation sampling/length limits and training duration. These are concrete
+experiment definitions approved by the user, not a claim of identical private
+GroundingPI code. Binary count/order and raw per-box penalties follow the
+user's interpretation; valid-empty handling follows Rex under the user's
+overlap-reuse instruction. The last batch is padded as described above.
 The within-label x1 sorting convention itself is explicitly published in
 section 7.1 and matches the Rex SFT; it is not an unresolved ordering direction.
 

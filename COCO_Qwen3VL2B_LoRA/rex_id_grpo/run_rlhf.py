@@ -43,20 +43,26 @@ def prepare_model(self):
         if str(actual).removeprefix('torch.')!=str(expected) and actual!=expected:
             raise ValueError(f'GroundingPI alignment: {name}={actual!r}, expected {expected!r}')
     execution=SETTINGS['single_gpu_execution']
-    for name in ('world_size','per_device_train_batch_size','gradient_accumulation_steps'):
+    # Swift's outer RLHFArguments is not the initialized HF TrainingArguments;
+    # distributed_state lives on its constructed training_args instance.
+    if args.training_args.world_size!=execution['world_size']:
+        raise ValueError('Single-GPU batch alignment failed: world_size')
+    for name in ('per_device_train_batch_size','gradient_accumulation_steps'):
         if getattr(args,name)!=execution[name]:
             raise ValueError(f'Single-GPU batch alignment failed: {name}')
     if args.num_iterations!=1 or args.use_vllm:
         raise ValueError('Expected one update per rollout and the configured HF chunked-generation backend')
     if not args.adapters or args.adapters!=args.ref_adapters:
         raise ValueError('Policy and frozen reference must load the same SFT adapter')
+    if args.dataset_shuffle:
+        raise ValueError('Use the pre-shuffled complete-batch epoch file with dataset_shuffle=false')
     if not SETTINGS['unpublished_details_confirmed']:
         raise RuntimeError('Unpublished GroundingPI details await user confirmation')
     original_model_prepare(self)
 
 
 SwiftRLHF._prepare_model_tokenizer=prepare_model
-original_prepare=RolloutTrainerMixin._prepare_rollout_params
+original_prepare=RolloutTrainerMixin.prepare_rollout
 
 
 def prepare_rollout(self):
@@ -67,7 +73,7 @@ def prepare_rollout(self):
           f'generation memory chunk={self.engine.max_batch_size}; full-batch GDPO; uncapped equation-1 KL',flush=True)
 
 
-RolloutTrainerMixin._prepare_rollout_params=prepare_rollout
+RolloutTrainerMixin.prepare_rollout=prepare_rollout
 original_advantages=GRPOTrainer._compute_advantages
 
 

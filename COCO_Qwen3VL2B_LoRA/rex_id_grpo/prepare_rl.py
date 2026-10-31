@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Reuse fixed IDs and the SFT tokenizer without copying model weight shards."""
 import argparse
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -46,6 +47,22 @@ def main():
                 row['messages']=[{'role':'user','content':PROMPT}]
                 f.write(json.dumps(row,ensure_ascii=False)+'\n')
         print(target,len(rows),flush=True)
+        if source=='train_rl_10000.jsonl':
+            ordered=sorted(rows,key=lambda row:(hashlib.sha256(
+                f'coco2017:rl-order:seed=20260812:image_id={row["image_id"]}'.encode()).digest(),row['image_id']))
+            padding=(-len(ordered))%32
+            ordered=ordered+ordered[:padding]
+            if any(len({r['image_id'] for r in ordered[i:i+32]})!=32 for i in range(0,len(ordered),32)):
+                raise ValueError('Each update must contain 32 different images')
+            with (data/'train_rex_id_grpo_epoch.jsonl').open('w',encoding='utf-8') as f:
+                for row in ordered:
+                    f.write(json.dumps(row,ensure_ascii=False)+'\n')
+            order_manifest={'seed':20260812,'unique_images':len(rows),'prompt_draws':len(ordered),
+                            'padded_prompts':padding,'optimizer_updates':len(ordered)//32,
+                            'selection':'SHA256 coco2017:rl-order:seed=20260812:image_id={id}; append first padding rows',
+                            'image_ids':[r['image_id'] for r in ordered]}
+            (root/'rex_id_grpo_epoch_manifest.json').write_text(json.dumps(order_manifest,indent=2)+'\n')
+            print('Epoch:',len(ordered),'prompts,',len(ordered)//32,'optimizer updates; padded',padding,flush=True)
     print('Base overlay:',overlay,flush=True)
 
 

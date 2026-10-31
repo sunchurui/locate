@@ -41,8 +41,9 @@ clip(.10*format + .10*exact_count + .50*mean_threshold_F1
 
 Format/count/order are binary. The two penalty terms are raw per-box counts,
 following the user's proposed interpretation, not confirmed GroundingPI code.
-The existing global-invalid-output gate is still pending and unchanged; the
+The existing global-invalid-output gate is retained; the
 formula above describes valid parsed outputs. No training is enabled by these
-changes. Generation settings, training budget, reward matching, thresholds,
-format/error handling await the prior requested review. Valid-empty terminal
+changes alone. The user subsequently authorized the discussed recipe on
+2026-10-31, including the recorded generation settings, training budget,
+reward matching, thresholds and format/error handling. Valid-empty terminal
 behavior follows official Rex under the user's overlap-reuse instruction.
