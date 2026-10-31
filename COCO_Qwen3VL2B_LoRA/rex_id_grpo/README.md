@@ -57,7 +57,7 @@ Prepare the existing fixed manifests and JSONL sources with `prepare_rl_subset.p
 bash rex_id_grpo/setup.sh
 python rex_id_grpo/prepare_rl.py --root "$PWD"
 mkdir -p logs
-export PERFORMANCE_PROFILE=batch64 SAVE_FIRST_STEP=1
+export PERFORMANCE_PROFILE=batch32 SAVE_FIRST_STEP=1
 sbatch rex_id_grpo/train.sbatch
 # After a successful complete training run:
 sbatch --dependency=afterok:TRAIN_JOB_ID rex_id_grpo/evaluate.sbatch
@@ -77,11 +77,12 @@ The exact draw order is saved in `rex_id_grpo_epoch_manifest.json`. This
 avoids the upstream sampler silently dropping the final 16 unique images.
 
 Prepared recipe: one GPU with at least 80GB, HF generation, 8 responses per image,
-microbatch 64 / accumulation 4 (256 response sequences per optimizer update),
+microbatch 32 / accumulation 8 (256 response sequences per optimizer update),
 1024 image tokens, 1024 generated tokens, sequence limit 4096; 1 epoch.
 Learning rate 5e-7 constant, fused AdamW .9/.999 / epsilon 1e-8, weight decay .01, clip 1,
 GRPO clip .2, KL beta .02. Validation reward on fixed val256 every 100 updates;
-checkpoint every 50 updates, plus step 1 when `SAVE_FIRST_STEP=1`.
+checkpoint every 50 updates, plus the first completed update in each process
+when `SAVE_FIRST_STEP=1` (including after resume). Checkpoints are retained.
 Full COCO AP uses the existing Rex evaluator after
 training and is distinct from validation reward.
 
@@ -97,7 +98,7 @@ The corrected single-GPU recipe uses **32 distinct image–query pairs,
 
 ```
 response batch = GPU count * per_device_train_batch_size * gradient_accumulation_steps
-               = 1 * 64 * 4 = 256
+               = 1 * 32 * 8 = 256
 distinct prompts per update = response batch / num_generations = 256 / 8 = 32
 ```
 
@@ -117,7 +118,9 @@ It refuses to silently use another microbatch, update batch or objective.
 
 ## Execution-batch speed comparison
 
-`batch64` is now the default, selected after the user's >=60GB memory request.
+`batch32` is the default. `batch64` passed its two-update benchmark but later
+exhausted GPU memory on a longer response at update 4 of job 204013. Both the
+recovered global-reward baseline and the object-credit variant use batch32.
 `PERFORMANCE_PROFILE=baseline` explicitly reproduces the original execution
 (microbatch 1, accumulation 256, generation chunk 16). `batch8` and `batch16`
 profiles use microbatch/accumulation 8/32 and 16/16, with generation chunk 64.
@@ -145,7 +148,7 @@ Old outputs remain preserved. See [measured comparison](PERFORMANCE_NOTES.md).
 
 | Published setting | Prepared implementation |
 | --- | --- |
-| 32 prompts, 8 responses each, 1 update per rollout | Explicit 256-response rollout, microbatch 64 and accumulation 4 on one GPU |
+| 32 prompts, 8 responses each, 1 update per rollout | Explicit 256-response rollout, microbatch 32 and accumulation 8 on one GPU |
 | Learning rate / schedule | 5e-7 / constant / no warmup |
 | Optimizer | Fused AdamW, betas .9/.999, epsilon 1e-8 |
 | Weight decay / gradient clipping | .01 / 1 |
@@ -165,7 +168,7 @@ loops are used. Both adaptations fail for review if the expected source/API
 changes; site-package files are not overwritten.
 
 The paper uses 256 GPUs with accumulation 1 and ZeRO-2; one GPU uses microbatch
-64 and accumulation 4 with the same effective response count. The model, LoRA rather than full language
+32 and accumulation 8 with the same effective response count. The model, LoRA rather than full language
 updates, Rex original-ID tokenizer, COCO subset and >=80GB requirement are
 explicit user constraints. They are not claimed to reproduce GroundingPI's
 model architecture, data or trainable parameter set.
@@ -191,8 +194,10 @@ Slurm default time limit is 12 hours, not a completion estimate. A timeout can
 be resumed by exporting `RESUME_FROM_CHECKPOINT` and the same `OUTPUT_DIR`.
 The original baseline estimated about 19 hours and had a scheduled 24-hour
 continuation after its initial 12-hour allocation. That workflow was cancelled
-after the fast run was verified. The fast run estimates about 7–8 hours and
-has a direct dependent full COCO evaluator (job 204014).
+after the fast run was verified. The batch64 run subsequently failed with OOM
+on a longer completion. Recovery resumes checkpoint-1 into a separate safe32
+output directory; its evaluator is bound to that new job/output. The failed
+batch64 output and its checkpoint are preserved. Job 204014 was superseded.
 `resume.sbatch` remains available for an interrupted run: it loads the latest
 complete model/optimizer/scheduler/RNG checkpoint, or exits immediately if all
 313 updates already finished.
@@ -208,3 +213,8 @@ Transformers 4.57.6, PEFT 0.20.0, TRL 0.29.1, ms-swift 4.6.0 and msgspec 0.22.0.
 PyTorch already exist. `run_rlhf.py` supplies the same legacy FSDP import shim
 as the SFT launcher. Upstream files remain unchanged on disk; the small runtime
 adaptations and their reasons are described above.
+
+Optional object-aligned and stopping-token credit is documented in
+[`../rex_id_object_credit/README.md`](../rex_id_object_credit/README.md).
+It is enabled only by `OBJECT_CREDIT_CONFIG`; the default scalar rewards and
+global advantages are unaffected when that variable is unset.

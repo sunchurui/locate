@@ -55,7 +55,7 @@ python -u "$ROOT/rex_id_grpo/run_rlhf.py" \
   --torch_dtype bfloat16 --attn_impl sdpa \
   --seed 20260812 --data_seed 20260812 \
   --eval_strategy steps --eval_steps 100 --save_strategy steps --save_steps 50 \
-  --save_total_limit 5 --logging_steps 1 --log_completions true \
+  --save_total_limit 0 --logging_steps 1 --log_completions true \
   --dataloader_num_workers 4 --dataset_num_proc 4 --report_to none \
   --output_dir "$OUTPUT" --add_version false \
   "${resume[@]}" "${benchmark[@]}"

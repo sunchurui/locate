@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "box_weight": 0.1,
+  "stop_weight": 0.1,
+  "group_size": 8,
+  "matching": "same-class maximum-total-IoU one-to-one; strictly positive IoU; dummy unmatched assignments",
+  "matched_credit": "matched IoU minus mean quality for the same GT over all eight responses; missing quality is zero; no standard-deviation scaling",
+  "extra_credit": -1.0,
+  "crowd_ignore_prediction_ioa": 0.5,
+  "class_stop_credit": "negative unmatched-GT fraction within the class, at its last actually generated box_end",
+  "eos_credit": "negative missing-GT count from entirely absent classes divided by all evaluable GT, at an actually generated terminal EOS",
+  "truncated_stop_credit": 0.0,
+  "invalid_format_credit": 0.0,
+  "performance_profile": "batch32",
+  "initialization": "same original-ID SFT adapter as the global-reward baseline; never initialize from the RL baseline"
+}

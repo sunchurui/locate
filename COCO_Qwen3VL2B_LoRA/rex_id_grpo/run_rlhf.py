@@ -3,6 +3,7 @@ import inspect
 import json
 import os
 import runpy
+import sys
 import textwrap
 from collections import Counter
 from pathlib import Path
@@ -108,8 +109,11 @@ if os.environ.get('SAVE_FIRST_STEP')=='1':
     from transformers import TrainerCallback
 
     class FirstStepCheckpoint(TrainerCallback):
+        def on_train_begin(self,args,state,control,**kwargs):
+            self.target_step=state.global_step+1
+
         def on_step_end(self,args,state,control,**kwargs):
-            if state.global_step==1:
+            if state.global_step==self.target_step:
                 control.should_save=True
             return control
 
@@ -145,5 +149,11 @@ if os.environ.get('PROFILE_PHASE_TIMES')=='1':
                               (GRPOTrainer,'_compute_rewards_per_func','rewards'),
                               (GRPOTrainer,'_prepare_batch_inputs','encode_and_reference_forward')]:
         setattr(owner,name,timed(getattr(owner,name),label))
+
+if os.environ.get('OBJECT_CREDIT_CONFIG'):
+    root=Path(os.environ['EXPERIMENT_ROOT'])
+    sys.path.insert(0,str(root/'rex_id_object_credit'))
+    from integration import install
+    install(GRPOTrainer,root,os.environ['OBJECT_CREDIT_CONFIG'])
 
 runpy.run_module('swift.cli.rlhf',run_name='__main__')

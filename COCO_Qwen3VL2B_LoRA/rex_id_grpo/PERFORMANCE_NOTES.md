@@ -24,7 +24,7 @@ For batch64's first update, generation took 45.10 seconds, reward scoring
 the full update took 85.03 seconds. Reward, gradient norm and KL were finite,
 and all profiles passed the 32-image x 8-answer batch guard.
 
-The user requested at least 60GB utilization, so **batch64 is the selected
+The user requested at least 60GB utilization, so **batch64 was initially the selected
 default**, with a measured 68.93 GiB allocation peak and roughly 2.4x speedup
 over baseline. Bigger than batch8 did not give a meaningful additional speed
 gain on these two updates; allocation alone is not a throughput measure.
@@ -39,3 +39,14 @@ It saves a checkpoint after the first update and then follows the standard
 50-update cadence. The old baseline logs remain preserved; no model/data files
 are deleted. Default maximum training remains 313 updates, with val256 rewards
 every 100 updates and complete COCO evaluation after successful training.
+
+## Longer-response failure and recovery
+
+Formal batch64 job 204013 completed three updates (peak 73.81GiB) and then
+failed during backward at update 4: a 17.28GiB allocation exceeded the free
+15.28GiB. The short benchmark therefore did not establish full-epoch safety.
+Checkpoint-1 is complete and preserved. `recover_safe32.sbatch` resumes it
+into an independent safe32 output, using microbatch32/accumulation8 and the
+same generation chunk128 and 256-response update. Batch32 is now the default
+for both global-reward and object-credit training. First-update saving works
+after resume, and checkpoints no longer have a retention/deletion limit.
