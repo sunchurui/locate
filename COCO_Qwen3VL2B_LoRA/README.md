@@ -73,7 +73,7 @@ GroundingPI's [published VLM configuration](https://github.com/groundingpi/Groun
 - `prepare_rl_subset.py`, `rl_train_10000_manifest.json`, `rl_val_manifest.json`: deterministically reproduce RL subsets and create local JSONL files.
 - `rex_groundingpi_adaptation/`: incomplete Rex-Omni GRPO trainer patch and GroundingPI-inspired rewards; see its README for limitations.
 - `train_and_evaluate.sbatch`: one-GPU LoRA SFT and end-to-end validation.
-- `rex_token_sft/`: a separate Qwen3-VL 2B LoRA experiment using Rex-Omni's coordinate-token output and COCO evaluation; see its README.
+- `rex_token_sft/`: Qwen3-VL 2B LoRA experiments using Rex-Omni coordinate-token output, with added-token and original-ID-reuse variants and COCO evaluation; see its README.
 - `evaluate_coco.py`: resumable detection generation and COCO metric calculation, with optional image sharding.
 - `evaluate_base_full.sbatch`: full 5,000-image COCO validation for the unmodified Qwen3-VL-2B base model on one available 16 GB V100.
 - `resume_coco_eval.sbatch`, `split_coco_predictions.py`, and `merge_coco_predictions.py`: resume interrupted validation generation across available GPUs and calculate metrics on the merged predictions.

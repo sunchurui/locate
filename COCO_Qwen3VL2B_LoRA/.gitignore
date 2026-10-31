@@ -4,6 +4,8 @@
 /checkpoints/
 /grpo_checkpoints/
 /rex_token_sft_outputs/
+/rex_id_sft_outputs/
+/rex_id_tokenizer/
 /references/
 /evaluation/
 /logs/
