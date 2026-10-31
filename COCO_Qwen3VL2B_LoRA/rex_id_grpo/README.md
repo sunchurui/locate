@@ -58,6 +58,45 @@ GRPO clip .2, KL beta .02. Validation reward on fixed val256 every 100 updates;
 checkpoint every 50 updates. Full COCO AP uses the existing Rex evaluator after
 training and is distinct from validation reward.
 
+## Update batch: current recipe versus GroundingPI
+
+GroundingPI section 7.6, Table 11 specifies **32 distinct image–query pairs,
+8 responses each, 256 response sequences per optimizer update**. Its 32 is a
+prompt count, not 32 time steps or 32 optimizer steps. Its 256 GPUs process
+one response per device, with accumulation 1 and one update per rollout.
+
+The current submitted single-GPU recipe instead uses **2 distinct image–query
+pairs, 8 responses each, 16 response sequences per optimizer update**:
+
+```
+response batch = GPU count * per_device_train_batch_size * gradient_accumulation_steps
+               = 1 * 1 * 16 = 16
+distinct prompts per update = response batch / num_generations = 16 / 8 = 2
+```
+
+With Swift's default generation batching, `steps_per_generation` inherits the
+16 accumulation steps, so the rollout contains 16 responses. Those responses
+are scored, normalized and split into 16 single-response backward passes;
+one optimizer update follows. `num_iterations=1` means no extra optimizer
+updates reusing that rollout. Each prompt's GRPO reward-normalization group
+still contains eight responses. The final GDPO batch normalization currently
+spans 16 responses, rather than the paper's 256.
+
+Thus the current effective response batch is 16 times smaller than the paper;
+this is a material adaptation, not an exact training-configuration replication.
+The learning rate 5e-7, constant/no-warmup schedule, clip .2, KL .02, response
+group size eight and single update per rollout follow the paper. The paper
+updates all language parameters, including both vocabulary matrices; this
+recipe updates the SFT LoRA and its 1,000 coordinate rows. A learning rate
+chosen for full-language training is not established as optimal for LoRA.
+No learning-rate or update-batch change was made during the documentation audit.
+
+Matching 256 responses on one GPU requires accumulation across 256 response
+microbatches at microbatch 1. Generation can be chunked to save memory, but
+the advantage normalization must still span the full 256-response rollout;
+merely increasing accumulation while keeping independent 16-response GDPO
+normalization batches does not exactly reproduce the paper's update.
+
 Slurm default time limit is 12 hours, not a completion estimate. A timeout can
 be resumed by exporting `RESUME_FROM_CHECKPOINT` and the same `OUTPUT_DIR`.
 Set `EXPERIMENT_ROOT`, `VENV_PATH`, `SFT_ADAPTER` for another machine. Train only
