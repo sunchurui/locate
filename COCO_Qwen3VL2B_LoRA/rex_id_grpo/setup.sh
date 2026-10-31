@@ -3,7 +3,7 @@ set -euo pipefail
 ROOT="${EXPERIMENT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 source "${VENV_PATH:-$ROOT/venv}/bin/activate"
 PIP_CONFIG_FILE=/dev/null python -m pip install --index-url "${PIP_INDEX_URL:-https://pypi.org/simple}" \
-  ms-swift==4.6.0 transformers==4.57.6 peft==0.20.0 trl==0.29.1 matplotlib
+  ms-swift==4.6.0 transformers==4.57.6 peft==0.20.0 trl==0.29.1 msgspec==0.22.0 matplotlib
 REX="$ROOT/references/Rex-Omni"
 REV=6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e
 if [[ ! -d "$REX/.git" ]]; then
