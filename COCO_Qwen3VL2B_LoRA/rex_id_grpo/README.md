@@ -26,18 +26,29 @@ reference, not the executable training backend here.
 
 The reward plugin imports Rex-Omni's official IoU implementation via
 `rex_groundingpi_adaptation/groundingpi_reward.py`, pinned Rex revision
-`6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e`. The parser accepts the SFT Rex
-object/box markers and dedicated coordinate tokens, preserving them at decode.
+`6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e`. It also directly calls that version's
+`BoxIoURewardFunction.parse_detection_output` after strict format validation.
+The parser accepts the SFT Rex object/box markers and dedicated coordinate
+tokens, preserving them at decode.
 Predicted coordinates are rescaled from 0–999 to the annotation's 0–1000 scale.
 
 The set reward follows GroundingPI's best-overlap-then-class-check soft F1.
 The strict reward weights format, count, mean F1 at IoU .5/.75/.95, matched IoU,
 and within-category x ordering, with duplicate and oversized-box penalties.
-Matching is maximum-cardinality and class-aware; duplicate IoU threshold .9,
-oversized area threshold .8, count=min/max, and mean IoU over matches at .5
-are documented implementation choices where the paper omits exact conventions.
+The draft now follows the user's binary count-agreement and raw per-box
+penalty interpretation: exact total count equality gives 0/1; each later
+duplicate costs .03; each oversized box without same-class GT support costs
+.07. The draft uses maximum-cardinality class-aware matching, duplicate IoU .9,
+oversized area .8, support IoU .5, and mean IoU over matches at .5; those
+thresholds/matching conventions remain pending, not official GroundingPI values.
 This is an adaptation, not an official GroundingPI release. Empty GT rewards
-only empty valid predictions as 1. Invalid output receives 0 for both rewards.
+only empty valid predictions as 1, following the official Rex empty-GT rule.
+Invalid output still receives 0 for both rewards pending format-gating review.
+See [the official Rex component mapping](REX_REWARD_MAPPING.md) for the exact
+overlap: its soft F1 does not implement the GroundingPI three-threshold F1,
+and its inspected box reward has no separate count/order/duplicate/oversize
+terms. Its top-level box reward therefore cannot replace either GroundingPI
+reward wholesale.
 
 ## Prepare; launch only after outstanding details are confirmed
 
@@ -128,13 +139,15 @@ model architecture, data or trainable parameter set.
 
 `alignment.json` separates published optimization, user constraints, physical
 execution settings and unresolved choices. The pending choices include strict
-count agreement and matching definitions, mean matched IoU, duplicate threshold
-and normalization, oversized-box definition, parser/error gating, empty GT,
-the ordering score's partial-credit rules, generation sampling/length limits and training
+matching definitions, mean matched IoU, duplicate threshold
+and exact duplicate definition, oversized-box definition, parser/error gating,
+generation sampling/length limits and training
 duration. The 10,000-image subset is not divisible by the 32-prompt batch;
 treatment of the last 16 prompts also awaits confirmation. Existing adapter
 reward code is retained for review; its approximations are not approved as
-GroundingPI-equivalent. No unverified reward component is being trained.
+GroundingPI-equivalent. Binary count/order and raw per-box penalties are now
+explicit user-proposed conventions; valid-empty handling follows Rex under
+the user's overlap-reuse instruction. No reward training has been started.
 The within-label x1 sorting convention itself is explicitly published in
 section 7.1 and matches the Rex SFT; it is not an unresolved ordering direction.
 

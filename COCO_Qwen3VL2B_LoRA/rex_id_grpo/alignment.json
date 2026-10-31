@@ -3,6 +3,20 @@
   "source_table": 11,
   "unpublished_details_confirmed": false,
   "published_output_convention": "Section 7.1: boxes within each label are stably sorted by x1; implemented by the within-class x-order check.",
+  "user_proposed_reward_interpretation": {
+    "format": "binary 0/1",
+    "count_agreement": "binary exact total count equality, replacing the old min/max draft",
+    "threshold_f1_and_matched_iou": "continuous values multiplied by published weights",
+    "ordering": "binary 0/1",
+    "oversized_unmatched_penalty": "raw count, one -.07 penalty per qualifying box, no division by prediction count",
+    "duplicate_penalty": "raw count, one -.03 penalty per later duplicate prediction, no division by prediction count",
+    "official_rex_overlap_audit": "rex_id_grpo/REX_REWARD_MAPPING.md"
+  },
+  "rex_sourced_rules": {
+    "coordinate_geometry": "Directly call official BoxIoURewardFunction.calculate_iou via the adaptation helper.",
+    "box_extraction": "Directly call official BoxIoURewardFunction.parse_detection_output after strict validation; convert its q/1000 coordinates to the SFT q/999 convention.",
+    "valid_empty_cases": "Follow Rex box reward: empty GT plus empty prediction = 1; only one side empty = 0. This fallback is based on the user's instruction to reuse overlapping Rex behavior, not a published GroundingPI empty-GT equation."
+  },
   "published_optimization": {
     "distinct_prompts_per_update": 32,
     "num_generations": 8,
@@ -50,14 +64,11 @@
     "note": "Chunk size controls memory only; all 256 rewards are collected before advantage normalization and one optimizer update. The paper uses 256 GPUs, accumulation 1, ZeRO-2."
   },
   "unpublished_details_pending_confirmation": {
-    "strict_reward_count_agreement": "Existing adaptation uses min(predicted,reference)/max(predicted,reference); grounding formula not published.",
     "strict_reward_matching": "Existing adaptation uses class-aware maximum-cardinality matching; exact matching/tie-breaking not published.",
     "strict_reward_matched_iou": "Existing adaptation averages matches at IoU >= 0.5; exact averaging convention not published.",
-    "strict_reward_duplicates": "Existing adaptation uses same-class IoU >= 0.9 and fraction of later duplicate predictions; threshold and normalization not published.",
-    "strict_reward_oversize": "Existing adaptation uses area > 0.8 of image without GT support condition; grounding threshold and definition not published.",
+    "strict_reward_duplicates": "Draft now counts later same-class predictions having IoU >= 0.9 with an earlier prediction. Per-box counting follows the user proposal; the .9 threshold and exact duplicate definition are not published or confirmed.",
+    "strict_reward_oversize": "Draft now counts boxes with area > 0.8 and no same-class GT at IoU >= 0.5. Per-box unmatched-only counting follows the user proposal; area/support thresholds are not published or confirmed.",
     "strict_reward_format": "Existing adaptation gives 0 to both rewards on globally invalid Rex format; paper specifies a strict format component but not full parser/error gating.",
-    "empty_ground_truth": "Existing adaptation assigns 1 only to valid empty prediction; paper set reward excludes empty reference sets.",
-    "strict_reward_order_score": "The within-label x1 ordering convention is published. Existing adaptation uses an all-or-nothing ordering score; exact score normalization/partial-credit rules are not published.",
     "rollout_sampling_and_length": "Current experimental values temperature=1, top_p=1, top_k=0, completion=1024, max_length=4096; no matching RL table values located.",
     "training_duration": "Current experiment has one epoch over the fixed 10000-image subset; RL epoch/step budget not stated in Table 11. 10000 is not divisible by 32, so treatment of the final 16 prompts also needs confirmation."
   },
