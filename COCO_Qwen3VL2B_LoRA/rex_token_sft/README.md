@@ -17,6 +17,8 @@ sbatch rex_token_sft/evaluate_rex_id_coco.sbatch
 
 The mapping generator refuses to overwrite an existing output, validates all 1,000 token IDs with the tokenizer library, and preserves the original structural token IDs. This version uses the same COCO data, output serialization and default batch/optimizer settings as the added-token experiment, but writes to `rex_id_sft_outputs/` and `evaluation/rex_id_val2017/`. It remains an adaptation to Qwen3-VL 2B and LoRA, not the original Rex-Omni pretrained model or its original full-parameter training.
 
+`submit_gpu_candidates.py` can queue alternatives for one existing Rex-ID training job on A100 PCIe 80GB, H100 80GB HBM3 and A800 80GB. All use one GPU, the same microbatch/accumulation settings, and separate output directories. It records job IDs in `rex_id_gpu_candidates.json` and refuses duplicate submission when that registry exists. There is no automatic lock or mutual exclusion in the training code: an operator or periodic monitor must retain the first healthy running candidate and cancel the other candidate training and evaluation jobs. The current experiment has a ten-minute monitor for that purpose. The independently running added-token comparison is outside this candidate set.
+
 The experiment uses all 118,287 train2017 images and the 5,000 val2017 images, excludes crowd and invalid boxes, and retains empty images. The output prompt asks for all COCO categories and Rex-Omni's object and box markers. It starts from the original Qwen3-VL 2B model, in a separate output directory from the JSON LoRA baseline.
 
 On another Linux machine, install the dependencies in the main README plus PEFT 0.20.0 and a Transformers release supporting Qwen3-VL. Clone the source at its recorded commit:

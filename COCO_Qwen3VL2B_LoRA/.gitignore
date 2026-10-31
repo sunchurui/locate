@@ -5,6 +5,9 @@
 /grpo_checkpoints/
 /rex_token_sft_outputs/
 /rex_id_sft_outputs/
+/rex_id_sft_outputs_*/
+/rex_id_gpu_candidates.json
+/rex_id_selected_candidate.json
 /rex_id_tokenizer/
 /references/
 /evaluation/
