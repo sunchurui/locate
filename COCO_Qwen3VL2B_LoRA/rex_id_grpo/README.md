@@ -159,6 +159,13 @@ experiment settings; no GroundingPI source is claimed for those numbers.
 
 Slurm default time limit is 12 hours, not a completion estimate. A timeout can
 be resumed by exporting `RESUME_FROM_CHECKPOINT` and the same `OUTPUT_DIR`.
+For the current run, the first optimizer update took 221 seconds, giving an
+initial estimate near 19 hours. The cluster denied increasing the running
+job's limit, so a dependent 24-hour continuation uses `resume.sbatch` after
+the initial job exits. It loads the latest complete model/optimizer/scheduler/
+RNG checkpoint, or exits immediately if all 313 updates already finished.
+The full COCO evaluator depends on successful completion of this continuation.
+No training is silently restarted from scratch when a checkpoint is missing.
 Set `EXPERIMENT_ROOT`, `VENV_PATH`, `SFT_ADAPTER` for another machine. Train only
 on >=80GB GPUs. Candidate GPU jobs must use separate `OUTPUT_DIR` values; no
 lock or mutex is used. Before keeping one candidate, inspect actual progress

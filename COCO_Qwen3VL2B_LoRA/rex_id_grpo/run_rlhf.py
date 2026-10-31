@@ -52,7 +52,9 @@ def prepare_model(self):
             raise ValueError(f'Single-GPU batch alignment failed: {name}')
     if args.num_iterations!=1 or args.use_vllm:
         raise ValueError('Expected one update per rollout and the configured HF chunked-generation backend')
-    if not args.adapters or args.adapters!=args.ref_adapters:
+    if not args.adapters or not args.ref_adapters:
+        raise ValueError('Policy and frozen SFT reference adapters are required')
+    if not args.resume_from_checkpoint and args.adapters!=args.ref_adapters:
         raise ValueError('Policy and frozen reference must load the same SFT adapter')
     if args.dataset_shuffle:
         raise ValueError('Use the pre-shuffled complete-batch epoch file with dataset_shuffle=false')
