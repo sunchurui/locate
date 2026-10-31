@@ -1,6 +1,7 @@
 """Configure upstream GRPO for the paper batch; preserve its optimization loop."""
 import inspect
 import json
+import os
 import runpy
 import textwrap
 from collections import Counter
@@ -15,6 +16,9 @@ from swift.rlhf_trainers.rollout_mixin import RolloutTrainerMixin
 from swift.pipelines.train.rlhf import SwiftRLHF
 
 SETTINGS=json.loads(Path(__file__).with_name('alignment.json').read_text())
+PROFILE=os.environ.get('PERFORMANCE_PROFILE',SETTINGS.get('default_performance_profile','baseline'))
+EXECUTION=(SETTINGS['single_gpu_execution'] if PROFILE=='baseline'
+           else SETTINGS['performance_profiles'][PROFILE])
 
 # Upstream 4.6.0 caps the sampled reference KL at 10. The paper equation has
 # no such cap. Replace only those two expressions, leaving its loss reduction,
@@ -42,7 +46,7 @@ def prepare_model(self):
         actual=getattr(args,name,None)
         if str(actual).removeprefix('torch.')!=str(expected) and actual!=expected:
             raise ValueError(f'GroundingPI alignment: {name}={actual!r}, expected {expected!r}')
-    execution=SETTINGS['single_gpu_execution']
+    execution=EXECUTION
     # Swift's outer RLHFArguments is not the initialized HF TrainingArguments;
     # distributed_state lives on its constructed training_args instance.
     if args.training_args.world_size!=execution['world_size']:
@@ -69,9 +73,11 @@ original_prepare=RolloutTrainerMixin.prepare_rollout
 
 def prepare_rollout(self):
     original_prepare(self)
-    execution=SETTINGS['single_gpu_execution']
+    execution=EXECUTION
     self.engine.max_batch_size=execution['generation_chunk_size']
-    print('GroundingPI batch: 32 prompts x 8 responses = 256; one update after 256 microbatches; '
+    print('GroundingPI batch: 32 prompts x 8 responses = 256; '
+          f'profile={PROFILE}; microbatch={execution["per_device_train_batch_size"]}; '
+          f'accumulation={execution["gradient_accumulation_steps"]}; '
           f'generation memory chunk={self.engine.max_batch_size}; full-batch GDPO; uncapped equation-1 KL',flush=True)
 
 
@@ -97,4 +103,47 @@ def compute_advantages(self,samples,rewards_per_func,batch_encoded_inputs):
 
 
 GRPOTrainer._compute_advantages=compute_advantages
+
+if os.environ.get('SAVE_FIRST_STEP')=='1':
+    from transformers import TrainerCallback
+
+    class FirstStepCheckpoint(TrainerCallback):
+        def on_step_end(self,args,state,control,**kwargs):
+            if state.global_step==1:
+                control.should_save=True
+            return control
+
+    original_init=GRPOTrainer.__init__
+
+    def initialize(self,*args,**kwargs):
+        original_init(self,*args,**kwargs)
+        self.add_callback(FirstStepCheckpoint())
+
+    GRPOTrainer.__init__=initialize
+
+if os.environ.get('PROFILE_PHASE_TIMES')=='1':
+    import functools
+    import time
+    import torch
+
+    def timed(original,label):
+        @functools.wraps(original)
+        def wrapper(self,*args,**kwargs):
+            torch.cuda.synchronize()
+            started=time.perf_counter()
+            result=original(self,*args,**kwargs)
+            torch.cuda.synchronize()
+            record={'phase':label,'seconds':time.perf_counter()-started,
+                    'peak_allocated_gib':torch.cuda.max_memory_allocated()/1024**3}
+            with (Path(self.args.output_dir)/'phase_timings.jsonl').open('a') as f:
+                f.write(json.dumps(record)+'\n')
+            print('PHASE_TIMING '+json.dumps(record),flush=True)
+            return result
+        return wrapper
+
+    for owner,name,label in [(GRPOTrainer,'_rollout_samples','generation'),
+                              (GRPOTrainer,'_compute_rewards_per_func','rewards'),
+                              (GRPOTrainer,'_prepare_batch_inputs','encode_and_reference_forward')]:
+        setattr(owner,name,timed(getattr(owner,name),label))
+
 runpy.run_module('swift.cli.rlhf',run_name='__main__')

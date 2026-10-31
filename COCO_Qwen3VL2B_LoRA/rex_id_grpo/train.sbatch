@@ -26,6 +26,11 @@ resume=()
 if [[ -n "${RESUME_FROM_CHECKPOINT:-}" ]]; then
   resume=(--resume_from_checkpoint "$RESUME_FROM_CHECKPOINT")
 fi
+read -r train_batch grad_accum < <(python -c 'import json,os,sys; s=json.load(open(sys.argv[1])); p=os.environ.get("PERFORMANCE_PROFILE",s.get("default_performance_profile","baseline")); e=s["single_gpu_execution"] if p=="baseline" else s["performance_profiles"][p]; print(e["per_device_train_batch_size"],e["gradient_accumulation_steps"])' "$ROOT/rex_id_grpo/alignment.json")
+benchmark=()
+if [[ -n "${BENCHMARK_UPDATES:-}" ]]; then
+  benchmark=(--max_steps "$BENCHMARK_UPDATES" --eval_strategy no --save_strategy no --log_completions false)
+fi
 python -u "$ROOT/rex_id_grpo/run_rlhf.py" \
   --rlhf_type grpo --model "$ROOT/rex_id_rl_base" --model_type qwen3_vl \
   --adapters "$ADAPTER" --ref_adapters "$ADAPTER" --tuner_type lora \
@@ -37,7 +42,7 @@ python -u "$ROOT/rex_id_grpo/run_rlhf.py" \
   --val_dataset "$ROOT/data/coco2017/annotations/val_rex_id_grpo_256.jsonl" \
   --split_dataset_ratio 0 --remove_unused_columns false --dataset_shuffle false \
   --num_generations 8 --num_generations_eval 1 --num_iterations 1 \
-  --per_device_train_batch_size 1 --gradient_accumulation_steps 256 \
+  --per_device_train_batch_size "$train_batch" --gradient_accumulation_steps "$grad_accum" \
   --generation_batch_size 256 \
   --per_device_eval_batch_size 4 --use_vllm false \
   --max_completion_length "${MAX_COMPLETION_LENGTH:-1024}" --max_length 4096 \
@@ -53,4 +58,4 @@ python -u "$ROOT/rex_id_grpo/run_rlhf.py" \
   --save_total_limit 5 --logging_steps 1 --log_completions true \
   --dataloader_num_workers 4 --dataset_num_proc 4 --report_to none \
   --output_dir "$OUTPUT" --add_version false \
-  "${resume[@]}"
+  "${resume[@]}" "${benchmark[@]}"

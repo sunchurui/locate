@@ -57,6 +57,7 @@ Prepare the existing fixed manifests and JSONL sources with `prepare_rl_subset.p
 bash rex_id_grpo/setup.sh
 python rex_id_grpo/prepare_rl.py --root "$PWD"
 mkdir -p logs
+export PERFORMANCE_PROFILE=batch64 SAVE_FIRST_STEP=1
 sbatch rex_id_grpo/train.sbatch
 # After a successful complete training run:
 sbatch --dependency=afterok:TRAIN_JOB_ID rex_id_grpo/evaluate.sbatch
@@ -76,11 +77,12 @@ The exact draw order is saved in `rex_id_grpo_epoch_manifest.json`. This
 avoids the upstream sampler silently dropping the final 16 unique images.
 
 Prepared recipe: one GPU with at least 80GB, HF generation, 8 responses per image,
-microbatch 1 / accumulation 256 (256 response sequences per optimizer update),
+microbatch 64 / accumulation 4 (256 response sequences per optimizer update),
 1024 image tokens, 1024 generated tokens, sequence limit 4096; 1 epoch.
 Learning rate 5e-7 constant, fused AdamW .9/.999 / epsilon 1e-8, weight decay .01, clip 1,
 GRPO clip .2, KL beta .02. Validation reward on fixed val256 every 100 updates;
-checkpoint every 50 updates. Full COCO AP uses the existing Rex evaluator after
+checkpoint every 50 updates, plus step 1 when `SAVE_FIRST_STEP=1`.
+Full COCO AP uses the existing Rex evaluator after
 training and is distinct from validation reward.
 
 ## Published optimization alignment
@@ -95,15 +97,15 @@ The corrected single-GPU recipe uses **32 distinct image–query pairs,
 
 ```
 response batch = GPU count * per_device_train_batch_size * gradient_accumulation_steps
-               = 1 * 1 * 256 = 256
+               = 1 * 64 * 4 = 256
 distinct prompts per update = response batch / num_generations = 256 / 8 = 32
 ```
 
 `generation_batch_size=256` is explicit. The HF engine generates in memory
-chunks of 16, collects all 256 answers, then computes both reward components.
+chunks of 128, collects all 256 answers, then computes both reward components.
 Within each eight-response group, each component is normalized with sample
 standard deviation and epsilon 1e-8. The weighted .7/.3 sum is then normalized
-over all 256 responses. Swift splits those results into 256 one-response
+over all 256 responses. Swift splits those results into four 64-response
 backward passes, followed by one optimizer update. `num_iterations=1` prevents
 further parameter updates reusing the rollout. Chunking does not update the
 policy or normalize advantages between chunks.
@@ -113,9 +115,37 @@ It also checks that the actual reward tensor has shape [256,2], covers 32
 different image IDs, and contains eight contiguous answers for each image.
 It refuses to silently use another microbatch, update batch or objective.
 
+## Execution-batch speed comparison
+
+`batch64` is now the default, selected after the user's >=60GB memory request.
+`PERFORMANCE_PROFILE=baseline` explicitly reproduces the original execution
+(microbatch 1, accumulation 256, generation chunk 16). `batch8` and `batch16`
+profiles use microbatch/accumulation 8/32 and 16/16, with generation chunk 64.
+`batch32` and `batch64` use 32/8 and 64/4 with generation chunk 128, to measure
+the user's requested >=60GB memory target. `benchmark_memory.sbatch` compares
+those two larger profiles after the smaller-profile comparison.
+All profiles preserve 32 distinct prompts, eight answers each, the complete
+256-response reward-normalization batch, one optimizer update per rollout,
+the same optimizer/reward parameters, and the fixed dataset order.
+
+`benchmark.sbatch` compares two real GRPO updates for each larger profile on
+a separate >=80GB GPU, with saving/validation/completion logging disabled for
+the timing run. It uses the same upstream trainer; no optimization loop is
+rewritten. `PROFILE_PHASE_TIMES=1` logs generation, reward and data-encoding/
+reference-forward times and CUDA peak allocation. Compare `logging.jsonl`
+and `phase_timings.jsonl` under `speed_benchmarks/JOBID_PROFILE`.
+
+Changing execution batching is mathematically an averaging/accumulation
+change, but it does not guarantee bit-for-bit identical sampling, dropout or
+floating-point reduction order. Record the selected profile to reproduce a
+run. The speed benchmark does not overwrite or cancel the original training.
+After the larger profile passed two benchmark updates and saved its first
+formal-training checkpoint, fast job 204013 replaced the old slow job 203959.
+Old outputs remain preserved. See [measured comparison](PERFORMANCE_NOTES.md).
+
 | Published setting | Prepared implementation |
 | --- | --- |
-| 32 prompts, 8 responses each, 1 update per rollout | Explicit 256-response rollout and accumulation 256 on one GPU |
+| 32 prompts, 8 responses each, 1 update per rollout | Explicit 256-response rollout, microbatch 64 and accumulation 4 on one GPU |
 | Learning rate / schedule | 5e-7 / constant / no warmup |
 | Optimizer | Fused AdamW, betas .9/.999, epsilon 1e-8 |
 | Weight decay / gradient clipping | .01 / 1 |
@@ -130,12 +160,12 @@ It refuses to silently use another microbatch, update batch or objective.
 Swift 4.6.0 internally caps sampled KL at 10. `run_rlhf.py` makes a small,
 source-checked runtime adaptation replacing only those two KL expressions
 with the paper's uncapped formula. It also sets the HF engine's existing
-generation batch cap to 16. The upstream rollout, optimizer and training
+generation batch cap to the selected profile (128 by default). The upstream rollout, optimizer and training
 loops are used. Both adaptations fail for review if the expected source/API
 changes; site-package files are not overwritten.
 
-The paper uses 256 GPUs with accumulation 1 and ZeRO-2; one GPU uses equivalent
-response-count accumulation instead. The model, LoRA rather than full language
+The paper uses 256 GPUs with accumulation 1 and ZeRO-2; one GPU uses microbatch
+64 and accumulation 4 with the same effective response count. The model, LoRA rather than full language
 updates, Rex original-ID tokenizer, COCO subset and >=80GB requirement are
 explicit user constraints. They are not claimed to reproduce GroundingPI's
 model architecture, data or trainable parameter set.
@@ -159,12 +189,13 @@ experiment settings; no GroundingPI source is claimed for those numbers.
 
 Slurm default time limit is 12 hours, not a completion estimate. A timeout can
 be resumed by exporting `RESUME_FROM_CHECKPOINT` and the same `OUTPUT_DIR`.
-For the current run, the first optimizer update took 221 seconds, giving an
-initial estimate near 19 hours. The cluster denied increasing the running
-job's limit, so a dependent 24-hour continuation uses `resume.sbatch` after
-the initial job exits. It loads the latest complete model/optimizer/scheduler/
-RNG checkpoint, or exits immediately if all 313 updates already finished.
-The full COCO evaluator depends on successful completion of this continuation.
+The original baseline estimated about 19 hours and had a scheduled 24-hour
+continuation after its initial 12-hour allocation. That workflow was cancelled
+after the fast run was verified. The fast run estimates about 7–8 hours and
+has a direct dependent full COCO evaluator (job 204014).
+`resume.sbatch` remains available for an interrupted run: it loads the latest
+complete model/optimizer/scheduler/RNG checkpoint, or exits immediately if all
+313 updates already finished.
 No training is silently restarted from scratch when a checkpoint is missing.
 Set `EXPERIMENT_ROOT`, `VENV_PATH`, `SFT_ADAPTER` for another machine. Train only
 on >=80GB GPUs. Candidate GPU jobs must use separate `OUTPUT_DIR` values; no

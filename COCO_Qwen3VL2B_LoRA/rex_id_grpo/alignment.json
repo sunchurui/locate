@@ -2,6 +2,8 @@
   "source": "https://arxiv.org/html/2609.39601v2#S7.SS6",
   "source_table": 11,
   "unpublished_details_confirmed": true,
+  "default_performance_profile": "batch64",
+  "requested_gpu_memory_target_gib": 60,
   "confirmation": "User instructed on 2026-10-31: 只是没有代码罢了，这不是实现方法已经说得很详细了吗？就按这个跑吧. Proceed with the discussed reward interpretation and documented experimental conventions.",
   "published_output_convention": "Section 7.1: boxes within each label are stably sorted by x1; implemented by the within-class x-order check.",
   "user_proposed_reward_interpretation": {
@@ -63,6 +65,12 @@
     "gradient_accumulation_steps": 256,
     "generation_chunk_size": 16,
     "note": "Chunk size controls memory only; all 256 rewards are collected before advantage normalization and one optimizer update. The paper uses 256 GPUs, accumulation 1, ZeRO-2."
+  },
+  "performance_profiles": {
+    "batch8": {"world_size": 1, "per_device_train_batch_size": 8, "gradient_accumulation_steps": 32, "generation_chunk_size": 64},
+    "batch16": {"world_size": 1, "per_device_train_batch_size": 16, "gradient_accumulation_steps": 16, "generation_chunk_size": 64},
+    "batch32": {"world_size": 1, "per_device_train_batch_size": 32, "gradient_accumulation_steps": 8, "generation_chunk_size": 128},
+    "batch64": {"world_size": 1, "per_device_train_batch_size": 64, "gradient_accumulation_steps": 4, "generation_chunk_size": 128}
   },
   "accepted_experiment_conventions_not_claimed_as_official_code": {
     "strict_reward_matching": "Existing adaptation uses class-aware maximum-cardinality matching; exact matching/tie-breaking not published.",
