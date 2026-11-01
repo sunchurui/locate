@@ -35,6 +35,11 @@ def tune(trainer, target, folder):
     candidates, selected = [], None
     try:
         trainer.model.train()
+        # Trainer normally enables this inside train(), after our probe. Use
+        # the same checkpointing mode now so the probe reflects real SFT memory.
+        if trainer.args.gradient_checkpointing:
+            trainer.model.gradient_checkpointing_enable(
+                gradient_checkpointing_kwargs=trainer.args.gradient_checkpointing_kwargs)
         for size in (4, 8, 16, 32):
             batch = loss = None
             trainer.model.zero_grad(set_to_none=True)
@@ -42,7 +47,7 @@ def tune(trainer, target, folder):
             torch.cuda.reset_peak_memory_stats()
             try:
                 batch = trainer._prepare_inputs(trainer.data_collator([trainer.train_dataset[i] for i in indices[:size]]))
-                with trainer.compute_loss_context_manager():
+                with trainer.accelerator.autocast(), trainer.compute_loss_context_manager():
                     loss = trainer.model(**batch).loss
                 if not torch.isfinite(loss):
                     raise RuntimeError('Nonfinite loss on real long-answer probe')
@@ -75,6 +80,8 @@ def tune(trainer, target, folder):
     trainer._train_batch_size = selected
     write_json(folder / 'batch_probe.json', {'gpu': torch.cuda.get_device_name(), 'total_gib': total / 1024**3,
                'global_batch': target, 'microbatch': selected, 'accumulation': target // selected,
+               'gradient_checkpointing': bool(trainer.model.is_gradient_checkpointing),
+               'mixed_precision': trainer.accelerator.mixed_precision,
                'probe_image_ids': [trainer.train_dataset.rows[i]['image_id'] for i in indices],
                'probes': candidates, 'note': 'Forward/backward only, no optimizer step; 20% reserve for optimizer and length variation.'})
 
