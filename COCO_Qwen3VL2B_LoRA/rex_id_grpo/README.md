@@ -77,7 +77,7 @@ The exact draw order is saved in `rex_id_grpo_epoch_manifest.json`. This
 avoids the upstream sampler silently dropping the final 16 unique images.
 
 Prepared recipe: one GPU with at least 80GB, HF generation, 8 responses per image,
-microbatch 32 / accumulation 8 (256 response sequences per optimizer update),
+global-control microbatch 16 / accumulation 16 (256 response sequences per optimizer update),
 1024 image tokens, 1024 generated tokens, sequence limit 4096; 1 epoch.
 Learning rate 5e-7 constant, fused AdamW .9/.999 / epsilon 1e-8, weight decay .01, clip 1,
 GRPO clip .2, KL beta .02. Validation reward on fixed val256 every 100 updates;
@@ -118,9 +118,12 @@ It refuses to silently use another microbatch, update batch or objective.
 
 ## Execution-batch speed comparison
 
-`batch32` is the default. `batch64` passed its two-update benchmark but later
-exhausted GPU memory on a longer response at update 4 of job 204013. Both the
-recovered global-reward baseline and the object-credit variant use batch32.
+`batch16_gen128` is the safe default for the global control. `batch64` exhausted
+GPU memory at update 4 of job 204013, and the fresh batch32 global control
+205664 later exhausted memory at update 26 after 25 updates. The active
+object-credit variant explicitly retains batch32. Both physical profiles keep
+256 responses/update and generation chunks128; sampling/dropout reductions
+after optimization need not be bitwise identical across physical microbatches.
 `PERFORMANCE_PROFILE=baseline` explicitly reproduces the original execution
 (microbatch 1, accumulation 256, generation chunk 16). `batch8` and `batch16`
 profiles use microbatch/accumulation 8/32 and 16/16, with generation chunk 64.
@@ -227,3 +230,9 @@ same SFT adapter and batch32 profile as object-credit training, in a new
 `rex_id_grpo_outputs_global32_v2` directory. Job 205664 and its dependent
 full COCO evaluator 205666 replace that failed recovery workflow. All old
 checkpoints and outputs remain preserved.
+
+The fresh batch32 global control 205664 subsequently failed with a long-output
+OOM at update26. Job205781 restarts from the same SFT in
+`rex_id_grpo_outputs_global16_v3`, with microbatch16/accumulation16 and unchanged
+generation128. Its full evaluator is205795; progress AP gates/evaluators are
+205789/205790,205791/205792,205793/205794. Old jobs/checkpoints are preserved.

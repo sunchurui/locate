@@ -50,3 +50,9 @@ into an independent safe32 output, using microbatch32/accumulation8 and the
 same generation chunk128 and 256-response update. Batch32 is now the default
 for both global-reward and object-credit training. First-update saving works
 after resume, and checkpoints no longer have a retention/deletion limit.
+
+The fresh batch32 global control205664 later hit another long-output OOM at
+update26 (25 completed). Global control205781 uses microbatch16/accumulation16,
+retaining generation128 and the256-response update. The object-credit process
+keeps its explicit batch32 execution. `batch16_gen128` is now the generic safe
+default; no other reward, optimizer or data setting is changed.

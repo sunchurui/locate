@@ -1,0 +1,39 @@
+{
+  "files": [
+    {
+      "name": "canl_grpo_trainer.py",
+      "repo": "ZJU-REAL/CANL",
+      "commit": "a928391d2a82f7f5fc6f66fe55e5cdd52845e3a0",
+      "path": "src/open-r1-multimodal/src/open_r1/trainer/grpo_trainer.py",
+      "sha256": "6c927e3da3e614eb3df9c2e94269abb6d5c60404e82828c3cc2185ed028d2bae"
+    },
+    {
+      "name": "mcc_qwen3_2B_grefcoco.py",
+      "repo": "zongjianwu/OpenRef-Benchmark",
+      "commit": "5c57708189aa45c51ea79b03a8426190c33ae3da",
+      "path": "mcc_qwen3_2B_grefcoco.py",
+      "sha256": "640d4f980e8e0fed904345027bc15974c0729a8cc71d6a46efae6255e1cba06f"
+    },
+    {
+      "name": "gui_rc_evaluation.py",
+      "repo": "zju-real/gui-rcpo",
+      "commit": "af15ed5fe8b89b0fe5043a3e94f2984c7b126a4b",
+      "path": "GUI-RC/evaluation.py",
+      "sha256": "d64a01f379ffe2c8f65f5bbb78f742c9062eaf325afddf253e958225b0bc57bc"
+    },
+    {
+      "name": "zoom.py",
+      "repo": "omxyz/zoom-consistency-routing",
+      "commit": "4ddfd141585e3cbfacb5a280f42df3bcbe3dc73b",
+      "path": "src/zoom.py",
+      "sha256": "57a1992e53e070b44602492e4ce7b996095187b2f15f095f4bdac1dbe608fbfc"
+    },
+    {
+      "name": "zoom_strategies.py",
+      "repo": "omxyz/zoom-consistency-routing",
+      "commit": "4ddfd141585e3cbfacb5a280f42df3bcbe3dc73b",
+      "path": "src/strategies.py",
+      "sha256": "3695fde8ed550c99eada301156a2b8b5cd707268ab4b6f81935d70df7460b196"
+    }
+  ]
+}

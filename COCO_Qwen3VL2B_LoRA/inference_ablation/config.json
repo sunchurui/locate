@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "seed": 20261101,
+  "manifest": "rl_val_manifest.json",
+  "adapter": "rex_id_sft_outputs_a800_80",
+  "model": "model",
+  "max_new_tokens": 1024,
+  "generation_batch": 16,
+  "pilot_images_per_shard": 4,
+  "methods": {
+    "m06": {"samples": 16, "temperature": 1.0, "top_k": 50, "top_p": 1.0, "budgets": [1, 4, 8, 16]},
+    "m44": {"crop_ratio": 0.5, "consistency_threshold": 100.0, "candidate_match_iou": 0.1},
+    "m45": {"samples": 64, "temperatures": [0.7, 0.5], "top_p": 0.95, "top_k": 0, "association_iou": 0.5},
+    "m46": {"count_max_new_tokens": 10, "fallback_count_on_parse_error": 1}
+  },
+  "primary_variants": {"m06": "best16_order", "m44": "zoom_consistency", "m45": "t0.7_vote", "m46": "mcc"},
+  "bootstrap_replicates": 200,
+  "bootstrap_seed": 20261101,
+  "screening_effect_rule": "exploratory: delta AP >= 1 percentage point and paired image-bootstrap 95% CI above zero; confirm on independent images before claiming general improvement",
+  "m41": "skipped at user's instruction; requires trained parallel decoding"
+}
