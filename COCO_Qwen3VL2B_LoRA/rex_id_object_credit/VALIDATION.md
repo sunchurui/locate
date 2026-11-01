@@ -73,3 +73,32 @@ torch2.5.1/Transformers safety restriction. Fresh global-reward control
 as credit training; it is on gpu19 and has evaluator 205666. Failed recovery
 outputs and all previous checkpoints are preserved. Credit evaluator 204088
 remains dependent on 204084.
+
+## Queue time and intermediate AP (2026-11-01)
+
+Credit job 204084 was submitted at 2026-10-31 22:00:34 Asia/Shanghai and
+started at 2026-11-01 15:39:42: **17h39m08s waiting**, before GPU training.
+The 7–8-hour runtime estimate excludes queue time.
+
+The existing training validation at 100/200/300 measures scalar reward and
+object diagnostics, not AP. Intermediate COCO AP is now added on exactly the
+same fixed val256 IDs: SFT job 205678 and credit checkpoint100 job 205679.
+Future AP jobs are connected to complete checkpoint files through CPU-only
+readiness gates:
+
+| Model / step | CPU gate | AP evaluation |
+| --- | ---: | ---: |
+| Credit 200 | 205680 | 205681 |
+| Credit 300 | 205682 | 205683 |
+| Global 100 | 205684 | 205685 |
+| Global 200 | 205686 | 205687 |
+| Global 300 | 205688 | 205689 |
+
+Results are written under `evaluation/progress_val256/` and are subset AP,
+not full COCO AP. Full evaluators 204088/205666 remain attached to successful
+training completion. Initial probe jobs 205671/205672 failed before inference
+because the metadata view omitted the SFT's `chat_template.jinja`; copying
+this file fixes both progress probes and the final RL metadata path. Those
+failed attempts produced no AP results. CPU submitter 205673 could not query
+sacct from its computing node and was replaced by native Slurm dependencies
+on file-readiness gates. Training and saved weights were not changed.

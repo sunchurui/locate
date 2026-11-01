@@ -25,7 +25,8 @@ def main():
     for name in ('config.json', 'generation_config.json'):
         shutil.copy2(base/name, overlay/name)
     for name in ('tokenizer.json','tokenizer_config.json','preprocessor_config.json',
-                 'video_preprocessor_config.json','chat_template.json','special_tokens_map.json'):
+                 'video_preprocessor_config.json','chat_template.json','chat_template.jinja',
+                 'processor_config.json','special_tokens_map.json'):
         source = adapter/name
         if source.exists():
             shutil.copy2(source,overlay/name)

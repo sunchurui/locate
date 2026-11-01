@@ -33,6 +33,8 @@ def main():
     ap.add_argument("--max-new-tokens", type=int, default=1024)
     ap.add_argument("--batch-size", type=int, default=4)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--image-ids", default=None,
+                    help="JSON image-ID list or fixed subset manifest with image_ids")
     ap.add_argument("--prediction-file", default="predictions.jsonl")
     ap.add_argument("--shard-index", type=int, default=0)
     ap.add_argument("--num-shards", type=int, default=1)
@@ -46,6 +48,15 @@ def main():
     coco_gt = COCO(args.annotations)
     cats = {c["name"].lower(): c["id"] for c in coco_gt.loadCats(coco_gt.getCatIds())}
     images = sorted(coco_gt.imgs.values(), key=lambda x: x["id"])
+    if args.image_ids:
+        subset = json.loads(Path(args.image_ids).read_text(encoding="utf-8"))
+        subset = subset['image_ids'] if isinstance(subset, dict) else subset
+        if not isinstance(subset, list) or not subset or any(type(i) is not int for i in subset):
+            ap.error('image-ids must contain a nonempty list of integer image IDs')
+        if len(set(subset)) != len(subset) or not set(subset).issubset(coco_gt.imgs):
+            ap.error('image-ids contain duplicates or images outside the annotation file')
+        wanted = set(subset)
+        images = [info for info in images if info['id'] in wanted]
     if args.limit:
         images = images[:args.limit]
     if args.num_shards < 1 or not 0 <= args.shard_index < args.num_shards:
