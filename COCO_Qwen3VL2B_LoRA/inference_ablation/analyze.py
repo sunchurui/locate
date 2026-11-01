@@ -11,6 +11,20 @@ from pycocotools.coco import COCO
 from metrics import bootstrap_dataset, evaluate, evaluate_records
 
 
+def diagnostics(method, records):
+    if method == 'm46':
+        rows = [r['details'] for r in records]
+        return {'images': len(rows),
+                'strict_integer_responses': sum(d['strict_integer_response'] for d in rows),
+                'count_conflicts': sum(d['conflict'] for d in rows),
+                'nonempty_rechecks': sum(bool(d['recheck_count']) for d in rows),
+                'changed_box_counts': sum(d['initial_count'] != d['final_count'] for d in rows)}
+    if method == 'm44':
+        boxes = [d for r in records for d in r['details']]
+        return {'initial_boxes': len(boxes), 'accepted_zoom_boxes': sum(d['accepted'] for d in boxes)}
+    return {}
+
+
 def interval(gt, records, variant, count, seed):
     baseline = {r['image_id']: r['baseline'] for r in records}
     method = {r['image_id']: r['variants'][variant] for r in records}
@@ -62,6 +76,7 @@ def main():
         ci = interval(gt, records, primary, count, config['bootstrap_seed']) if count else None
         delta = metrics[primary]['delta_AP_points']
         results['methods'][method] = {'state': 'complete', 'metrics': metrics, 'primary': primary,
+                                     'diagnostics': diagnostics(method, records),
                                      'primary_delta_AP_95CI': ci,
                                      'exploratory_effect': bool(ci and delta >= 1 and ci[0] > 0),
                                      'baseline_cost': {key: sum(r['baseline_cost'][key] for r in records)
@@ -75,6 +90,11 @@ def main():
             lines.append(f'| {method} | {name} | {metrics["baseline"]["AP"] * 100:.2f} | '
                          f'{metrics[name]["AP"] * 100:.2f} | {metrics[name]["delta_AP_points"]:+.2f} | {ci_text} |')
         print(method, 'primary delta AP', delta, 'CI', ci, flush=True)
+        if method == 'm46':
+            d = results['methods'][method]['diagnostics']
+            lines += ['', f'M46 counting prompt: {d["strict_integer_responses"]}/{d["images"]} '
+                      'strict integer responses. Interpret gains/losses alongside counting compliance; '
+                      'parse failures use the author default count1.']
     for method, item in results['methods'].items():
         if item['state'] != 'complete':
             lines += ['', f'{method}: incomplete, {item["completed_images"]}/{item["expected_images"]} images.']
