@@ -1,0 +1,129 @@
+{
+  "identity": {
+    "config": {
+      "version": 1,
+      "seed": 42,
+      "model": "model",
+      "tokenizer": "rex_id_tokenizer",
+      "reference_adapter": "rex_id_sft_outputs_a800_80",
+      "train_rows": "data/coco2017/annotations/train_rex_token.jsonl",
+      "val_rows": "data/coco2017/annotations/val_rex_token.jsonl",
+      "train_annotations": "data/coco2017/annotations/instances_train2017.json",
+      "val_annotations": "data/coco2017/annotations/instances_val2017.json",
+      "progress_manifest": "rl_val_manifest.json",
+      "rex_commit": "6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e",
+      "baseline_trainer_sha256": "2e8bb7c4ed94e65794b9c613570c1c7dc50ad9e5b48ec16cae836bdf3937577f",
+      "train": {
+        "per_device_batch": 4,
+        "gradient_accumulation": 2,
+        "epochs": 1,
+        "learning_rate": 0.0001,
+        "max_length": 4096,
+        "eval_loss_steps": 1000,
+        "save_steps": 1000,
+        "progress_ap_steps": 5000,
+        "generation_batch": 16,
+        "max_new_tokens": 1024
+      },
+      "methods": {
+        "m34": {
+          "full_query_probability": 0.5,
+          "subset_size": "uniform integer 1..number of present categories"
+        },
+        "m37": {
+          "input_order": "text_first"
+        },
+        "m38": {
+          "resize_probability": 1.0,
+          "max_screen_size": 4096,
+          "canvas": "original image dimensions",
+          "background": [
+            255,
+            255,
+            255
+          ],
+          "resample": "BICUBIC"
+        },
+        "m36": {
+          "grid": 50,
+          "sampling_factor": 0.5,
+          "image_weight": "mean of min(1,K/cell_count) over all GT centers",
+          "replacement": true,
+          "draws": "original training image count",
+          "empty_weight": "mean nonempty image weight"
+        }
+      },
+      "sources": {
+        "m34": "https://arxiv.org/html/2510.12798v1#S4.SS1",
+        "m37": "https://arxiv.org/html/2507.23779#S5.SS1",
+        "m38": "https://arxiv.org/html/2507.23779#S5.SS2",
+        "m36": "https://arxiv.org/html/2507.23779#A4.SS2"
+      }
+    },
+    "input_sha256": {
+      "train_rows": "4ac07f7d1c658fe7a8c1a0fa83b209504601b20ab1ef91dccea5203ee4ad4a52",
+      "val_rows": "e3a1faadbb09959c06635ad9b6c424b85bb7083aae0f1d0ea273ef67545e2158",
+      "train_annotations": "610fce4944abdeb15354cc765333805529359d12d88f2f711393ca586901d01d",
+      "val_annotations": "e8c7f7908f1d7278341fae127d0da654f102f11bd7b21d8aeefa635b8c810b6f"
+    }
+  },
+  "upstream_formatter_sha256": "5021345ccab82b3c12e073bf39f5cd34b0522c7dfadb79be23a4c6b032c25dba",
+  "summary": {
+    "training_images": 118287,
+    "baseline_targets_verified": 118287,
+    "seed": 42,
+    "m34": {
+      "full_queries": 59880,
+      "subset_queries": 58407,
+      "queried_boxes": 711074,
+      "visual_prompt_task": false
+    },
+    "m38": {
+      "images": 118287,
+      "all_annotation_counts_preserved": true,
+      "scale_range": [
+        0.04375,
+        0.9984375
+      ]
+    },
+    "m36": {
+      "cell_cap_K": 296.0,
+      "weight_min": 0.06878921682547061,
+      "weight_max": 1.0,
+      "unique_images_drawn": 72839,
+      "draws": 118287,
+      "empty_weight": 0.6137107019369125,
+      "original_spatial": {
+        "entropy": 7.591773057763268,
+        "KL_to_uniform": 0.2322729530930241,
+        "centers": 849947.0,
+        "max_cell_fraction": 0.005062668613454721
+      },
+      "weighted_expected_spatial": {
+        "entropy": 7.659577537993024,
+        "KL_to_uniform": 0.16446847286326793,
+        "centers": 575582.0,
+        "max_cell_fraction": 0.003554469572929597
+      },
+      "drawn_spatial": {
+        "entropy": 7.657823319200848,
+        "KL_to_uniform": 0.16622269165544434,
+        "centers": 940627.0,
+        "max_cell_fraction": 0.003691154942394807
+      },
+      "all_GT_in_each_draw_retained": true
+    }
+  },
+  "output_sha256": {
+    "train_m34.jsonl": "d7bc837c4944adec3be76357e4ce094d5ad2205ee2e64304e440a26ca34fba94",
+    "smoke_train_m34.jsonl": "db04a2819f08b2d0710fc92197b4b4c8af7ccc861cae6023b328d35fb0d3adfe",
+    "train_m37.jsonl": "4ac07f7d1c658fe7a8c1a0fa83b209504601b20ab1ef91dccea5203ee4ad4a52",
+    "smoke_train_m37.jsonl": "7821f8e5e3434b28c70eca8a44be5c25b5a5369996db7cb97b9f668c63b514ed",
+    "train_m38.jsonl": "fa8fd39d6be9a441a5f4acb699596a8b2b40d693f5b7f94738f319972e16e27c",
+    "smoke_train_m38.jsonl": "c4340cb2e38c55e87c995586e165719d98d22b5b87c85fd74b3471a53126803a",
+    "train_m36.jsonl": "3dac2e97197b2593cfb9e6fc5492856c35631a18c2ae43c1b74a7ca78e51b79f",
+    "smoke_train_m36.jsonl": "c89197a0a7581dc7f23ebbb60c73e9451f54d89dc9b04b07a519aee9dd48a685",
+    "smoke_val.jsonl": "654cefe845b19f6cf4036a130480b4c9d7336944f6122458b2a741767279c564",
+    "m36_sampling_manifest.json": "70e7bf0f8bcb5bc42ee75c3234414b8c096098d0c8c444d4597153b340421380"
+  }
+}

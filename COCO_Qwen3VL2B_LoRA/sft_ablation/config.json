@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "seed": 42,
+  "model": "model",
+  "tokenizer": "rex_id_tokenizer",
+  "reference_adapter": "rex_id_sft_outputs_a800_80",
+  "train_rows": "data/coco2017/annotations/train_rex_token.jsonl",
+  "val_rows": "data/coco2017/annotations/val_rex_token.jsonl",
+  "train_annotations": "data/coco2017/annotations/instances_train2017.json",
+  "val_annotations": "data/coco2017/annotations/instances_val2017.json",
+  "progress_manifest": "rl_val_manifest.json",
+  "rex_commit": "6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e",
+  "baseline_trainer_sha256": "2e8bb7c4ed94e65794b9c613570c1c7dc50ad9e5b48ec16cae836bdf3937577f",
+  "train": {
+    "per_device_batch": 4, "gradient_accumulation": 2, "epochs": 1,
+    "learning_rate": 0.0001, "max_length": 4096,
+    "eval_loss_steps": 1000, "save_steps": 1000, "progress_ap_steps": 5000,
+    "generation_batch": 16, "max_new_tokens": 1024
+  },
+  "methods": {
+    "m34": {"full_query_probability": 0.5, "subset_size": "uniform integer 1..number of present categories"},
+    "m37": {"input_order": "text_first"},
+    "m38": {"resize_probability": 1.0, "max_screen_size": 4096, "canvas": "original image dimensions", "background": [255,255,255], "resample": "BICUBIC"},
+    "m36": {"grid": 50, "sampling_factor": 0.5, "image_weight": "mean of min(1,K/cell_count) over all GT centers", "replacement": true, "draws": "original training image count", "empty_weight": "mean nonempty image weight"}
+  },
+  "sources": {
+    "m34": "https://arxiv.org/html/2510.12798v1#S4.SS1",
+    "m37": "https://arxiv.org/html/2507.23779#S5.SS1",
+    "m38": "https://arxiv.org/html/2507.23779#S5.SS2",
+    "m36": "https://arxiv.org/html/2507.23779#A4.SS2"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "original_images": 118287,
+  "methods": {
+    "m34": {
+      "records_verified": 118287,
+      "actual_input_order": "image_first",
+      "real_batch_shape": [
+        4,
+        407
+      ],
+      "supervised_tokens": 115
+    },
+    "m36": {
+      "records_verified": 118287,
+      "actual_input_order": "image_first",
+      "real_batch_shape": [
+        4,
+        451
+      ],
+      "supervised_tokens": 212
+    },
+    "m37": {
+      "records_verified": 118287,
+      "actual_input_order": "text_first",
+      "real_batch_shape": [
+        4,
+        407
+      ],
+      "supervised_tokens": 115
+    },
+    "m38": {
+      "records_verified": 118287,
+      "actual_input_order": "image_first",
+      "real_batch_shape": [
+        4,
+        407
+      ],
+      "supervised_tokens": 115
+    }
+  },
+  "unmodified_collator_real_batch_equal": true
+}
