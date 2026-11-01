@@ -11,6 +11,8 @@ verified by SHA256 in config. `train.py` reuses its `main`, PEFT construction,
 dataset loader, optimizer, loss, masking, image budget and Trainer loop. Only
 the data collator and callbacks are supplied by this package. Original code,
 models, datasets and other agents' files are not modified.
+`baseline_evaluate.py` similarly freezes the established parser/scoring source;
+the evaluator checks its SHA256 before use so concurrent work cannot change it.
 
 ## Shared protocol
 

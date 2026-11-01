@@ -16,8 +16,10 @@ from qwen_vl_utils import process_vision_info
 
 from data import sha256, user_message
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from rex_token_sft.evaluate_rex_id_coco import PROMPT, parse_output
+from baseline_evaluate import PROMPT, parse_output
+
+if sha256(Path(__file__).with_name('baseline_evaluate.py')) != 'c93882eecfbf78bcd3df9dbfbd77f7b0f2dca445b5648553ff22135617f2ab8e':
+    raise ValueError('The frozen baseline Rex-ID parser/evaluator has changed')
 
 
 def to_detections(response, info, categories):
