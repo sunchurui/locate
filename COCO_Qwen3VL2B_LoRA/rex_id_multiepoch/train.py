@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import random
+import shutil
 import subprocess
 import sys
 
@@ -139,16 +140,38 @@ def main():
         def train(self, *positional, **kwargs):
             if kwargs.get('resume_from_checkpoint'):
                 raise RuntimeError('This entrypoint starts fresh; no previous adapter or optimizer is loaded')
+            if self.args.world_size != 1:
+                raise RuntimeError('This batch64 launcher is configured for exactly one GPU worker')
+            if len(self.train_dataset) != 118287 or len(self.eval_dataset) != 5000:
+                raise RuntimeError('Expected the complete original COCO train2017/val2017 image sets')
             callback.processor = self.processing_class
             self.add_callback(callback)
             tune(self, args.global_batch, output)
+            print('FORMAL_SFT_CONFIGURATION', {'epochs': self.args.num_train_epochs,
+                  'microbatch': self.args.per_device_train_batch_size,
+                  'accumulation': self.args.gradient_accumulation_steps,
+                  'global_batch': self.args.per_device_train_batch_size * self.args.gradient_accumulation_steps,
+                  'train_images': len(self.train_dataset), 'val_images': len(self.eval_dataset)}, flush=True)
             return super().train(*positional, **kwargs)
 
     base.TrainingArguments, base.Trainer = training_args, MultiEpochTrainer
     set_seed(42)
+    snapshot = output / 'source_snapshot'
+    snapshot.mkdir(exist_ok=True)
+    for source in folder.iterdir():
+        if source.is_file():
+            shutil.copy2(source, snapshot / source.name)
+    fingerprints = {}
+    for name in ('train_rex_token.jsonl', 'val_rex_token.jsonl'):
+        digest = hashlib.sha256()
+        with (root / 'data/coco2017/annotations' / name).open('rb') as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+                digest.update(chunk)
+        fingerprints[name] = digest.hexdigest()
     write_json(output / 'experiment.json', {'epochs': 5, 'initialization': 'Fresh model/ + freshly initialized LoRA; no SFT adapter',
                'global_batch': 64, 'seed': 42, 'lr': 1e-4, 'lora_r': 16, 'lora_alpha': 32,
                'coordinate_ids': [150643, 151642], 'loss_validation_steps': 250,
+               'training_data_sha256': fingerprints,
                'baseline_source_sha256': hashlib.sha256((folder / 'baseline_train.py').read_bytes()).hexdigest(),
                'source_urls': ['https://github.com/IDEA-Research/Rex-Omni/tree/6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e/finetuning'],
                'note': 'Epoch count and effective batch both change relative to the old one-epoch batch8 experiment.'})
