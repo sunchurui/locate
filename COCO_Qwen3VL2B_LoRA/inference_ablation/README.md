@@ -133,14 +133,16 @@ sbatch --array=0-3 --export=ALL,METHOD=m45,NUM_SHARDS=4 inference_ablation/evalu
 sbatch --dependency=afterany:JOB_M06:JOB_M44:JOB_M45:JOB_M46 inference_ablation/analyze.sbatch
 ```
 
-GPU evaluation can use available types. The default is A6000 48GB; M44 may use
-V100 16GB or V100S32. Each comparison is paired on its own device/dtype, which is recorded.
+GPU evaluation uses available Ampere/newer types with BF16. The default is
+A6000 48GB; H100 is also supported. Each comparison is paired on its own device,
+which is recorded.
 In particular, cross-device tiny numerical differences are not attributed to
 a method. Overrides use standard sbatch `--gres`, `--mem`, `--cpus-per-task`.
-Ampere/newer cards use BF16. V100 uses FP32: an actual FP16 pilot on image
-463522 repeated coordinates to the 1024-token limit, whereas BF16 ended normally
-after 109 tokens. The FP16 pilots are preserved separately and excluded from
-method comparison. Generation batches shrink on OOM without changing the
+V100 FP16 and FP32 pilots both repeated coordinates on real image463522 to the
+1024-token limit, whereas the established BF16 baseline ended normally after
+109 tokens. Both pilots are preserved separately and excluded from method
+comparison. The launcher rejects pre-Ampere hardware to retain the established
+BF16 evaluation convention. Generation batches shrink on OOM without changing the
 number of sampled answers; actual batches and seeds are recorded.
 
 Each `results/METHOD/shardN/` contains immutable experiment config, image IDs,
