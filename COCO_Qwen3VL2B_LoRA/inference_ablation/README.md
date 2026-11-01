@@ -137,6 +137,11 @@ GPU evaluation can use available types. The default is A6000 48GB; M44 may use
 V100 16GB or V100S32. Each comparison is paired on its own device/dtype, which is recorded.
 In particular, cross-device tiny numerical differences are not attributed to
 a method. Overrides use standard sbatch `--gres`, `--mem`, `--cpus-per-task`.
+Ampere/newer cards use BF16. V100 uses FP32: an actual FP16 pilot on image
+463522 repeated coordinates to the 1024-token limit, whereas BF16 ended normally
+after 109 tokens. The FP16 pilots are preserved separately and excluded from
+method comparison. Generation batches shrink on OOM without changing the
+number of sampled answers; actual batches and seeds are recorded.
 
 Each `results/METHOD/shardN/` contains immutable experiment config, image IDs,
 adapter hash, environment, a source-code snapshot per Slurm job, raw generation

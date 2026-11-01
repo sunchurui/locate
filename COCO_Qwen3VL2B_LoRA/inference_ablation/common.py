@@ -114,7 +114,9 @@ class Engine:
         self.tokenizer = self.processor.tokenizer
         if [self.tokenizer.convert_tokens_to_ids(f'<{q}>') for q in range(1000)] != list(range(FIRST, LAST + 1)):
             raise ValueError('Wrong coordinate-ID tokenizer')
-        dtype = torch.bfloat16 if torch.cuda.get_device_capability()[0] >= 8 else torch.float16
+        # V100 FP16 caused repeated-coordinate degeneration on a real paired
+        # image (463522). Keep FP32 on pre-Ampere hardware, not FP16.
+        dtype = torch.bfloat16 if torch.cuda.get_device_capability()[0] >= 8 else torch.float32
         base = Qwen3VLForConditionalGeneration.from_pretrained(self.root / config['model'], torch_dtype=dtype,
                                                               device_map='cuda', local_files_only=True)
         self.model = PeftModel.from_pretrained(base, self.root / config['adapter']).eval()
