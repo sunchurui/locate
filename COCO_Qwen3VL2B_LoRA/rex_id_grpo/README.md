@@ -218,3 +218,12 @@ Optional object-aligned and stopping-token credit is documented in
 [`../rex_id_object_credit/README.md`](../rex_id_object_credit/README.md).
 It is enabled only by `OBJECT_CREDIT_CONFIG`; the default scalar rewards and
 global advantages are unaffected when that variable is unset.
+
+On 2026-11-01 the checkpoint recovery job 204091 failed before its first
+update: Transformers 4.57.6 refuses optimizer loading with torch2.5.1.
+No safety check is disabled and the active environment is unchanged.
+`train_global32.sbatch` instead starts the global-reward control from the
+same SFT adapter and batch32 profile as object-credit training, in a new
+`rex_id_grpo_outputs_global32_v2` directory. Job 205664 and its dependent
+full COCO evaluator 205666 replace that failed recovery workflow. All old
+checkpoints and outputs remain preserved.
