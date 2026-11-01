@@ -16,6 +16,7 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 : "${CHECKPOINT_PATH:?Set CHECKPOINT_PATH to an SFT adapter or saved RL checkpoint}"
 : "${EVAL_OUTPUT_DIR:?Set a separate EVAL_OUTPUT_DIR for this model/step}"
 mkdir -p "$EVAL_OUTPUT_DIR"
+cp "$ROOT/rl_val_manifest.json" "$EVAL_OUTPUT_DIR/subset_manifest.json"
 ADAPTER="$(python rex_id_grpo/progress_eval/prepare_adapter.py \
   --checkpoint "$CHECKPOINT_PATH" --metadata "$ROOT/rex_id_rl_base" \
   --output "$EVAL_OUTPUT_DIR/adapter_view")"

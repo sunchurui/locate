@@ -89,10 +89,10 @@ readiness gates:
 | Model / step | CPU gate | AP evaluation |
 | --- | ---: | ---: |
 | Credit 200 | 205680 | 205681 |
-| Credit 300 | 205682 | 205683 |
+| Credit 300 | 205693 (after 205680) | 205683 |
 | Global 100 | 205684 | 205685 |
-| Global 200 | 205686 | 205687 |
-| Global 300 | 205688 | 205689 |
+| Global 200 | 205694 (after 205684) | 205687 |
+| Global 300 | 205688 (after 205694) | 205689 |
 
 Results are written under `evaluation/progress_val256/` and are subset AP,
 not full COCO AP. Full evaluators 204088/205666 remain attached to successful
@@ -102,3 +102,9 @@ this file fixes both progress probes and the final RL metadata path. Those
 failed attempts produced no AP results. CPU submitter 205673 could not query
 sacct from its computing node and was replaced by native Slurm dependencies
 on file-readiness gates. Training and saved weights were not changed.
+
+The first complete 256-response training rollout of the fresh global control
+and credit run was compared directly: **256/256 completion strings were
+identical**, with first weighted reward 0.56405634 in both runs. Their initial
+data/model/sampling configuration is therefore empirically aligned before the
+first credit-modified optimizer update.

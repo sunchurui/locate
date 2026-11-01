@@ -35,7 +35,11 @@ sbatch --dependency=afterok:$gate \
   rex_id_grpo/progress_eval/evaluate.sbatch
 ```
 
-Repeat for steps 100/200/300 of each experiment. The gate reserves one CPU,
+Repeat for steps 100/200/300 of each experiment. Chain later CPU gates after
+the previous gate with `--dependency=afterok:PREVIOUS_GATE` so that at most one
+readiness gate per model runs at a time. This does not wait for the previous
+evaluation to finish: checkpoint order alone makes the dependency sufficient.
+The gate reserves one CPU,
 256MB RAM and **no GPU**, checks complete checkpoint files once per minute,
 and exits when ready or fails after 15 hours. Slurm then starts the independent
 GPU evaluation. If training fails before that checkpoint, the gate eventually
