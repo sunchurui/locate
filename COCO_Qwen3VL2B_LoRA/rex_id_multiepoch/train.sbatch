@@ -13,4 +13,4 @@ source "$ROOT/venv/bin/activate"
 export TOKENIZERS_PARALLELISM=false WANDB_MODE=disabled HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-6}"
-python -u rex_id_multiepoch/train.py --root "$ROOT" --output "$ROOT/rex_id_sft_outputs_5epoch_b64" --global-batch 64
+python -u rex_id_multiepoch/train.py --root "$ROOT" --output "${OUTPUT_DIR:-$ROOT/rex_id_sft_outputs_5epoch_b64}" --global-batch 64
