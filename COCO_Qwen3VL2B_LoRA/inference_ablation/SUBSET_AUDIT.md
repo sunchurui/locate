@@ -48,3 +48,50 @@ Use256 images for paired screening/progress checks. Do not extrapolate M45's
 39.94 to full-val AP or assume its+4.50 gain transfers to5000 images. Full-val
 evaluation is required for the final claim. Raw audit: runtime
 `results/subset_audit_20261102/audit.json`; reproducible entry: `audit_subset.py`.
+
+## Follow-up: why every sampled subset can exceed the full-set AP
+
+`audit_ap_size.py` constructs fresh GT objects containing only each selected
+subset's images/annotations, instead of using full GT plus `params.imgIds`.
+It independently reproduces35.4602 AP for the fixed256, ruling out a difference
+caused by these two filtering routes. All predictions remain unchanged.
+
+Nested seed42 subsets give:
+
+| Images | AP | AR@100 |
+| ---: | ---: | ---: |
+|128|37.2714|42.9432|
+|256|35.4602|42.9119|
+|512|32.3977|40.6972|
+|1000|30.7021|39.5939|
+|2000|30.0402|39.9421|
+|4000|29.9777|40.1256|
+|5000|29.5431|39.8936|
+
+AP is not bounded by the minimum/maximum APs of a partition, because it pools
+and ranks detections across images and constructs an interpolated PR curve.
+An exact counterexample verified with official COCOeval uses two images, each
+with one GT of the same category and one true and one false detection:
+
+- Image1: true score0.9, false score0.8; its AP is100.
+- Image2: true score0.7, false score0.6; its AP is100.
+- Combined ranking is true,false,true,false; combined COCO AP is83.4983.
+
+There are no missing GT categories in this counterexample. False detections
+after complete recall do not lower a singleton's AP, but after pooling an
+earlier image's false detection can rank above another image's true detection.
+Thus even every part exceeding the combined AP is mathematically possible.
+This counterexample establishes possibility, not the quantitative breakdown
+of the real dataset's5.9171-point gap.
+
+The current baseline scores follow generated order within each image, rather
+than a learned confidence calibration. A diagnostic using seed20261102 adds
+<1e-6 score noise to break ties while preserving all distinct score levels:
+full5000 AP29.4482, fixed256 AP34.9913. A5.5430-point gap remains. This diagnostic
+does not replace baseline metrics and does not establish invariance to all
+possible score orderings. No saved prediction file is modified.
+
+The evidence supports a strong sample-size dependence for AP on these saved
+predictions. It does not justify extrapolating the M45 subset gain to full-val.
+The mechanism diagnostic output is runtime `ap_mechanism.json` next to the
+earlier audit. No training, generation or existing evaluation was changed.
