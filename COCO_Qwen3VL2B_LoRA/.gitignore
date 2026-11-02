@@ -29,3 +29,5 @@
 /official_eval/counts_engine/
 /official_eval/counts_engine_*/
 /runtime_tmp/
+
+/sft_curriculum_outputs/

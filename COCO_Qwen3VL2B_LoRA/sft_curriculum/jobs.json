@@ -1,0 +1,26 @@
+[
+  {
+    "variant": "curriculum",
+    "train_job": "207964",
+    "eval_job": "207965",
+    "training_gpu": "nvidia_a100_80gb_pcie",
+    "min_training_gpu_memory_gb": 80,
+    "smoke_in_allocation": true,
+    "output": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_curriculum_outputs/curriculum",
+    "preflight_job": "207977",
+    "prepare_job": "207949",
+    "evaluation_protocol": "rex_matching_global_endpoint_micro_v1"
+  },
+  {
+    "variant": "random_control",
+    "train_job": "207966",
+    "eval_job": "207967",
+    "training_gpu": "nvidia_a800_80gb_pcie",
+    "min_training_gpu_memory_gb": 80,
+    "smoke_in_allocation": true,
+    "output": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_curriculum_outputs/random_control",
+    "preflight_job": "207977",
+    "prepare_job": "207949",
+    "evaluation_protocol": "rex_matching_global_endpoint_micro_v1"
+  }
+]

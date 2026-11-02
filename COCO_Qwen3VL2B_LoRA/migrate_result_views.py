@@ -102,7 +102,7 @@ def main():
     atomic(reports/'micro_current.md',banner+source.with_suffix('.md').read_text())
     atomic(reports/'micro_current.json',source.read_text())
     for p in reports.glob('*.md'):
-        if p.name=='micro_current.md':continue
+        if p.name=='micro_current.md' or PROTOCOL in p.read_text():continue
         text=p.read_text()
         notice='> HISTORICAL METRIC SNAPSHOT. Superseded by [micro_current.md](micro_current.md); do not use these scores for current comparisons.\n\n'
         if not text.startswith(notice):atomic(p,notice+text)

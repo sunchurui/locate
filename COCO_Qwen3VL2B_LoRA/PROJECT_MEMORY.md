@@ -104,3 +104,23 @@ safe_mean跳过零项，且precision从插值PR数组提取。隔离副本复现
 差距7.7820→7.0254→5.4728→2.1565→-0.0300；步骤有交互，非唯一因果归因。
 原版官方转换和评测CLI已直接执行；相同转换内容的JSON/TSV六组PR数组完全一致。
 不能再用“普通抽样波动”概括；不得擅自把诊断改为新的主指标。
+
+
+## 2026-11-02: M30 order curriculum and M45 instance-selection repair
+
+User authorized these two only; additional SFT ideas remain proposals in
+sft_curriculum/NEXT_SFT_CANDIDATES.md. COCO max27/class,90/image means original
+50/500 curriculum thresholds do not divide this dataset. Frozen training-only
+fallback75th-percentile threshold5; phase1 first59136 sparse images, phase2
+remaining30249 sparse+28902 dense shuffled; every118287 image exactly once.
+Paired random-order control, seed42, fresh2B+rank16 LoRA/original Rex IDs,
+4x2 effective8,14786updates, same LR1e-4 and fixed visual/context budgets.
+Train207964/207966, eval207965/207967,80GB only; preflight207977 passed actual
+images/tokenizer/collator/order.2 real smoke updates are required on allocation
+before formal training. At submission both train jobs pending, not training yet.
+M45 cache replay207968 completed256 images with frozen support/NMS choices;
+primary T.7 author-vote support16+NMS.7 F1mIoU25.30 vsbaseline35.48, despite
+improvement from unfiltered6.93. Member-box extent diagnostic T.7 support16
+39.65, T.5 support16 40.20; support32/T.5 exploratory42.49, NOT independent
+confirmation. Support/NMS are inference decisions, not evaluation confidence.
+No new model generation or GT-guided output choice. Keep original results.

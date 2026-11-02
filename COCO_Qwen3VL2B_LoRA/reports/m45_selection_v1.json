@@ -1,0 +1,1265 @@
+{
+  "config": {
+    "protocol": "rex_matching_global_endpoint_micro_v1",
+    "samples_per_temperature": 64,
+    "temperatures": [
+      0.7,
+      0.5
+    ],
+    "minimum_support": [
+      1,
+      4,
+      8,
+      16,
+      32
+    ],
+    "nms_iou": 0.7,
+    "primary": "t0.7_vote_s16_nms70",
+    "selection_has_gt_access": false,
+    "claim": "COCO multi-instance adaptation repair; original author vote regions unchanged; frozen cached generations",
+    "record_sha256": {
+      "inference_ablation/results/m45/shard0/records/102820.json": "25c9844cbbcdbc9b777d9bfe6dc5671ba27f193733573600ffd3a3bc58ee2a41",
+      "inference_ablation/results/m45/shard0/records/10764.json": "4b54b08bf633bea8b78c18ba4c8ed6e8d9ab59619e8f8a49375917ae3f6b85ef",
+      "inference_ablation/results/m45/shard0/records/116439.json": "56d2b80c9240e421c5217afde48c6aed7ed3f2a2963706ac6e9fe135aa1e0d7b",
+      "inference_ablation/results/m45/shard0/records/125211.json": "c1debc5f714045564407566068adecc1b83e8b2916e4e39160a9300ffc48e8c4",
+      "inference_ablation/results/m45/shard0/records/127660.json": "e13dc0be8414e2ff058ee3418dffc24a482632ff8672542b365661933308f65c",
+      "inference_ablation/results/m45/shard0/records/132931.json": "bff58e8b44742909599312dfbefb54f85a019117bc6c7b482f8b4444b8b3bdb6",
+      "inference_ablation/results/m45/shard0/records/153229.json": "c386b2a27f07829dc5326b4a54c5ee2abf55c3f5952d915b28218b0e25a43782",
+      "inference_ablation/results/m45/shard0/records/157046.json": "4ede87bd821a7d1cd22ccf24a6ddd3a5352a577d4321fe5e3e0ef72b683ae15a",
+      "inference_ablation/results/m45/shard0/records/167240.json": "0afcdaa17547dd0b808ae74295310ec9b4b4966110b66aa9d9f08379af24304c",
+      "inference_ablation/results/m45/shard0/records/181499.json": "63b32cd287ee677d4cbc677818c75b72fa1655f5b00d244e6309de2e38075292",
+      "inference_ablation/results/m45/shard0/records/189213.json": "c029230825cd44adb952c386441fafbc65fa4a221e5c716689cf8cbdf09624f5",
+      "inference_ablation/results/m45/shard0/records/190648.json": "bda2d13113a4b6752efa4e8df512a8fbc11d84cdd2d5c634f2b406d6de5b1288",
+      "inference_ablation/results/m45/shard0/records/200152.json": "f610e049dc19fff449378b1f2ad6514424fe0d0b613ee5823cddd0fac8a37aa1",
+      "inference_ablation/results/m45/shard0/records/20247.json": "6364e1bf3610830a865126227d14cf392882ec1ba52fb02501828344ffee414d",
+      "inference_ablation/results/m45/shard0/records/206579.json": "6224e1a6e83d1f0a3b21acfe3bc223ffbf6fd299c6acfca7eb84d5117981455b",
+      "inference_ablation/results/m45/shard0/records/2157.json": "fe1ba597d27e23653c092475405c7772f133080b0f414bc37453179893ba18d9",
+      "inference_ablation/results/m45/shard0/records/215778.json": "dbd0dae593bcb565c5b029ad31598c197846c14764c636cce5b46c82c3088519",
+      "inference_ablation/results/m45/shard0/records/226130.json": "aa5f80a2691c5014c1e1d3672e12dec7ce5f0e208f2adb12e7c96271c1283b50",
+      "inference_ablation/results/m45/shard0/records/236690.json": "4d8b9098a12c1fa5c27058f5c0bad62643cefa5bdeba4c378eaaeaad0e266249",
+      "inference_ablation/results/m45/shard0/records/247806.json": "14f4a3fe747dcc4229e65e4f2fa11cd580ebd07761cbfc7b93c7955e0f32ba09",
+      "inference_ablation/results/m45/shard0/records/254814.json": "4dfc621d060ad34b9ca7ea85e3a7e50a78c8aa52d0919a0b59c14478a9904122",
+      "inference_ablation/results/m45/shard0/records/268729.json": "ad4adcc24018e1dc033a1a38f7ce58aba6e83ee4343805c1253bbf8c397d34a2",
+      "inference_ablation/results/m45/shard0/records/27186.json": "0c4b0b8395e9dc6a6539d9be793ff08813559a2ff83be798a1d3d9bb2b1f1bb9",
+      "inference_ablation/results/m45/shard0/records/282037.json": "0ebb5b19fddee6a6c63add31464998ab4e05742aeea117dcdbb4730eac71b8a9",
+      "inference_ablation/results/m45/shard0/records/292415.json": "7f0dbe79c9d7a3a4b4d6a266fb1abba5612e0cb04849eabe3b6e18083517344d",
+      "inference_ablation/results/m45/shard0/records/302882.json": "efcf0f180934b0f7489f2f71d577d967256059c3dbb00bdf986fe8fdbd38ee0c",
+      "inference_ablation/results/m45/shard0/records/315001.json": "637d2d7ddfb6297f7ff42f5ee1c27e3eff35822ec35c4ca1b0863fb902e6c6e2",
+      "inference_ablation/results/m45/shard0/records/322429.json": "5c1f78f59e468ace5df6ae6d423a7d3c1e9163c0646682ffb6d82b0127e485d8",
+      "inference_ablation/results/m45/shard0/records/328238.json": "660acf2c9fd2b7fb4deeb12f0cb39cc6500d62347cf8bee221e3cbd3b5f4c382",
+      "inference_ablation/results/m45/shard0/records/334417.json": "b7a12d1b68e032dede1937bfed06dbb846810c824ee9517d2cb58a0f52c8fabb",
+      "inference_ablation/results/m45/shard0/records/343803.json": "90279eecd5931d6ede9f336decdf4c6a1f95027f8358b11bb65a0ed2c073c1cf",
+      "inference_ablation/results/m45/shard0/records/356498.json": "c78196a77f61b45975a19d981c33a79859336bc853041469391c63865870c96c",
+      "inference_ablation/results/m45/shard0/records/370818.json": "ef18fd4732be41d1c933267e3ce55d71afa34894438050e22c80318ab929a00e",
+      "inference_ablation/results/m45/shard0/records/375015.json": "9e2f189fd383bbda93321552557bc7548d1ae015f78f8c60843e8b3028e64144",
+      "inference_ablation/results/m45/shard0/records/382734.json": "df141fce004a4623fb9d4286c083864cbeaaa4202af62a9e07e5164a1236bc5e",
+      "inference_ablation/results/m45/shard0/records/395801.json": "53e69aed95b8e882a81c3f97af88b22d3ee9c0b7043d05ea69f9a84cabff0cc3",
+      "inference_ablation/results/m45/shard0/records/402473.json": "e8f8b4be4a9ffef22b8b404a17f20378992ebd4188dee12322a173f7db1b2a61",
+      "inference_ablation/results/m45/shard0/records/414673.json": "31099769f63f02f000411362557ef238b6fe5ac0fa4080bbde1beca5038a56be",
+      "inference_ablation/results/m45/shard0/records/419653.json": "d92f9855c557cb22c2830c4b97271f6688135f8c7552b6bce6aba1e04a7702df",
+      "inference_ablation/results/m45/shard0/records/428454.json": "20d1a13a6017969debc1cba1686d39d6a3a301369ec53fb849efbcee06f542bf",
+      "inference_ablation/results/m45/shard0/records/435206.json": "51a0ef31f8e39936fa5d020b8755e40938f02c48adb2c1d390b10be016aac358",
+      "inference_ablation/results/m45/shard0/records/443426.json": "fb5230da619bac2a4c86dafd47eaca0809b4ea858c64422f09c5fb9cf7df3149",
+      "inference_ablation/results/m45/shard0/records/455219.json": "91175ffa878209a880787aec12c0e799a37a0c6c5908c0405c7cfb978e0c0633",
+      "inference_ablation/results/m45/shard0/records/45596.json": "5ecd02dbeb5b550b05373b583e4705d95e57c1f550efea1b51c17254b14fe8c4",
+      "inference_ablation/results/m45/shard0/records/463522.json": "81e04cdfa69be9bd390ed8fa21715ec509305831b98e2978dc9d9202bec22b25",
+      "inference_ablation/results/m45/shard0/records/473015.json": "5ea21f9eac114e79da8d73d3e3a4f9b1b3e5bb20650581dc51e4750a3994e624",
+      "inference_ablation/results/m45/shard0/records/474452.json": "93f44187e280322ad5f77296b9411fb41e3783792f6b8f1b62b8eb2a38374ed0",
+      "inference_ablation/results/m45/shard0/records/481390.json": "16ed704a526006936f27e7a702fb2c552af35a0a4a0541c9772a2a44e66d4b76",
+      "inference_ablation/results/m45/shard0/records/489611.json": "63175abddae97a2d98b4f02b6dd9b610520e4f60b6b6efb1621c6e8ca53ed167",
+      "inference_ablation/results/m45/shard0/records/499181.json": "04a7ba3466ab750fd92da84d28d7b429335958c0c9f0699091cc5c1ebb5145f9",
+      "inference_ablation/results/m45/shard0/records/50679.json": "c92c8f4ddcffc0003372a9c261cedbaff8eec30c8ccf5cba0d2079a582d9d2c1",
+      "inference_ablation/results/m45/shard0/records/509008.json": "594195543d93c55fce644b2335615c6553bc1f5606bf62d6eeb38455dfa651fd",
+      "inference_ablation/results/m45/shard0/records/517832.json": "a02caaff03354da6126e032262a3589b58b0976583fde2e7c9bd5055021a7645",
+      "inference_ablation/results/m45/shard0/records/523241.json": "7777c6f6dfe09bf8e7fec949bf7524e9ce17cf2cd3ee989e7ff38aa0a4d667e3",
+      "inference_ablation/results/m45/shard0/records/531134.json": "52c512ed96ecf3072fbe8317ee4d4065db5ef9a885b96cc3be4b715a422c83d1",
+      "inference_ablation/results/m45/shard0/records/546475.json": "8e271841ea9f77bba7a6ef41790638105fb86d50a39c2fc9ff398b372cd7dd6b",
+      "inference_ablation/results/m45/shard0/records/557916.json": "76ee994fd184ab67f2d320ad8fb71bc30f323935ab732e3ba6caea2a29d7fef1",
+      "inference_ablation/results/m45/shard0/records/565153.json": "c9da3a3703cca60b908e0ca0ff42bdf79bdc2e06d47d1e7e8500fccb06e1ab25",
+      "inference_ablation/results/m45/shard0/records/576654.json": "f9bdacfcf45c3d11bb67ed6f04f55145e21f4e046a97f1852cfd522602f26674",
+      "inference_ablation/results/m45/shard0/records/64523.json": "f12c09e7dbd70816ceec71b54013effd2aac37728a126c488a24e46d941fdec2",
+      "inference_ablation/results/m45/shard0/records/69138.json": "872dcfd28a201ad6063458a796f4d3ed6387224622699dace4c4c60db77fb88b",
+      "inference_ablation/results/m45/shard0/records/85329.json": "731564b656897102612a7e1de741579fab3b9cf2276afe34494d647efbb0d1e8",
+      "inference_ablation/results/m45/shard0/records/88462.json": "f5995fd59b89bc2961c048c11768caa078406835f4dda356c780c698fbc1623f",
+      "inference_ablation/results/m45/shard0/records/96549.json": "c05f18ff18af978e8dac50c7b05d78592f7c17f56207ac4080790d53fc9e097e",
+      "inference_ablation/results/m45/shard1/records/104803.json": "cc0f44763eeb7352f51aa7ccbf17373d4afbd347e736a81649516b05e2033839",
+      "inference_ablation/results/m45/shard1/records/117525.json": "4e81fd81e385397f7588f1e1751264e3c18f9c7e909b3b6764cd5f5c4ef103e1",
+      "inference_ablation/results/m45/shard1/records/127092.json": "8654c8be8b667d803f0de660d881cb1bb80e95ed1f4bf0b277d6f6825a019776",
+      "inference_ablation/results/m45/shard1/records/128654.json": "6177fec156a0db7c6a59116845d781dc9fd87a48561a6f79fad16d70a68946c6",
+      "inference_ablation/results/m45/shard1/records/141821.json": "1d1741815cb6b7578eda1fa7dd388aa09e175a1ce9e738cf8be65d8a3813cce0",
+      "inference_ablation/results/m45/shard1/records/153299.json": "18f1a352949fea508ba22681ea519b2bd0eb14aab056df153aca8bc19557c0d3",
+      "inference_ablation/results/m45/shard1/records/15517.json": "96873201fa424be019c23af5d9ef021596117a9ecc776898a9fe8ba1fd808df0",
+      "inference_ablation/results/m45/shard1/records/159458.json": "ce535019747872f452bcf78864bf2c1a1405b3f187c30772937c67692b61cda9",
+      "inference_ablation/results/m45/shard1/records/171611.json": "b2539447989bc66d6dcad1650668e4870dd6d04b813855e53fb047f3e24a98c5",
+      "inference_ablation/results/m45/shard1/records/183709.json": "9a2a78adf77e190b2e5b5400414fea15b0ee7f17ee4cc230369741f7aee54bef",
+      "inference_ablation/results/m45/shard1/records/189752.json": "33c8c1c87c8983a1afb4059254ae0b27bb3c315dc300409a83e2730f5db01e57",
+      "inference_ablation/results/m45/shard1/records/190841.json": "7dcd8153e56bc3736d0611b034cb69832aba649e7b25f3ccaae7f55b7cdc20f8",
+      "inference_ablation/results/m45/shard1/records/201646.json": "3e35a63ba060a88f8ae1d9eb205f575311f934137310daa509b392ca1fc44d2f",
+      "inference_ablation/results/m45/shard1/records/209530.json": "7a052e0e958dd571da305883159f073e4fa165ad276656ad626be606ec2c4971",
+      "inference_ablation/results/m45/shard1/records/217614.json": "9a4b1ffa26ec7af1a839987bfbc4bffb1fe37e6b827c7ed17fd911e366f04374",
+      "inference_ablation/results/m45/shard1/records/22479.json": "c9d307209e5d3ae8164b86880cc099a55d7888a84e14e844c9e68d83b442f818",
+      "inference_ablation/results/m45/shard1/records/231088.json": "598d18b1f584538a6a2bf670751e87ab957927a085015dff4bdb7de4216c8243",
+      "inference_ablation/results/m45/shard1/records/237928.json": "07ccdd60c2bf5921c4fbc82f2ee8d722293b49962b93944b5411ebb0f9fdd537",
+      "inference_ablation/results/m45/shard1/records/248112.json": "460d9ad7e7e24df5b922071ebc076a9e6b83012550ad9cb32cd0f1180c923b2a",
+      "inference_ablation/results/m45/shard1/records/256195.json": "53a13a85a4f2f056f986a1b55d0407363f6aa160273b4113ba4d0bc20167fe86",
+      "inference_ablation/results/m45/shard1/records/2587.json": "557d56bbe43ef3e91c1af0cb9997f2f31bbe8f512f7e6e445bef8a972228fb8d",
+      "inference_ablation/results/m45/shard1/records/273711.json": "f0fa0f152daf17792b0dde68ae2b28c6bb48e8185c5a2a27cf31fbe55bb49e03",
+      "inference_ablation/results/m45/shard1/records/286523.json": "0ad61686509afa7cd7629c35f16ad6936a26f05ef893d78f099cf44f5ff75c7c",
+      "inference_ablation/results/m45/shard1/records/294855.json": "213f49b04814620e8c19bbcea1dff17ab75361b9a8606dd974c93b21e11f0608",
+      "inference_ablation/results/m45/shard1/records/303713.json": "a1798b9a9c7d3ae69066989a516961bae7c3c4322cdbfcfd1ee76cf37a744f55",
+      "inference_ablation/results/m45/shard1/records/318455.json": "d95c64efc57900acce13df050f9bd33fceadeed343551022ef3206570c44f4b6",
+      "inference_ablation/results/m45/shard1/records/322968.json": "af62fa4d9ec2165ecdb0ec6bf2516fdb01d2b84e1ba8d7b70c9fed9527273a51",
+      "inference_ablation/results/m45/shard1/records/329219.json": "f4fdbecb5f5e219b8a6c8429319649c7e0cddc011a2a6cebe572d2ff4f3b161d",
+      "inference_ablation/results/m45/shard1/records/33759.json": "7d9cdcb955c0a5ed2eb6321815c90186930caac08185511da23f762332c6b074",
+      "inference_ablation/results/m45/shard1/records/339823.json": "a5a70fb1c37e3b289f5d3b2963ca067d6916a7ad096d59daa20e3915a9fc833d",
+      "inference_ablation/results/m45/shard1/records/344268.json": "cd3cba5b23140b5262ff6a5555fa6a9bfec068c9dcb8b5b0bf5521434d5f53b5",
+      "inference_ablation/results/m45/shard1/records/358525.json": "e7f3b603873a8d0b7f193c5592b25e5434f158b4c778e09e4694f1449e279782",
+      "inference_ablation/results/m45/shard1/records/370900.json": "f91d2b4f7ba2091ad359146a1fa24506639c8246273098a0cd91a7f921b53719",
+      "inference_ablation/results/m45/shard1/records/377239.json": "e986c57b9fc243e59b9fc1baa12a4276320e0388e69c8434f536dc3279aa384c",
+      "inference_ablation/results/m45/shard1/records/383289.json": "31262474f4e5c51e71dd0c4a1789c3e72a706e6262bc2367012d26b329481653",
+      "inference_ablation/results/m45/shard1/records/396903.json": "c527969abacedb889b14adeed8a51986c85b9410f9b06a44fc9cde103473a98b",
+      "inference_ablation/results/m45/shard1/records/405205.json": "505f0f1638465bd1902bcee5b77662fc4342b0567382e37e17274dc69343808f",
+      "inference_ablation/results/m45/shard1/records/415990.json": "fa3867a4db78683c27ab5583e1671d4e0d595b0bb1fb6e6498dbabddf48092fb",
+      "inference_ablation/results/m45/shard1/records/425925.json": "f92f277ce9ea4520e6d09fb7ad819b88d0c95e52009183d56395c7f9239f44ba",
+      "inference_ablation/results/m45/shard1/records/433374.json": "1168ca2f29639201c5bb077f42d5b85a94df2b51e510ab1336e7b0af72afcf27",
+      "inference_ablation/results/m45/shard1/records/440336.json": "1032c24d35d4b9b206820925bd4681df93e35646a6cddb7a8695796d4200aadf",
+      "inference_ablation/results/m45/shard1/records/446522.json": "124f3f66cc941100fc938ea5b2c25c301fb8e09f4503eef89f2c47652610cbcb",
+      "inference_ablation/results/m45/shard1/records/455624.json": "5a8060c98a5e3cc10f4b68fc9a81d457b506769978e0b73faa17fae2d995355f",
+      "inference_ablation/results/m45/shard1/records/470121.json": "2fd5f1ac440315e3ad0b5d2a043691fe3f626ad67f01cf9675904cf4b7dd23ce",
+      "inference_ablation/results/m45/shard1/records/473237.json": "d5ffb5f2d12a73975e2ad92b3ff1404448a8328e0c443993177ecf31281ebec0",
+      "inference_ablation/results/m45/shard1/records/474854.json": "3f5616838b06b23822d15779dc7ccbf9f321cf108a814d754fc0e77343d27d56",
+      "inference_ablation/results/m45/shard1/records/485480.json": "d5436d3c42b5c3e5b0d0521b7c4f2c392aadc0ef7127cd1bd9b42ad52cb63cd9",
+      "inference_ablation/results/m45/shard1/records/48555.json": "b2e815a5354db0ec4130ea172b77de8cd6913806ff4c85faeb164c0d73b06615",
+      "inference_ablation/results/m45/shard1/records/490413.json": "f2d094baf3bb503f253d5280cd5deea35cac0c9a323e712f89cf8db524b53de3",
+      "inference_ablation/results/m45/shard1/records/501523.json": "5c0512a1b9bca436e1808d0ecf8c0c81fc1dc3fac7ab4168b8c427f7bd433e8d",
+      "inference_ablation/results/m45/shard1/records/509699.json": "0f0a51be7c800e555d4148ee69e3f5e5c0bb0a1e3d77407d6609873834d79c92",
+      "inference_ablation/results/m45/shard1/records/51314.json": "434c692fecd7dffca42726c3b63ff2a78a92643712f85f93019b893752ace5ba",
+      "inference_ablation/results/m45/shard1/records/518326.json": "f5baa5f2814c2a648d09104c3706e6d9c636ed2099721fe9cb90d4b74c66228c",
+      "inference_ablation/results/m45/shard1/records/523782.json": "518f3625fb500e04a840b79da6cc3dc7a7d32454dae0f6bb6612f2447dac3371",
+      "inference_ablation/results/m45/shard1/records/535523.json": "190667fa7883ef58ea5f6c7c540d338bbb9f7ca16a033904ae31ad05584f1f14",
+      "inference_ablation/results/m45/shard1/records/546556.json": "e92de3749504085fb9e1c877bff641151d0727ac67b044822972788117d10d02",
+      "inference_ablation/results/m45/shard1/records/559707.json": "7b981590959be1331e7359ac996a4302591de386f3f5960847910f6ab502c86a",
+      "inference_ablation/results/m45/shard1/records/570834.json": "99bbca73c64cd1a5011df465301f94b203997e54dac4d2e1eb5723d468a1fb06",
+      "inference_ablation/results/m45/shard1/records/576955.json": "3b088176383fa63c9490b881305314807439d3c4b756e1006576246b8dc4288a",
+      "inference_ablation/results/m45/shard1/records/66841.json": "25393f57b6dab3d422551464348de8ca613b6739f7c58c05e72ba46f79f74854",
+      "inference_ablation/results/m45/shard1/records/70158.json": "267ddcd46cef5e0130d3dde06405898e247f8d89c58ced8dfb4893cea3453418",
+      "inference_ablation/results/m45/shard1/records/85772.json": "aef03fb37308a21ae345b77caf43eb08bce5d5f4fb69f8685ece2ae927fe8d9f",
+      "inference_ablation/results/m45/shard1/records/90284.json": "ef8e074d605beea8ef0f20762aeeccb9ffe0a2485eb444024f0eb710aa48d611",
+      "inference_ablation/results/m45/shard1/records/99024.json": "8fe386c9b040880585ffc9c34b406369724529318f4b5a3455fe74faef607e0c",
+      "inference_ablation/results/m45/shard2/records/100510.json": "271c43a75ba49f832835a240cedb8fd035e45b1e0b3f3046dad30ade6adcaeca",
+      "inference_ablation/results/m45/shard2/records/106330.json": "3c239435af0a61f83cfff09740abe4da62eef56a73d61cc9883db5cca8e023a4",
+      "inference_ablation/results/m45/shard2/records/117908.json": "05c77b1c06719c33d196d1c123021fcf36bd16548ab3a93b82e0b68eadfa4fa4",
+      "inference_ablation/results/m45/shard2/records/127182.json": "28d9d32e172284e57085b62775db77c512ad2410779693d9c77b5bf97725045f",
+      "inference_ablation/results/m45/shard2/records/131938.json": "a0c3d369aa5bf91997503d6c432a18c27c1c3884e1dd48c67f42e1dd6ea35f38",
+      "inference_ablation/results/m45/shard2/records/146358.json": "94fabd676dcda105c2804269888e6d5f5a987ff95086b1f79c5efb50d9eacd0a",
+      "inference_ablation/results/m45/shard2/records/153527.json": "fce63763fc87cab9efc435cb08dc97b26e303f7f3cab1001df2b666312c1cf56",
+      "inference_ablation/results/m45/shard2/records/162543.json": "8c62d36941d954c8cf32f581b03e05cf95df4a2cd0e5dc59fe3a5726abb2b3f8",
+      "inference_ablation/results/m45/shard2/records/17029.json": "38f75722f5976a669569040440068125314e24088535ac9d88d962df690f1459",
+      "inference_ablation/results/m45/shard2/records/172595.json": "be8c391c0cb50d211225cb51a807c679b1ec05e5b85ab044cb7e5340b21f868a",
+      "inference_ablation/results/m45/shard2/records/185802.json": "702d3f6e41c9e55668d5c8dbf95a172251e2e2f47d001140d1fa6fa25f96986a",
+      "inference_ablation/results/m45/shard2/records/190307.json": "830302983826e9ea6e07fe5efc283479513956342b818955becfd0a1bf05629b",
+      "inference_ablation/results/m45/shard2/records/197870.json": "a34e7572ac7eb8b4ce1ae5047947f48890d3989f64322f25baaf95a1b740ac9a",
+      "inference_ablation/results/m45/shard2/records/203389.json": "1fb8350cb045800987390328a2a0cdbcc6dd7e0d1e539052cfa9ef87bbbbd6b5",
+      "inference_ablation/results/m45/shard2/records/210502.json": "97f4ccd22c10b86c27539af7807d6326ba058a8127b3cb7c8eff0b46a5e319f0",
+      "inference_ablation/results/m45/shard2/records/220764.json": "14c7e965e5c1a5f767e342d23d76cdedb4bcb6f9a45cd825150fb13c4f61babc",
+      "inference_ablation/results/m45/shard2/records/22755.json": "32afbe6df5ed668f316b53f109cfd618325004e7d35541ff1ce203555d385534",
+      "inference_ablation/results/m45/shard2/records/235057.json": "98db680f4bca2a8d0183e47b1eec29d9c55be91742b2f77cc6f001597782beec",
+      "inference_ablation/results/m45/shard2/records/240049.json": "6bf2bd28338d66bd81e83cba1fd7943cd6135cbc49c579218f9951334f1c10d5",
+      "inference_ablation/results/m45/shard2/records/253819.json": "0ab9a009e5107670e67f66f29f5ee8ceaf1211d20f4f22e6ce5235d949ea0669",
+      "inference_ablation/results/m45/shard2/records/261116.json": "0bcd3b3cd381b70e49f03bb3acee467bb320550f77f9bfa2da53f6a02d537540",
+      "inference_ablation/results/m45/shard2/records/276018.json": "5e22611ef3b8bb7343ec74b8a5448b5d541628af9d88b8c11850f06c0c476e52",
+      "inference_ablation/results/m45/shard2/records/289417.json": "c8927d11ed8e2fac5084f80e2833282fb10dcadbe07267905d6f3a41cc19a60c",
+      "inference_ablation/results/m45/shard2/records/295713.json": "8a31c294757667adf527ca8a439a90e16151c39b7dfe3858bdaee448430fc6b4",
+      "inference_ablation/results/m45/shard2/records/308531.json": "ecc5672b41eab3793d6744daab55f1d855023f101f0f72223bc7215842c5e408",
+      "inference_ablation/results/m45/shard2/records/319184.json": "9d88728f562640ea64c987f0706ac5e4bf53a06b1ce3637b61c7ea54d51bd981",
+      "inference_ablation/results/m45/shard2/records/325031.json": "4adff0b2e27ef1e16901bfaf32d0b4c0d00741152efe312310f4e462d60c637b",
+      "inference_ablation/results/m45/shard2/records/329319.json": "7bed4fe0329ec255d95ae17976998d0de401cb5847fe97bf375b01f15c08ebe0",
+      "inference_ablation/results/m45/shard2/records/340015.json": "9574468a11a7ffb7570e772fbdb12d16345bb8df6ec02cdcc842151de4fbec54",
+      "inference_ablation/results/m45/shard2/records/352491.json": "389639c95b879884a887fcce5240226a566c66140f5ae4412acfbad781ffb754",
+      "inference_ablation/results/m45/shard2/records/3553.json": "4b40aeaed494f4e19df77c8a5568e36f352f83e9d457dfad5f79f7fd02811018",
+      "inference_ablation/results/m45/shard2/records/360943.json": "488725182670ee3c0185c9d0881f2ea523196f27fc50c44dd444d94edcd6ba91",
+      "inference_ablation/results/m45/shard2/records/372203.json": "4d16515ce84bb52ddf515bcea57723311bdbb4a27fe6b6703cc7fb098d1e916b",
+      "inference_ablation/results/m45/shard2/records/377486.json": "91fe80be0030c42e2caf1c7bbb8c1307a3b06f6c83693e93df109863e7f0875b",
+      "inference_ablation/results/m45/shard2/records/384949.json": "40faed4f056f9774bbc1e4681eac37410bbbb78d31f07e7516ce656d41899138",
+      "inference_ablation/results/m45/shard2/records/39477.json": "b67e16cd7cf3162dcbacec475eec470d80624893564605ed17039fa3ab15b64a",
+      "inference_ablation/results/m45/shard2/records/398377.json": "14729c36cbaa4c566f6846007abdb5cb2b91b10604e192c04d1c3257c3439c66",
+      "inference_ablation/results/m45/shard2/records/409630.json": "8fc8ff1bd5a45e3673c29fd8b02df4918f71233605808f6116722e78f9cb1d80",
+      "inference_ablation/results/m45/shard2/records/416745.json": "3baac0222a3f9234b683934e0fe2dadd00cb0e9d593132743074184c51f4f1e1",
+      "inference_ablation/results/m45/shard2/records/426372.json": "63cf42e3d1eeab7182aa3ac9512f7779a204b34217fdf147becb1d6f6aaf7b70",
+      "inference_ablation/results/m45/shard2/records/434548.json": "8dcf13b977c5680a44feecae6c0dfc3d999c31a05d4b758cc3d87aa2380454eb",
+      "inference_ablation/results/m45/shard2/records/441286.json": "7bbebcab3a0739e07f3245235311277f5681f1db0a8ce7f00efc1e67dabdcb2a",
+      "inference_ablation/results/m45/shard2/records/448410.json": "3a698888e0abafb2e373d2fd6710cf9054da5bb6fdd83d6a4daf1fb227f97885",
+      "inference_ablation/results/m45/shard2/records/460147.json": "236a62780302ff208b8eb31b7cf0baabb383a241ca38157673a6925a693febff",
+      "inference_ablation/results/m45/shard2/records/470173.json": "16fd1c97a3cd0cc556a7ea929a6fe13259a2e72ee2fe66b9411073a4dab90189",
+      "inference_ablation/results/m45/shard2/records/474039.json": "b4bc3d21cf09347c846ec79991476a4c81cdd148e8f140099b18ec2cc4fe924a",
+      "inference_ablation/results/m45/shard2/records/476119.json": "a915bc0d6dd3e79852f3f7e1f2393110e493cff6802e970c1e49a887a007484b",
+      "inference_ablation/results/m45/shard2/records/488385.json": "3733e5292a7972ba0e60ac6044abec22f68096f3a1ad0132f11bddb9253fbe2a",
+      "inference_ablation/results/m45/shard2/records/49060.json": "fc6a9a1e0889e674ae88904e661ffdf6a584cb32168178d4c4899c205d2f5234",
+      "inference_ablation/results/m45/shard2/records/491008.json": "0747b0598a75b95dbfbdee7c6c16ad7b67d140d01481c026c13613c0cb20aced",
+      "inference_ablation/results/m45/shard2/records/502737.json": "8121def9423b20482343a68af54f1ff1e795d7b0f57af9aa4d832e30dbb430fa",
+      "inference_ablation/results/m45/shard2/records/515579.json": "84a1f5ccf5ef58f6f85b1b7a776132b716956ebac2815e2c66eb27be7fa363fe",
+      "inference_ablation/results/m45/shard2/records/521601.json": "e995f5f442f41a966e7bec40399009f5787426dfbecd7abd3355ef853f8264cc",
+      "inference_ablation/results/m45/shard2/records/527528.json": "ae76bc01fa8b469bc1828be43f4bb8cd0cb5e6d5159567d7935c2f623e494077",
+      "inference_ablation/results/m45/shard2/records/535608.json": "2942a807f6c2da956c6695ffb9e143f8334f0d9c9b1aaf1c4e38d3146dda388e",
+      "inference_ablation/results/m45/shard2/records/548267.json": "ef228e68a1826015b930e4fa12d8e97a9c5d3260a39b783941bb244908629d89",
+      "inference_ablation/results/m45/shard2/records/563267.json": "14868b8598ed9c1cb41f7acdd68c2261e80c0f012baa4a191c04701ac7473a71",
+      "inference_ablation/results/m45/shard2/records/572303.json": "affefde93213ac2c8d8120aa93ed9df1029a7ebedb3c494bc3137c89c8cb20b6",
+      "inference_ablation/results/m45/shard2/records/578093.json": "71965061ad16aca5edc44b7f69e43d9d898c64617710f4af790d8d27353cd865",
+      "inference_ablation/results/m45/shard2/records/60770.json": "10ed8b911a977eda10a2f574613213a5252408730ceadbb27566dc3f10f6ae09",
+      "inference_ablation/results/m45/shard2/records/67315.json": "37170542c356139d9e60477a8d6848fa49fbf16ceb4d84f6ff1092a2baccee84",
+      "inference_ablation/results/m45/shard2/records/74457.json": "0b34f290600e53eba56dcb0d3be53573aea8a75885597a787a4b1bab3b0aa399",
+      "inference_ablation/results/m45/shard2/records/87875.json": "b3a6175741695f9f1add75fa484c378e49ae9fca4e5cd897a6e1d1ab5708dbc6",
+      "inference_ablation/results/m45/shard2/records/93437.json": "0b324c7271b5172b41710dc983b6171d5933c7bc42bcd9078c63609af46cef94",
+      "inference_ablation/results/m45/shard3/records/102644.json": "fde0279d288ac42cba4840248a8414a932bacab960c30ce81c470ab55bbaf99e",
+      "inference_ablation/results/m45/shard3/records/113354.json": "7155229e4a166ab9a6a8cdc3fefcccf865787c66f0c1783588d320c3eb16f4d6",
+      "inference_ablation/results/m45/shard3/records/118515.json": "19e638f7988e849cf20120cee59e87fd641aa4e443da374b9c2433474e10030a",
+      "inference_ablation/results/m45/shard3/records/127270.json": "3d23af9dd5d9306d2420d4e6433a6bbbd04857da1c7f293c1e1667f9c0c3efa8",
+      "inference_ablation/results/m45/shard3/records/132329.json": "594fa20b8fb948dccc4fdd739988f0202bb5af19951b2e003b1826e934ba5c68",
+      "inference_ablation/results/m45/shard3/records/146825.json": "b1365af35da75e28a068d155fe3781e956ef907c00a449ee9a7167e5eb559c21",
+      "inference_ablation/results/m45/shard3/records/155051.json": "bf8e0a354f41b3624edde01fb480a1affc6c5845fdad771e6169fb0d42098353",
+      "inference_ablation/results/m45/shard3/records/165500.json": "9d433389001285d166af8e6d57cd2bff1d3ddb3ef62ad7fc91bdf6f16cf8ad6f",
+      "inference_ablation/results/m45/shard3/records/17436.json": "51651d3a15b72e3b65ca9c84db9d5f30fc37163c32dc8589ed5cb73db56d8cfc",
+      "inference_ablation/results/m45/shard3/records/176232.json": "c8dcf788c971f4b8fa8ce060c93404c3cd4efc3b17c6bbaba02a0560adcaf120",
+      "inference_ablation/results/m45/shard3/records/186345.json": "a65501230b0699e22c364b148e19cc58d58da736f4ddcdbe7228b2958a00f235",
+      "inference_ablation/results/m45/shard3/records/190637.json": "ebaba8321a280d25d15913e49a6795896cc2b7498c21d7ad55a80caa952e841d",
+      "inference_ablation/results/m45/shard3/records/199395.json": "248f62482bb0489540f0505cfb43d0c9f7505093da9a86a589fe7fec33cd1e9e",
+      "inference_ablation/results/m45/shard3/records/204186.json": "78f0cf9fb7ffbd6320942f207f4d624ea3e70a216ef9d148770f0344923c84cb",
+      "inference_ablation/results/m45/shard3/records/210855.json": "dd1ebce0f538d235df9e90851c446dc8b590eb98e9034712e1c1e3cbc81d4692",
+      "inference_ablation/results/m45/shard3/records/221155.json": "0694e0aaad2b9edd852d91d4ce4e2185d21384dc0de8fc540b609b2f95edc181",
+      "inference_ablation/results/m45/shard3/records/236166.json": "b5b396160d05080e919531e1a4bb100258de36a955f8042df12fc10050580c91",
+      "inference_ablation/results/m45/shard3/records/23751.json": "b056f0ed995650f6b408ebcc8eda5c74a003aa96f130f3afd4b2862bfca9aa9e",
+      "inference_ablation/results/m45/shard3/records/243075.json": "8def351804a7a92031fa85521131054cef3d7678418824963304113e065411f1",
+      "inference_ablation/results/m45/shard3/records/254368.json": "0e5597e182b089b734d36db39e298e0133a449ebf4e227561e2e914c1791604f",
+      "inference_ablation/results/m45/shard3/records/267191.json": "c4680645e924ae6354dbee00bfc63d2876144a25b25025f68a570e27325b0943",
+      "inference_ablation/results/m45/shard3/records/279769.json": "73716f7910c66964bc2d6d4d1edf9687c35780a54d2d43785751e0e104c2374f",
+      "inference_ablation/results/m45/shard3/records/291551.json": "9b2f0d465afa4847b44ae687236f7fad48d0357e438f0e1fbaf247420a623ecf",
+      "inference_ablation/results/m45/shard3/records/297085.json": "321fedb942c7a0fe0bea2c8f5dc0fa6a4422a44ae4dea3e88c975751b3f661ed",
+      "inference_ablation/results/m45/shard3/records/310072.json": "3ff128f720ed7a432b91d7206d697f88e56f2eddacefad43bd3236af8e94e04a",
+      "inference_ablation/results/m45/shard3/records/321557.json": "eee2121b7cea83d540ab79710cfbd174c5fb26b5fa17f392551e968c72c965b7",
+      "inference_ablation/results/m45/shard3/records/328030.json": "491c03c5b6daadd7a14ff15cf8d24f1ba9577bb839eb810779ffbcc365cf04f4",
+      "inference_ablation/results/m45/shard3/records/330554.json": "d3450443919a2c2ad4a709eafafe2f845de58a21de8f744b8095f6d506bb3414",
+      "inference_ablation/results/m45/shard3/records/343149.json": "a427c86bb1fefb0e4f1dae6f46ab96ece9cbd0f36446fb819b82f8820aaac128",
+      "inference_ablation/results/m45/shard3/records/354829.json": "165a13420fe544454310c9a9f75367d2df7a9e22d169342b1705097cf8a34ea0",
+      "inference_ablation/results/m45/shard3/records/368982.json": "a0ed6ad6095b30eafd935a6d8c39986223a5918ff9a5e51b8cf66901fd4f0fa4",
+      "inference_ablation/results/m45/shard3/records/374551.json": "5b0ffc8f87d0a6477daf1f0188f19d10e0a6ff9410b278f783723b92d2d6fe44",
+      "inference_ablation/results/m45/shard3/records/380706.json": "7a01033b99fc1bc4f237b7076d45071d5b899dac3847544533311d67db923270",
+      "inference_ablation/results/m45/shard3/records/388258.json": "4c2c9e134b14b188cf7490d5f0f88277f9b6b25b7c425c6125d92225b5501b4a",
+      "inference_ablation/results/m45/shard3/records/39914.json": "6e186b5dae6e102e164ded7c1824c17951ef0466476472b9af53a88e4c684521",
+      "inference_ablation/results/m45/shard3/records/399296.json": "4581bbcf4d517260b94c358557ede255517a97b0caf02b11191e0bc2935f4845",
+      "inference_ablation/results/m45/shard3/records/410221.json": "3d862990ea831d91438ba3263bb73db14403113ded1889b7b7deeb0598f6bcb9",
+      "inference_ablation/results/m45/shard3/records/417465.json": "69e5c1e8550720cfb56515a0be92d8d8724d05afd88441ff5488849f4cbd55b0",
+      "inference_ablation/results/m45/shard3/records/427256.json": "c7fbfad529062b16a071e36566e8a5b42acd97468291ebad94999253c96e59a4",
+      "inference_ablation/results/m45/shard3/records/435003.json": "de33ff80f960706226352a31aaa7a175d8e44b86d0abc24283a9a5246d962095",
+      "inference_ablation/results/m45/shard3/records/442323.json": "1f8444a2d8ae5b35868ce131b5b1509ce1724ed34da9d289b05a17f98df73fac",
+      "inference_ablation/results/m45/shard3/records/453981.json": "6424272336833ae490a13688de78c35dac363bcff011bed8c45fe0c001de1a9d",
+      "inference_ablation/results/m45/shard3/records/460494.json": "5b2b16f9d9a91cf990e2cb321a2ae3d186a48c4a810f87a1c53767a5854925ad",
+      "inference_ablation/results/m45/shard3/records/470924.json": "20a8abe6c7e3cc8ed532046e31b2efc5b224fea1f7a0b33067d2ad5baab323bb",
+      "inference_ablation/results/m45/shard3/records/474167.json": "34639fb5b310d358bd8b0350008e7b59e3fe8a8cd91ae5bf9f00868e924a9fa1",
+      "inference_ablation/results/m45/shard3/records/479155.json": "e539a4e974cbd5c49e611c0897a3a7370a2552e8748f8deead964590363854e4",
+      "inference_ablation/results/m45/shard3/records/488710.json": "afbcc5bfbc08f4b1c66979af9ac09ebb90425c0adbde446d015a9f726ed9ac1b",
+      "inference_ablation/results/m45/shard3/records/491216.json": "0e79170138c0c724d2b4eb493ec8b191f4c776bd765930a77fd391d0ba601ee2",
+      "inference_ablation/results/m45/shard3/records/49759.json": "072ad53057a8f6a5760e6d14e550cd103f8479ec2f5cc4023b2bc6d0264958f2",
+      "inference_ablation/results/m45/shard3/records/508312.json": "872779a4ab573453968e0a415b6060ea4f85797141a86c4783cdd163a93e6def",
+      "inference_ablation/results/m45/shard3/records/515982.json": "f67bfbba7a10ee5e646872f42f93aaedc669f86809c586d337303983fbdab72c",
+      "inference_ablation/results/m45/shard3/records/522889.json": "ab82f622bbe76e2a571eadd64b95f167445e8c38ba3c689bdf5bd6ba40d06743",
+      "inference_ablation/results/m45/shard3/records/530470.json": "50e42277a5aa4a6a230f4f61d389504269a2972c5e45d6f23dc93aff3a03354e",
+      "inference_ablation/results/m45/shard3/records/541634.json": "02361be0a2ed536820f508fd0d8f3cfd35c66a58608ea21ebd1c5723d4a95ab6",
+      "inference_ablation/results/m45/shard3/records/549220.json": "bf4b9f056eae3f3a42af2a19841b6200f847843d7a20eb92578052229d06a564",
+      "inference_ablation/results/m45/shard3/records/563653.json": "9dad0b7872c3ad01009dd06c6588ba2023c671f950b649e93d762c230b13f58d",
+      "inference_ablation/results/m45/shard3/records/573258.json": "eaac88b049a81a72b37b9221b3c34df4a2f632bd31b79f44cfb59de9326d8269",
+      "inference_ablation/results/m45/shard3/records/579091.json": "8c9b5f6e119a14003e05ead7931db678e62b4fb0db66b673cac9923ffec9affc",
+      "inference_ablation/results/m45/shard3/records/61108.json": "6e693c7179d8fdfcaf6386c736f5e91d094ca636a3a572e3fe93068011bdaa2b",
+      "inference_ablation/results/m45/shard3/records/69106.json": "0a37a7708cc2668febf0caccf5651b8b67397fbf8414ed566e211f1455f320e1",
+      "inference_ablation/results/m45/shard3/records/82180.json": "9be76aaf77ab261527601fb22f67e7ee09cd3ee4877abad2463e0bbabeabec5b",
+      "inference_ablation/results/m45/shard3/records/88432.json": "b5c41f800f33aa5ca810987c4b6f713de1012d03f38daa693be3bdb06ed98905",
+      "inference_ablation/results/m45/shard3/records/95843.json": "fcd824b9dca71d6c85fa8c8047a17659c8916b66edcab8c51c25a85b01cfeb26",
+      "inference_ablation/results/m45/shard3/records/9914.json": "2d488730e81dec71e7a0718b6c64d24fd66460dbd7536939129f83fa30a3d167"
+    }
+  },
+  "results": {
+    "baseline": {
+      "images": 256,
+      "detections": 2020,
+      "meanIoU": {
+        "precision": 0.34879568918697484,
+        "recall": 0.361027027027027,
+        "F1": 0.3548059757193003
+      },
+      "IoU50": {
+        "precision": 0.5080269290523045,
+        "recall": 0.5302702702702703,
+        "F1": 0.518910341179582
+      },
+      "IoU95": {
+        "precision": 0.09229155742003146,
+        "recall": 0.09513513513513513,
+        "F1": 0.09369177535267502
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 27,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_vote_s1_none": {
+      "images": 256,
+      "detections": 19355,
+      "meanIoU": {
+        "precision": 0.03954887297331906,
+        "recall": 0.28124324324324323,
+        "F1": 0.06934617616426969
+      },
+      "IoU50": {
+        "precision": 0.07757243896874287,
+        "recall": 0.5513513513513514,
+        "F1": 0.13600906727115142
+      },
+      "IoU95": {
+        "precision": 0.0030952740449947153,
+        "recall": 0.02216216216216216,
+        "F1": 0.00543190249072602
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 649,
+        "detections_above_cap": 4871
+      }
+    },
+    "t0.7_vote_s1_nms70": {
+      "images": 256,
+      "detections": 19100,
+      "meanIoU": {
+        "precision": 0.039836726277245785,
+        "recall": 0.2802702702702703,
+        "F1": 0.06975823809430005
+      },
+      "IoU50": {
+        "precision": 0.07840725651472058,
+        "recall": 0.5513513513513514,
+        "F1": 0.1372905309913184
+      },
+      "IoU95": {
+        "precision": 0.003128338165725622,
+        "recall": 0.02216216216216216,
+        "F1": 0.005482749398234822
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 646,
+        "detections_above_cap": 4760
+      }
+    },
+    "t0.7_vote_s4_none": {
+      "images": 256,
+      "detections": 4189,
+      "meanIoU": {
+        "precision": 0.1310042616915758,
+        "recall": 0.258054054054054,
+        "F1": 0.1737846459499514
+      },
+      "IoU50": {
+        "precision": 0.24473612250478535,
+        "recall": 0.4837837837837838,
+        "F1": 0.32504085709097513
+      },
+      "IoU95": {
+        "precision": 0.011156462585034013,
+        "recall": 0.02216216216216216,
+        "F1": 0.014841628959276019
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 64,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_vote_s4_nms70": {
+      "images": 256,
+      "detections": 4124,
+      "meanIoU": {
+        "precision": 0.1327875157803094,
+        "recall": 0.2571891891891892,
+        "F1": 0.17514642840348912
+      },
+      "IoU50": {
+        "precision": 0.2486095661846496,
+        "recall": 0.48324324324324325,
+        "F1": 0.3283143591626882
+      },
+      "IoU95": {
+        "precision": 0.011344770337576093,
+        "recall": 0.02216216216216216,
+        "F1": 0.01500732064421669
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 64,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_vote_s8_none": {
+      "images": 256,
+      "detections": 2568,
+      "meanIoU": {
+        "precision": 0.19694575486679838,
+        "recall": 0.24475675675675673,
+        "F1": 0.21826366366370553
+      },
+      "IoU50": {
+        "precision": 0.354419410745234,
+        "recall": 0.44216216216216214,
+        "F1": 0.39345839345839345
+      },
+      "IoU95": {
+        "precision": 0.01767241379310345,
+        "recall": 0.02216216216216216,
+        "F1": 0.019664268585131893
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 30,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_vote_s8_nms70": {
+      "images": 256,
+      "detections": 2544,
+      "meanIoU": {
+        "precision": 0.19862860052390544,
+        "recall": 0.2444864864864865,
+        "F1": 0.21918463208037264
+      },
+      "IoU50": {
+        "precision": 0.357830271216098,
+        "recall": 0.44216216216216214,
+        "F1": 0.39555125725338486
+      },
+      "IoU95": {
+        "precision": 0.01784160139251523,
+        "recall": 0.02216216216216216,
+        "F1": 0.019768563162970106
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 30,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_vote_s16_none": {
+      "images": 256,
+      "detections": 1649,
+      "meanIoU": {
+        "precision": 0.28079110408351926,
+        "recall": 0.22956756756756755,
+        "F1": 0.252608741027269
+      },
+      "IoU50": {
+        "precision": 0.4894875164257556,
+        "recall": 0.4027027027027027,
+        "F1": 0.44187425860023727
+      },
+      "IoU95": {
+        "precision": 0.024967148488830485,
+        "recall": 0.02054054054054054,
+        "F1": 0.022538552787663108
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 18,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_vote_s16_nms70": {
+      "images": 256,
+      "detections": 1640,
+      "meanIoU": {
+        "precision": 0.2821385577945087,
+        "recall": 0.2292972972972973,
+        "F1": 0.25298816311588185
+      },
+      "IoU50": {
+        "precision": 0.49239920687376076,
+        "recall": 0.4027027027027027,
+        "F1": 0.4430567945286947
+      },
+      "IoU95": {
+        "precision": 0.02511566424322538,
+        "recall": 0.02054054054054054,
+        "F1": 0.02259887005649717
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 18,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_vote_s32_none": {
+      "images": 256,
+      "detections": 1144,
+      "meanIoU": {
+        "precision": 0.37356039696151194,
+        "recall": 0.2195135135135135,
+        "F1": 0.2765306441514002
+      },
+      "IoU50": {
+        "precision": 0.6356164383561644,
+        "recall": 0.3762162162162162,
+        "F1": 0.4726655348047539
+      },
+      "IoU95": {
+        "precision": 0.03486238532110092,
+        "recall": 0.02054054054054054,
+        "F1": 0.02585034013605442
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 13,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_vote_s32_nms70": {
+      "images": 256,
+      "detections": 1142,
+      "meanIoU": {
+        "precision": 0.3740640012778385,
+        "recall": 0.2194054054054054,
+        "F1": 0.2765826272549104
+      },
+      "IoU50": {
+        "precision": 0.636779505946935,
+        "recall": 0.3762162162162162,
+        "F1": 0.47298674821610603
+      },
+      "IoU95": {
+        "precision": 0.034926470588235295,
+        "recall": 0.02054054054054054,
+        "F1": 0.02586793737236215
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 13,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_member_s1_none": {
+      "images": 256,
+      "detections": 19355,
+      "meanIoU": {
+        "precision": 0.05944664652468318,
+        "recall": 0.42421621621621625,
+        "F1": 0.10428020589603758
+      },
+      "IoU50": {
+        "precision": 0.10371997878627169,
+        "recall": 0.74,
+        "F1": 0.18193899926905444
+      },
+      "IoU95": {
+        "precision": 0.009420453689049665,
+        "recall": 0.06756756756756757,
+        "F1": 0.016535485151134337
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 649,
+        "detections_above_cap": 4871
+      }
+    },
+    "t0.7_member_s1_nms70": {
+      "images": 256,
+      "detections": 19188,
+      "meanIoU": {
+        "precision": 0.059850412041531166,
+        "recall": 0.42308108108108106,
+        "F1": 0.10486612445152846
+      },
+      "IoU50": {
+        "precision": 0.10462715105162523,
+        "recall": 0.7394594594594595,
+        "F1": 0.18331658291457287
+      },
+      "IoU95": {
+        "precision": 0.00951004260499087,
+        "recall": 0.06756756756756757,
+        "F1": 0.01667333600106709
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 649,
+        "detections_above_cap": 4833
+      }
+    },
+    "t0.7_member_s4_none": {
+      "images": 256,
+      "detections": 4189,
+      "meanIoU": {
+        "precision": 0.2019004748628473,
+        "recall": 0.4022702702702703,
+        "F1": 0.268859620380588
+      },
+      "IoU50": {
+        "precision": 0.3417004048582996,
+        "recall": 0.6843243243243243,
+        "F1": 0.45580558055805587
+      },
+      "IoU95": {
+        "precision": 0.03382034632034632,
+        "recall": 0.06756756756756757,
+        "F1": 0.04507753335737469
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 64,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_member_s4_nms70": {
+      "images": 256,
+      "detections": 4101,
+      "meanIoU": {
+        "precision": 0.20600278979106088,
+        "recall": 0.4012972972972973,
+        "F1": 0.27224880923433264
+      },
+      "IoU50": {
+        "precision": 0.34915815622412366,
+        "recall": 0.6837837837837838,
+        "F1": 0.4622693221268044
+      },
+      "IoU95": {
+        "precision": 0.0345972875726543,
+        "recall": 0.06756756756756757,
+        "F1": 0.04576240161083654
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 64,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_member_s8_none": {
+      "images": 256,
+      "detections": 2568,
+      "meanIoU": {
+        "precision": 0.3068951300205633,
+        "recall": 0.3883783783783784,
+        "F1": 0.34286200032007264
+      },
+      "IoU50": {
+        "precision": 0.5076271186440678,
+        "recall": 0.6475675675675676,
+        "F1": 0.5691211401425179
+      },
+      "IoU95": {
+        "precision": 0.05348737697903295,
+        "recall": 0.06756756756756757,
+        "F1": 0.05970862192500598
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 30,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_member_s8_nms70": {
+      "images": 256,
+      "detections": 2522,
+      "meanIoU": {
+        "precision": 0.312126961094154,
+        "recall": 0.38772972972972974,
+        "F1": 0.3458448103823377
+      },
+      "IoU50": {
+        "precision": 0.5166163141993958,
+        "recall": 0.6470270270270271,
+        "F1": 0.5745140388768899
+      },
+      "IoU95": {
+        "precision": 0.05448997384481256,
+        "recall": 0.06756756756756757,
+        "F1": 0.06032818532818533
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 29,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_member_s16_none": {
+      "images": 256,
+      "detections": 1649,
+      "meanIoU": {
+        "precision": 0.4335022644126078,
+        "recall": 0.3625945945945946,
+        "F1": 0.3948905865965895
+      },
+      "IoU50": {
+        "precision": 0.6938775510204082,
+        "recall": 0.5881081081081081,
+        "F1": 0.63662960795787
+      },
+      "IoU95": {
+        "precision": 0.07697325505544683,
+        "recall": 0.06378378378378378,
+        "F1": 0.06976056754360035
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 18,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_member_s16_nms70": {
+      "images": 256,
+      "detections": 1633,
+      "meanIoU": {
+        "precision": 0.43776920628224003,
+        "recall": 0.3623783783783784,
+        "F1": 0.39652208696932856
+      },
+      "IoU50": {
+        "precision": 0.7003865979381443,
+        "recall": 0.5875675675675676,
+        "F1": 0.6390358612580834
+      },
+      "IoU95": {
+        "precision": 0.07778510217534608,
+        "recall": 0.06378378378378378,
+        "F1": 0.0700920700920701
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 18,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_member_s32_none": {
+      "images": 256,
+      "detections": 1144,
+      "meanIoU": {
+        "precision": 0.5514523490873151,
+        "recall": 0.33075675675675675,
+        "F1": 0.41349967775611085
+      },
+      "IoU50": {
+        "precision": 0.8413547237076648,
+        "recall": 0.5102702702702703,
+        "F1": 0.6352624495289366
+      },
+      "IoU95": {
+        "precision": 0.10420475319926874,
+        "recall": 0.061621621621621624,
+        "F1": 0.07744565217391304
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 13,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.7_member_s32_nms70": {
+      "images": 256,
+      "detections": 1141,
+      "meanIoU": {
+        "precision": 0.5529474549805311,
+        "recall": 0.33075675675675675,
+        "F1": 0.4139192830295892
+      },
+      "IoU50": {
+        "precision": 0.8436103663985701,
+        "recall": 0.5102702702702703,
+        "F1": 0.6359043448972718
+      },
+      "IoU95": {
+        "precision": 0.10449129239230064,
+        "recall": 0.061621621621621624,
+        "F1": 0.07752465147908875
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 13,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_vote_s1_none": {
+      "images": 256,
+      "detections": 16255,
+      "meanIoU": {
+        "precision": 0.05180118082185464,
+        "recall": 0.301945945945946,
+        "F1": 0.08843128529289081
+      },
+      "IoU50": {
+        "precision": 0.09432913269088214,
+        "recall": 0.5502702702702703,
+        "F1": 0.16105046669830722
+      },
+      "IoU95": {
+        "precision": 0.0066359447004608295,
+        "recall": 0.03891891891891892,
+        "F1": 0.011338582677165355
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 882,
+        "detections_above_cap": 4349
+      }
+    },
+    "t0.5_vote_s1_nms70": {
+      "images": 256,
+      "detections": 15768,
+      "meanIoU": {
+        "precision": 0.05314622845069853,
+        "recall": 0.3015675675675676,
+        "F1": 0.09036681978076819
+      },
+      "IoU50": {
+        "precision": 0.09707813838393452,
+        "recall": 0.5513513513513514,
+        "F1": 0.16508861374119932
+      },
+      "IoU95": {
+        "precision": 0.006816245384833854,
+        "recall": 0.03891891891891892,
+        "F1": 0.011600741158462904
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 868,
+        "detections_above_cap": 4153
+      }
+    },
+    "t0.5_vote_s4_none": {
+      "images": 256,
+      "detections": 4360,
+      "meanIoU": {
+        "precision": 0.14027893856636814,
+        "recall": 0.28605405405405404,
+        "F1": 0.1882442117776039
+      },
+      "IoU50": {
+        "precision": 0.24610920601424427,
+        "recall": 0.5043243243243243,
+        "F1": 0.330792412692785
+      },
+      "IoU95": {
+        "precision": 0.018674381904260916,
+        "recall": 0.038378378378378375,
+        "F1": 0.025123849964614295
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 90,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_vote_s4_nms70": {
+      "images": 256,
+      "detections": 4271,
+      "meanIoU": {
+        "precision": 0.1433047875244107,
+        "recall": 0.28567567567567564,
+        "F1": 0.19086506503444384
+      },
+      "IoU50": {
+        "precision": 0.25168599946048015,
+        "recall": 0.5043243243243243,
+        "F1": 0.3357926938995861
+      },
+      "IoU95": {
+        "precision": 0.019106566200215284,
+        "recall": 0.038378378378378375,
+        "F1": 0.02551203736974488
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 90,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_vote_s8_none": {
+      "images": 256,
+      "detections": 2697,
+      "meanIoU": {
+        "precision": 0.21464468610002663,
+        "recall": 0.27864864864864863,
+        "F1": 0.24249446529358934
+      },
+      "IoU50": {
+        "precision": 0.3678113363673976,
+        "recall": 0.4805405405405405,
+        "F1": 0.4166861963909069
+      },
+      "IoU95": {
+        "precision": 0.02818068794032325,
+        "recall": 0.036756756756756756,
+        "F1": 0.03190241613886934
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 34,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_vote_s8_nms70": {
+      "images": 256,
+      "detections": 2657,
+      "meanIoU": {
+        "precision": 0.21793283389219184,
+        "recall": 0.27837837837837837,
+        "F1": 0.24447478676439438
+      },
+      "IoU50": {
+        "precision": 0.37368642286675074,
+        "recall": 0.4805405405405405,
+        "F1": 0.42043036178765664
+      },
+      "IoU95": {
+        "precision": 0.02864363942712721,
+        "recall": 0.036756756756756756,
+        "F1": 0.032196969696969696
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 34,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_vote_s16_none": {
+      "images": 256,
+      "detections": 1773,
+      "meanIoU": {
+        "precision": 0.30332857515741585,
+        "recall": 0.2669189189189189,
+        "F1": 0.2839613893941827
+      },
+      "IoU50": {
+        "precision": 0.5042735042735043,
+        "recall": 0.4464864864864865,
+        "F1": 0.47362385321100914
+      },
+      "IoU95": {
+        "precision": 0.04095354523227384,
+        "recall": 0.036216216216216214,
+        "F1": 0.03843947217441193
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 23,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_vote_s16_nms70": {
+      "images": 256,
+      "detections": 1763,
+      "meanIoU": {
+        "precision": 0.3049312965414856,
+        "recall": 0.26675675675675675,
+        "F1": 0.28456947186406994
+      },
+      "IoU50": {
+        "precision": 0.5070595457335789,
+        "recall": 0.4464864864864865,
+        "F1": 0.47484909456740443
+      },
+      "IoU95": {
+        "precision": 0.04120541205412054,
+        "recall": 0.036216216216216214,
+        "F1": 0.03855005753739931
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 23,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_vote_s32_none": {
+      "images": 256,
+      "detections": 1274,
+      "meanIoU": {
+        "precision": 0.3960023575877406,
+        "recall": 0.256,
+        "F1": 0.31097005206401956
+      },
+      "IoU50": {
+        "precision": 0.6448132780082988,
+        "recall": 0.42,
+        "F1": 0.5086743044189853
+      },
+      "IoU95": {
+        "precision": 0.055926544240400666,
+        "recall": 0.036216216216216214,
+        "F1": 0.043963254593175856
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 13,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_vote_s32_nms70": {
+      "images": 256,
+      "detections": 1273,
+      "meanIoU": {
+        "precision": 0.39618431275249905,
+        "recall": 0.256,
+        "F1": 0.3110261381068495
+      },
+      "IoU50": {
+        "precision": 0.6448132780082988,
+        "recall": 0.42,
+        "F1": 0.5086743044189853
+      },
+      "IoU95": {
+        "precision": 0.055973266499582286,
+        "recall": 0.036216216216216214,
+        "F1": 0.04397768296685264
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 13,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_member_s1_none": {
+      "images": 256,
+      "detections": 16255,
+      "meanIoU": {
+        "precision": 0.07304773538019423,
+        "recall": 0.42751351351351347,
+        "F1": 0.12477551578597551
+      },
+      "IoU50": {
+        "precision": 0.1209967697277342,
+        "recall": 0.7086486486486486,
+        "F1": 0.20670082774931023
+      },
+      "IoU95": {
+        "precision": 0.013706190782816667,
+        "recall": 0.08054054054054054,
+        "F1": 0.023425831302570553
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 882,
+        "detections_above_cap": 4349
+      }
+    },
+    "t0.5_member_s1_nms70": {
+      "images": 256,
+      "detections": 15809,
+      "meanIoU": {
+        "precision": 0.07484911239962315,
+        "recall": 0.427027027027027,
+        "F1": 0.12737243886564262
+      },
+      "IoU50": {
+        "precision": 0.12439647827321784,
+        "recall": 0.7102702702702702,
+        "F1": 0.21171352614194797
+      },
+      "IoU95": {
+        "precision": 0.013871850523733131,
+        "recall": 0.07945945945945945,
+        "F1": 0.02362014943359846
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 871,
+        "detections_above_cap": 4183
+      }
+    },
+    "t0.5_member_s4_none": {
+      "images": 256,
+      "detections": 4360,
+      "meanIoU": {
+        "precision": 0.19972263147869262,
+        "recall": 0.41183783783783784,
+        "F1": 0.2689949427483205
+      },
+      "IoU50": {
+        "precision": 0.3238665971860344,
+        "recall": 0.6718918918918919,
+        "F1": 0.4370604781997187
+      },
+      "IoU95": {
+        "precision": 0.038702928870292884,
+        "recall": 0.08,
+        "F1": 0.05216778286922806
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 90,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_member_s4_nms70": {
+      "images": 256,
+      "detections": 4233,
+      "meanIoU": {
+        "precision": 0.20553029674946283,
+        "recall": 0.4106486486486486,
+        "F1": 0.2739487911648509
+      },
+      "IoU50": {
+        "precision": 0.3336021505376344,
+        "recall": 0.6708108108108108,
+        "F1": 0.44560143626570925
+      },
+      "IoU95": {
+        "precision": 0.03942749122333243,
+        "recall": 0.07891891891891892,
+        "F1": 0.052584188726814335
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 89,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_member_s8_none": {
+      "images": 256,
+      "detections": 2697,
+      "meanIoU": {
+        "precision": 0.3031446187859138,
+        "recall": 0.3996756756756757,
+        "F1": 0.34478096690000126
+      },
+      "IoU50": {
+        "precision": 0.4825487012987013,
+        "recall": 0.6427027027027027,
+        "F1": 0.5512285581826611
+      },
+      "IoU95": {
+        "precision": 0.0594059405940594,
+        "recall": 0.07783783783783783,
+        "F1": 0.06738418343472158
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 34,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_member_s8_nms70": {
+      "images": 256,
+      "detections": 2624,
+      "meanIoU": {
+        "precision": 0.3112276010739435,
+        "recall": 0.3988108108108108,
+        "F1": 0.3496175132315206
+      },
+      "IoU50": {
+        "precision": 0.4958263772954925,
+        "recall": 0.6421621621621622,
+        "F1": 0.5595854922279794
+      },
+      "IoU95": {
+        "precision": 0.06074766355140187,
+        "recall": 0.0772972972972973,
+        "F1": 0.0680304471931494
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 34,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_member_s16_none": {
+      "images": 256,
+      "detections": 1773,
+      "meanIoU": {
+        "precision": 0.42316486827004596,
+        "recall": 0.3804864864864865,
+        "F1": 0.4006924469911818
+      },
+      "IoU50": {
+        "precision": 0.6577856719952635,
+        "recall": 0.6005405405405405,
+        "F1": 0.6278609776773101
+      },
+      "IoU95": {
+        "precision": 0.08571428571428572,
+        "recall": 0.07621621621621621,
+        "F1": 0.08068669527896995
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 23,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_member_s16_nms70": {
+      "images": 256,
+      "detections": 1754,
+      "meanIoU": {
+        "precision": 0.4267964896663419,
+        "recall": 0.37994594594594594,
+        "F1": 0.40201082485419093
+      },
+      "IoU50": {
+        "precision": 0.6634787806335923,
+        "recall": 0.6,
+        "F1": 0.6301447629860915
+      },
+      "IoU95": {
+        "precision": 0.0860479409956976,
+        "recall": 0.07567567567567568,
+        "F1": 0.08052919183203912
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 23,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_member_s32_none": {
+      "images": 256,
+      "detections": 1274,
+      "meanIoU": {
+        "precision": 0.5344217655376636,
+        "recall": 0.3525405405405405,
+        "F1": 0.42483279573025307
+      },
+      "IoU50": {
+        "precision": 0.8017727639000806,
+        "recall": 0.5378378378378378,
+        "F1": 0.6438045939825299
+      },
+      "IoU95": {
+        "precision": 0.11554447215295095,
+        "recall": 0.07513513513513513,
+        "F1": 0.091057975761546
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 13,
+        "detections_above_cap": 0
+      }
+    },
+    "t0.5_member_s32_nms70": {
+      "images": 256,
+      "detections": 1273,
+      "meanIoU": {
+        "precision": 0.5346186594479101,
+        "recall": 0.3525405405405405,
+        "F1": 0.42489499333891595
+      },
+      "IoU50": {
+        "precision": 0.8017727639000806,
+        "recall": 0.5378378378378378,
+        "F1": 0.6438045939825299
+      },
+      "IoU95": {
+        "precision": 0.11564059900166389,
+        "recall": 0.07513513513513513,
+        "F1": 0.0910878112712975
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 13,
+        "detections_above_cap": 0
+      }
+    }
+  }
+}

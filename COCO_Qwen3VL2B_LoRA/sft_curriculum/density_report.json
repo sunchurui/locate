@@ -1,0 +1,16 @@
+{
+  "images": 118287,
+  "max_per_class_quantiles": {
+    "0": 0,
+    "0.25": 1,
+    "0.5": 2,
+    "0.75": 5,
+    "0.9": 12,
+    "0.95": 13,
+    "0.99": 13,
+    "1": 27
+  },
+  "max_total_boxes": 90,
+  "images_above_class50": 0,
+  "images_above_total500": 0
+}

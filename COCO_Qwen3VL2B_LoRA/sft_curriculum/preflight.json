@@ -1,0 +1,26 @@
+{
+  "real_image_ids": [
+    301200,
+    157105
+  ],
+  "padded_shape": [
+    2,
+    831
+  ],
+  "visual_grid": [
+    [
+      1,
+      26,
+      40
+    ],
+    [
+      1,
+      26,
+      40
+    ]
+  ],
+  "coordinate_ids_verified": true,
+  "sequential_order_verified": true,
+  "same_unique_image_set_verified": true,
+  "phase1_end_step": 7392
+}

@@ -1,0 +1,45 @@
+{
+  "method": "m30_density_order_ablation",
+  "seed": 42,
+  "phase2_shuffle_seed": 43,
+  "density": {
+    "images": 118287,
+    "max_per_class_quantiles": {
+      "0": 0,
+      "0.25": 1,
+      "0.5": 2,
+      "0.75": 5,
+      "0.9": 12,
+      "0.95": 13,
+      "0.99": 13,
+      "1": 27
+    },
+    "max_total_boxes": 90,
+    "images_above_class50": 0,
+    "images_above_total500": 0
+  },
+  "sparse_max_per_class": 5,
+  "sparse_images": 89385,
+  "dense_images": 28902,
+  "phase1_images": 59136,
+  "phase2_images": 59151,
+  "phase1_end_step": 7392,
+  "unique_images": 118287,
+  "every_image_seen_exactly_once": true,
+  "optimizer_updates": 14786,
+  "threshold_rule": "class50 if >=10% images above50, else training-only75th percentile; no val-based choice",
+  "scope": "M30-inspired ORDER ablation: fixed image/context budget, no pixel decoder/vision unfreezing; not full WeVisOne curriculum",
+  "inputs": {
+    "train_annotations": "610fce4944abdeb15354cc765333805529359d12d88f2f711393ca586901d01d",
+    "train_rows": "4ac07f7d1c658fe7a8c1a0fa83b209504601b20ab1ef91dccea5203ee4ad4a52",
+    "val_rows": "e3a1faadbb09959c06635ad9b6c424b85bb7083aae0f1d0ea273ef67545e2158",
+    "baseline_train": "2e8bb7c4ed94e65794b9c613570c1c7dc50ad9e5b48ec16cae836bdf3937577f",
+    "val_manifest": "9df5a8f517d516c19d30d35b7f801dc4bac60fb916b0097ba09d0cfc56987f62"
+  },
+  "files": {
+    "curriculum_ids.json": "322b45ae65c9e95e325af2d0ef2f2e9daada9dbd9e5e3041e7f2f94e01d72fc0",
+    "curriculum.jsonl": "6043db7337a0a9bb172c50aee4d813676e8a20ae7d56cdb3f262b2f534683dfa",
+    "random_control_ids.json": "496783b74198616e28dd19864c65f44242d2b93c359959d6a6798aded83bf5cb",
+    "random_control.jsonl": "ac7a6a17a44f230703c7d2b2dcc6f912e71f973ea880e3f2957314efcffa780a"
+  }
+}
