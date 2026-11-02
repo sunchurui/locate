@@ -1,0 +1,102 @@
+{
+  "full5000": {
+    "precision": {
+      "total_entries": 80,
+      "positive_entries": 80,
+      "zero_entries": 0,
+      "negative_entries": 0,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.4398551562794234
+    },
+    "recall": {
+      "total_entries": 80,
+      "positive_entries": 80,
+      "zero_entries": 0,
+      "negative_entries": 0,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.39893614028204916
+    },
+    "precision50": {
+      "total_entries": 80,
+      "positive_entries": 80,
+      "zero_entries": 0,
+      "negative_entries": 0,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.5983581877209245
+    },
+    "recall50": {
+      "total_entries": 80,
+      "positive_entries": 80,
+      "zero_entries": 0,
+      "negative_entries": 0,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.5495019492253974
+    },
+    "precision95": {
+      "total_entries": 80,
+      "positive_entries": 80,
+      "zero_entries": 0,
+      "negative_entries": 0,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.13963238995613136
+    },
+    "recall95": {
+      "total_entries": 80,
+      "positive_entries": 79,
+      "zero_entries": 1,
+      "negative_entries": 0,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.1183492595964513
+    }
+  },
+  "fixed256": {
+    "precision": {
+      "total_entries": 80,
+      "positive_entries": 80,
+      "zero_entries": 0,
+      "negative_entries": 0,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.5587328059794239
+    },
+    "recall": {
+      "total_entries": 80,
+      "positive_entries": 75,
+      "zero_entries": 3,
+      "negative_entries": 2,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.4462840802673017
+    },
+    "precision50": {
+      "total_entries": 80,
+      "positive_entries": 80,
+      "zero_entries": 0,
+      "negative_entries": 0,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.6769474161964519
+    },
+    "recall50": {
+      "total_entries": 80,
+      "positive_entries": 75,
+      "zero_entries": 3,
+      "negative_entries": 2,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.6232806570231775
+    },
+    "precision95": {
+      "total_entries": 80,
+      "positive_entries": 80,
+      "zero_entries": 0,
+      "negative_entries": 0,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.41146103368364495
+    },
+    "recall95": {
+      "total_entries": 80,
+      "positive_entries": 47,
+      "zero_entries": 31,
+      "negative_entries": 2,
+      "nonfinite_entries": 0,
+      "author_safe_mean": 0.1801888060571226
+    }
+  }
+}
