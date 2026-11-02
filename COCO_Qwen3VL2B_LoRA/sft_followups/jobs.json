@@ -1,0 +1,47 @@
+{
+  "experiments": [
+    {
+      "variant": "image_mean",
+      "train_job": "208042",
+      "eval_job": "208043",
+      "gpu": "nvidia_a100_80gb_pcie",
+      "min_training_memory_gb": 80,
+      "time_limit": "12:00:00",
+      "preflight_job": "208026",
+      "output": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followup_outputs/image_mean"
+    },
+    {
+      "variant": "projector_lora",
+      "train_job": "208044",
+      "eval_job": "208045",
+      "gpu": "a100-sxm4-80gb",
+      "min_training_memory_gb": 80,
+      "time_limit": "12:00:00",
+      "preflight_job": "208026",
+      "output": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followup_outputs/projector_lora"
+    },
+    {
+      "variant": "highres",
+      "train_job": "208046",
+      "eval_job": "208047",
+      "gpu": "nvidia_h100_80gb_hbm3",
+      "min_training_memory_gb": 80,
+      "time_limit": "16:00:00",
+      "preflight_job": "208026",
+      "output": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followup_outputs/highres"
+    },
+    {
+      "variant": "class_rfs",
+      "train_job": "208048",
+      "eval_job": "208049",
+      "gpu": "nvidia_a800_80gb_pcie",
+      "min_training_memory_gb": 80,
+      "time_limit": "12:00:00",
+      "preflight_job": "208026",
+      "output": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followup_outputs/class_rfs"
+    }
+  ],
+  "control_train_job": "207966",
+  "control_native_eval_job": "207967",
+  "control_highres_eval_job": "208050"
+}

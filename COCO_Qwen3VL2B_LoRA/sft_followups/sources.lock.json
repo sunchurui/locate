@@ -1,0 +1,14 @@
+{
+  "detectron2_sampler.py": {
+    "repo": "facebookresearch/detectron2",
+    "commit": "247691a1c292654867deb35cabb27f18d75a1363",
+    "path": "detectron2/data/samplers/distributed_sampler.py",
+    "sha256": "c5ce73743ba8be141e2cbe0b065f0852275365f0265380ce46531c0fb454e33a"
+  },
+  "detectron2_LICENSE": {
+    "repo": "facebookresearch/detectron2",
+    "commit": "247691a1c292654867deb35cabb27f18d75a1363",
+    "path": "LICENSE",
+    "sha256": "ceb78ee847e76f67a6a521a5732dc3373aed07eee003d738a572dc96705f08ff"
+  }
+}

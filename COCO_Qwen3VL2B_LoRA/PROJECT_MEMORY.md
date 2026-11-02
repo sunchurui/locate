@@ -124,3 +124,34 @@ improvement from unfiltered6.93. Member-box extent diagnostic T.7 support16
 39.65, T.5 support16 40.20; support32/T.5 exploratory42.49, NOT independent
 confirmation. Support/NMS are inference decisions, not evaluation confidence.
 No new model generation or GT-guided output choice. Keep original results.
+
+
+## 2026-11-02: four additional source-grounded SFT ablations authorized/submitted
+
+User approved image-mean loss, projector LoRA, actual higher resolution, and
+class-balanced whole-image sampling. Code/config/manifests under sft_followups/.
+Paper evidence: Nemotron3 Super sec3.1 stage2 sample-mean equation; LLaVA
+projector+language training (our projector is low-rank) and Swift aligner-LoRA;
+WeVisOne stage2 resolution factor isolated; pinned Detectron2/LVIS RFS reused.
+These are component ablations, not reproductions of complete paper recipes.
+All compare against M30 random control207966 (native full eval207967); same
+fresh Qwen3-VL-2B, seed42, rank16/alpha32, original Rex IDs,118287 draws,
+14786 updates, effectivebatch8, existing LR1e-4/cosine schedule. Separate runs.
+Image-mean uses image count over full GA window; real Trainer micro3/acc1 vs
+micro1/acc3 test max parameter difference2.98e-8 incl partial last window.
+Projector extends8 merger linears (main+3 DeepStack), freezes vision blocks;
+shared language/token initial trainables restored bit-exactly after extension.
+Higher resolution uses actual patch16*merge2 pixel-area conversion; real images
+300/260 native visual tokens become1036/1080; supervised targets unchanged.
+Primary generation comparisons use native inference; highres model also gets
+highres inference and control gets matched highres eval208050.
+Original RFS t=.001 repeats0 COCO images. Predeclared training-frequency-median
+fallback t=.02605527; direct original stochastic-repeat/shuffle stream,
+first118287 draws,106196 unique images, full GT retained on each draw.
+Train/eval: image_mean208042/208043, projector208044/208045,
+highres208046/208047, class_rfs208048/208049. CPUprepare208033/preflight208026
+completed. At submission all4 train jobs PENDING, not actually training yet.
+On>=80GB allocation do2 real gradient smoke steps before fresh formal training;
+loss validation every1000, fixed256 generation5000/10000, full5000 afterok.
+Current micro protocol unchanged, no AP/confidence ranking, no checkpoints
+removed, no new Codex recurring monitor. Jobs/source locks in package.

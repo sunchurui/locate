@@ -1,0 +1,11 @@
+{
+  "seed": 42,
+  "variants": ["image_mean", "projector_lora", "highres", "class_rfs"],
+  "control": "sft_curriculum_outputs/random_control",
+  "control_train_job": "207966",
+  "control_order": "sft_curriculum/prepared/random_control_ids.json",
+  "train": {"batch": 4, "gradient_accumulation": 2, "updates": 14786, "learning_rate": 0.0001, "save_steps": 1000, "generation_steps": [5000, 10000], "max_length": 4096},
+  "highres": {"min_visual_tokens": 1024, "max_visual_tokens": 1280},
+  "class_rfs": {"original_repeat_threshold": 0.001, "fallback_if_original_changes_fewer_than_images_fraction": 0.05, "fallback_threshold": "median of training category-image frequencies", "budget_draws": 118287, "sqrt": true},
+  "evaluation_protocol": "rex_matching_global_endpoint_micro_v1"
+}

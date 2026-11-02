@@ -1,7 +1,6 @@
 # Further SFT candidates after M30
 
-These are proposals, NOT submitted experiments. User authorized M30 and M45
-selection repair only in this turn. Keep COCO train/val, Qwen3-VL-2B, Rex original
+Update2026-11-02: user subsequently approved image-balanced loss, projector LoRA, actual higher resolution, and class-balanced sampling; these four are now submitted under ../sft_followups/. The remaining items below are proposals. Keep COCO train/val, Qwen3-VL-2B, Rex original
 IDs and current pooled-count evaluation. Changes require separate matched runs;
 do not combine several ideas before measuring individual effects.
 

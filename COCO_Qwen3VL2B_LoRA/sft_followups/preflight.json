@@ -1,0 +1,50 @@
+{
+  "image_mean_accumulation_max_parameter_difference": 2.9802322387695312e-08,
+  "projector": {
+    "common_sha256": "6b5570b065aec8ee5bb81b3869785da82927c8ae57d9056c12d263a230e5c61f",
+    "common_restored_sha256": "6b5570b065aec8ee5bb81b3869785da82927c8ae57d9056c12d263a230e5c61f",
+    "extra_trainables": [
+      "base_model.model.model.visual.merger.linear_fc1.lora_A.default.weight",
+      "base_model.model.model.visual.merger.linear_fc1.lora_B.default.weight",
+      "base_model.model.model.visual.merger.linear_fc2.lora_A.default.weight",
+      "base_model.model.model.visual.merger.linear_fc2.lora_B.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.0.linear_fc1.lora_A.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.0.linear_fc1.lora_B.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.0.linear_fc2.lora_A.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.0.linear_fc2.lora_B.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.1.linear_fc1.lora_A.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.1.linear_fc1.lora_B.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.1.linear_fc2.lora_A.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.1.linear_fc2.lora_B.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.2.linear_fc1.lora_A.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.2.linear_fc1.lora_B.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.2.linear_fc2.lora_A.default.weight",
+      "base_model.model.model.visual.deepstack_merger_list.2.linear_fc2.lora_B.default.weight"
+    ],
+    "common_trainable_parameters": 8320,
+    "extra_trainable_parameters": 13312
+  },
+  "actual_images": {
+    "image_ids": [
+      101014,
+      157105
+    ],
+    "native_visual_tokens": [
+      300,
+      260
+    ],
+    "highres_visual_tokens": [
+      1036,
+      1080
+    ],
+    "native_input_shape": [
+      2,
+      831
+    ],
+    "highres_input_shape": [
+      2,
+      1651
+    ],
+    "supervised_target_tokens_unchanged": true
+  }
+}
