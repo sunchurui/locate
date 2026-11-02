@@ -1,3 +1,5 @@
+> Confirmed upstream metric issue: see REX_F1_ROOT_CAUSE_20261102.md for quantitative diagnosis. Historical author results remain unchanged.
+
 # 旧原ID与五轮SFT的同范围比较
 
 全部采用固定版本Rex原版P/R/F1，全80类输出保留，无GT类别过滤。

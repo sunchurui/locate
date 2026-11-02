@@ -1,0 +1,15 @@
+🔍 Detected evaluation type: COCO
+Metric         | Value 
+---------------+-------
+Avg Precision  | 0.4742
+Avg Recall     | 0.3989
+Avg F1         | 0.4333
+Precision@0.50 | 0.6474
+Recall@0.50    | 0.5495
+F1@0.50        | 0.5945
+Precision@0.95 | 0.1496
+Recall@0.95    | 0.1183
+F1@0.95        | 0.1321
+load gts cost 0.645686
+load dt
+load dts cost 0.069213

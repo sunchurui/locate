@@ -1,0 +1,5 @@
+{
+  "official_source_sha256": "fc271896d2278ee01c56618d0999575e044d822208eed0cdbbf00767fadaf363",
+  "diagnostic_sha256": "2a4ab3549972fb4e030cb937cf3ac1b91d3d444a5cf4ba73d851aca36b047e92",
+  "purpose": "Diagnosis only: reset stale precision values and export existing match counts. Not the formal evaluator."
+}

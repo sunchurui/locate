@@ -1,0 +1,26 @@
+{
+  "full5000": {
+    "TP50": 17901,
+    "FP50": 16460,
+    "GT50": 36335,
+    "FN50": 18434,
+    "TP95": 3426,
+    "FP95": 30710,
+    "GT95": 36335,
+    "max_predictions_per_image_class": 82,
+    "predictions_over_native_cap": 0,
+    "saved_detections": 36289
+  },
+  "fixed256": {
+    "TP50": 961,
+    "FP50": 883,
+    "GT50": 1850,
+    "FN50": 889,
+    "TP95": 164,
+    "FP95": 1657,
+    "GT95": 1850,
+    "max_predictions_per_image_class": 29,
+    "predictions_over_native_cap": 0,
+    "saved_detections": 1921
+  }
+}

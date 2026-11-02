@@ -1,3 +1,5 @@
+> Confirmed upstream metric issue: see ../audits/REX_F1_ROOT_CAUSE_20261102.md. These are unmodified author scores, not global endpoint F1.
+
 # Rex-Omni official evaluator replay
 
 Updated: 2026-11-02T18:24:06.185514+08:00.

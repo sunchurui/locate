@@ -1,0 +1,72 @@
+--- official/cocoeval.cpp
++++ diagnostic/cocoeval.cpp
+@@ -413,6 +413,9 @@
+     int A = params.areaRng.size();
+     int M = params.maxDets.size();
+ 
++    audit_endpoint_precision.assign(T*K, -1);
++    audit_endpoint_recall.assign(T*K, -1);
++    audit_tp.assign(T*K, 0); audit_fp.assign(T*K, 0); audit_gt.assign(T*K, 0);
+     precision = new double[T*R*K*A*M];
+     recall = new double[T*K*A*M];
+ 
+@@ -662,7 +665,16 @@
+             for (int i = 0; i < gtIg.size(); i++) {
+                 if (gtIg[i] == 0) npig++;
+             }
+-            if (npig == 0) continue;
++            if (npig == 0) {
++                if (a == 0 && m == M-1) {
++                    for (int t=0; t<T; t++) {
++                        double fp_count=0;
++                        for (int j=0; j<dtIg[t].size(); j++) if (!dtIg[t][j]) fp_count++;
++                        audit_fp[t*K+k]=fp_count;
++                    }
++                }
++                continue;
++            }
+ 
+             vector<vector<double> > tps;
+             vector<vector<double> > fps;
+@@ -699,6 +711,13 @@
+                     rc[i] = tp[i] / npig;
+                     pr[i] = tp[i] / (fp[i] + tp[i] + eps);
+                 }  
++                if (a == 0 && m == M-1) {
++                    audit_endpoint_precision[t*K+k] = nd ? pr[nd-1] : 0;
++                    audit_endpoint_recall[t*K+k] = nd ? rc[nd-1] : 0;
++                    audit_tp[t*K+k] = nd ? tp[nd-1] : 0;
++                    audit_fp[t*K+k] = nd ? fp[nd-1] : 0;
++                    audit_gt[t*K+k] = npig;
++                }
+                 double q[R]; memset(q, 0, sizeof(q));
+ 
+                 int offset = t*K*A*M + k*A*M + a*M + m;
+@@ -956,6 +975,7 @@
+     if (params.agnostic) K_loop = 1;
+ 
+     for (int k = 0; k < K_loop; k++) {
++        precision50_value = 0; precision95_value = 0;
+         ap = 0; ap_sum = 0;
+         ap50 = 0; ap50_sum = 0;
+         ratp70 = -1; ratp50 = -1; maxprecision = -1;
+@@ -1015,6 +1035,7 @@
+         recall_value = 0;
+         double precision_value_tmp, recall_value_tmp;
+         for (int t = 0; t < T; t++) {
++            precision_value_tmp = 0;
+             for (int r = R-1; r >= 0; r--) {
+                 offset = t*R*K*A*M + r*K*A*M + k*A*M + aind*M + mind;
+                 if (precision[offset] > 0) {
+@@ -1086,6 +1107,11 @@
+         }
+     }
+ 
++    result["audit_endpoint_precision"] = audit_endpoint_precision;
++    result["audit_endpoint_recall"] = audit_endpoint_recall;
++    result["audit_tp"] = audit_tp; result["audit_fp"] = audit_fp; result["audit_gt"] = audit_gt;
++    vector<double> audit_catids; for (int c : params.catIds) audit_catids.push_back(c);
++    result["audit_catids"] = audit_catids;
+     result["ap"] = vector_ap;
+     result["ap50"] = vector_ap50;
+     result["ratp70"] = vector_ratp70;

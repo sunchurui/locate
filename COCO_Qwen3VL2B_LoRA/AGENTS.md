@@ -19,3 +19,5 @@ Read PROJECT_MEMORY.md and EVALUATION_PROTOCOL.md before changing evaluation.
 - Preserve obsolete results for provenance, mark them withdrawn from primary
   reporting, and recompute saved predictions rather than regenerating silently.
 - Training GPU memory>=80GB. Never delete model/data/checkpoints.
+
+Known upstream metric issue: read audits/REX_F1_ROOT_CAUSE_20261102.md. Precision carry-over, zero filtering and interpolated PR make small-subset scores optimistic. Diagnostics are separate; do not silently change the selected author protocol.

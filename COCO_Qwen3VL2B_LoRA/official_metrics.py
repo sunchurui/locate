@@ -65,6 +65,7 @@ def evaluate(dataset, predictions, image_ids=None, **unused):
             'meanIoU':full['meanIoU'],'IoU50':full['IoU50'],'IoU95':full['IoU95'],
             'official_positive_only_reference':reference,'positive_only_detections':len(positive_dt),
             'task_note':'Primary retains all parsed outputs from our all80-category prompt. Separate reference reproduces official GT-positive category filtering; no prompt regeneration.',
+            'audit_notice':'Pinned original code has confirmed precision carry-over and zero-entry filtering issues. Small-subset F1 can be optimistic; see audits/REX_F1_ROOT_CAUSE_20261102.md. Diagnostic fixes are not silently applied.',
             'implementation_note':'Unmodified author FastEval and safe_mean/f1 reducers, including internal fixed-score tie handling and maxDets. Not a permutation-invariant custom matcher.'}
 
 
