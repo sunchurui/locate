@@ -31,7 +31,7 @@ benchmark=()
 if [[ -n "${BENCHMARK_UPDATES:-}" ]]; then
   benchmark=(--max_steps "$BENCHMARK_UPDATES" --eval_strategy no --save_strategy no --log_completions false)
 fi
-python -u "$ROOT/rex_id_grpo/run_rlhf.py" \
+python -u "${RLHF_RUNNER:-$ROOT/rex_id_grpo/run_rlhf.py}" \
   --rlhf_type grpo --model "$ROOT/rex_id_rl_base" --model_type qwen3_vl \
   --adapters "$ADAPTER" --ref_adapters "$ADAPTER" --tuner_type lora \
   --external_plugins "$ROOT/rex_id_grpo/reward_plugin.py" \

@@ -52,3 +52,16 @@ HPC `/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA`，模型Qwen3-VL-2B LoRA，Rex�
 基座 `rex_id_sft_outputs_a800_80`。COCO val5000，固定子集256，seed42。
 不同图片集合不直接比较。训练GPU必须>=80GB，不删除数据/模型/检查点。
 GitHub `sunchurui/locate/COCO_Qwen3VL2B_LoRA`。不要擅自恢复Codex周期自动检查。
+
+
+## 2026-11-02：第三轮 SFT 基座的新 RL 对照
+
+用户选定 `rex_id_sft_outputs_5epoch_b64/checkpoint-5547`（epoch3）为新 RL 的共同起点。
+整段奖励和响应内标准化物体信用两版的 policy 与 frozen reference 都从该 SFT 初始化。
+两版均 batch32×accumulation8、每次32图×8回答、固定train10000/val256、seed20260812、
+LR5e-7、1epoch/313updates。旧 RL 仍归属旧单轮 SFT，不能混作这组的基线。
+用户在本聊天确认以最新项目记忆的 Rex 官方 P/R/F1 为准，撤回AP_set；
+所有查询类输出交给原版计分核心，同分处理/maxDets等原作细节须保留说明。
+脚本 `rex_id_epoch3_rl/`，注册表 `epoch3_rl_jobs.json`。
+训练207728/207730，配套完整评测207729/207731，第三轮SFT完整基线评测207732。
+100/200/300步做同步val256生成评测，50步保存检查点，不新建周期Codex自动任务。
