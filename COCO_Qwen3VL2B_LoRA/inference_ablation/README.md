@@ -1,5 +1,8 @@
 # Frozen Rex-ID SFT: inference-only ablations
 
+> **2026-11-02 mandatory evaluation update:** All evaluations ignore scores and output order, count every prediction and report custom single-point AP_set (P*R per class/IoU) plus P/R/F1. Standard ranked AP and constant-score COCOeval are superseded. Read [the exact protocol](../EVALUATION_PROTOCOL.md) and PROJECT_MEMORY.md before using historical instructions/results.
+
+
 All runs load `model/` plus **`rex_id_sft_outputs_a800_80`**, not an RL
 checkpoint. All parameters are frozen. M41 is excluded at the user's request.
 The experiment compares M06/M44/M45/M46 against a paired greedy baseline.

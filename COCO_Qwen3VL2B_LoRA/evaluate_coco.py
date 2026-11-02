@@ -7,9 +7,17 @@ from peft import PeftModel
 from transformers import Qwen3VLForConditionalGeneration, AutoProcessor
 from qwen_vl_utils import process_vision_info
 from pycocotools.coco import COCO
-from pycocotools.cocoeval import COCOeval
+import sys
+sys.path.insert(0, str(next(p for p in Path(__file__).resolve().parents if (p / 'unranked_metrics.py').exists())))
+from unranked_metrics import evaluate as evaluate_set, load_predictions, save_metrics
 
 PROMPT = "Detect all objects from the 80 MS COCO categories. Return only a JSON array; each item must contain label and bbox_2d [x1,y1,x2,y2], with coordinates normalized to 0-1000."
+
+# Qwen3-VL emits a plain-text JSON array: its boxes carry no confidence. Rather than
+# inventing a ranking from output position (which encodes x1-order / box count, not
+# reliability), every detection gets the same score, so the PR curve collapses to a
+# single operating point. Same convention as Rex-Omni (conf=0.2 for all boxes).
+DET_SCORE = 1.0
 
 def parse_output(text):
     try:
@@ -46,7 +54,7 @@ def main():
     args = ap.parse_args()
     os.makedirs(args.output_dir, exist_ok=True)
     pred_file = Path(args.output_dir) / args.prediction_file
-    metrics_file = Path(args.output_dir) / "coco_metrics.json"
+    metrics_file = Path(args.output_dir) / "set_metrics.json"
 
     coco_gt = COCO(args.annotations)
     cats = {c["name"].lower(): c["id"] for c in coco_gt.loadCats(coco_gt.getCatIds())}
@@ -116,7 +124,7 @@ def main():
                     boxes = parse_output(response)
                     dets = []
                     width, height = info["width"], info["height"]
-                    for rank, item in enumerate(boxes):
+                    for item in boxes:
                         if not isinstance(item, dict):
                             continue
                         label = str(item.get("label", "")).strip().lower()
@@ -134,7 +142,7 @@ def main():
                             continue
                         dets.append({"category_id": cats[label],
                                      "bbox": [x1*width/1000.0, y1*height/1000.0, bw, bh],
-                                     "score": max(0.001, 1.0 - rank*0.001)})
+                                     "score": DET_SCORE})
                     out.write(json.dumps({"image_id": info["id"], "detections": dets}) + "\n")
                 out.flush()
                 offset += len(batch)
@@ -145,36 +153,13 @@ def main():
     if args.skip_coco_eval:
         return
 
-    predictions = []
-    with pred_file.open(encoding="utf-8") as f:
-        for line in f:
-            row = json.loads(line)
-            predictions.extend(dict(d, image_id=row["image_id"]) for d in row["detections"])
-    if not predictions:
-        metrics = {"images": len(images), "detections": 0}
-    else:
-        coco_dt = coco_gt.loadRes(predictions)
-        evaluator = COCOeval(coco_gt, coco_dt, "bbox")
-        evaluator.params.imgIds = [x["id"] for x in images]
-        evaluator.evaluate()
-        evaluator.accumulate()
-        evaluator.summarize()
-        metrics = {
-            "images": len(images), "detections": len(predictions),
-            "AP@[.50:.95]": float(evaluator.stats[0]),
-            "AP50": float(evaluator.stats[1]),
-            "AP75": float(evaluator.stats[2]),
-            "AP_small": float(evaluator.stats[3]),
-            "AP_medium": float(evaluator.stats[4]),
-            "AP_large": float(evaluator.stats[5]),
-            "AR@1": float(evaluator.stats[6]),
-            "AR@10": float(evaluator.stats[7]),
-            "AR@100": float(evaluator.stats[8]),
-            "score_note": "Qwen3-VL output has no calibrated confidence target; per-image generated order is used as the detection score ranking."
-        }
-    with metrics_file.open("w", encoding="utf-8") as f:
-        json.dump(metrics, f, indent=2)
-    print(json.dumps(metrics, indent=2))
+    recorded = load_predictions(pred_file)
+    wanted = [info['id'] for info in images]
+    if not set(wanted).issubset(recorded):
+        raise ValueError('Incomplete prediction coverage; no final metrics written')
+    metrics = evaluate_set(coco_gt, recorded, wanted)
+    save_metrics(args.output_dir, metrics)
+    print('UNRANKED_SET_METRICS', json.dumps(metrics), flush=True)
 
 if __name__ == "__main__":
     main()

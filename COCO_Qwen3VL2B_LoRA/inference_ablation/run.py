@@ -106,7 +106,7 @@ def main():
             (output / 'pilot_metrics.json').write_text(json.dumps({'exploratory_pilot_only': True, 'metrics': pilot}, indent=2) + '\n')
             print('REAL_IMAGE_PILOT_COMPLETE ' + json.dumps(pilot), flush=True)
     metrics = evaluate_records(gt, records)
-    (output / 'coco_metrics.json').write_text(json.dumps(metrics, indent=2) + '\n')
+    (output / 'set_metrics.json').write_text(json.dumps(metrics, indent=2) + '\n')
     costs = {'images': len(records), 'peak_gpu_gib': torch.cuda.max_memory_allocated() / 1024**3,
              'processing_seconds': sum(r['processing_seconds'] for r in records)}
     for kind in ('baseline_cost', 'extra_cost'):

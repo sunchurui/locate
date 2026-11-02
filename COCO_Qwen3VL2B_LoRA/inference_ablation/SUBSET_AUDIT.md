@@ -1,5 +1,7 @@
 # Fixed256 versus full5000 AP audit (2026-11-02)
 
+> Historical ranked-AP audit only. Current evaluation is governed by ../EVALUATION_PROTOCOL.md; these old AP values are not current experiment results.
+
 CPU-only Slurm job207033 completed successfully in1m27s. No model inference,
 GPU allocation, training update or change to existing predictions was involved.
 

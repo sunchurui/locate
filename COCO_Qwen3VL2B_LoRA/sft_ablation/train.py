@@ -75,7 +75,7 @@ class Protocol(TrainerCallback):
                                self.metadata['input_order'], self.metadata['config']['train']['generation_batch'],
                                self.metadata['config']['train']['max_new_tokens'],
                                self.root / self.metadata['config']['progress_manifest'])
-            with (Path(args.output_dir) / 'progress_ap.jsonl').open('a') as f:
+            with (Path(args.output_dir) / 'progress_set_metrics.jsonl').open('a') as f:
                 f.write(json.dumps({'step': state.global_step, **metrics}) + '\n')
 
 

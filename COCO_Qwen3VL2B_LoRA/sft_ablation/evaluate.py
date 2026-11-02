@@ -11,7 +11,8 @@ from pathlib import Path
 
 import torch
 from pycocotools.coco import COCO
-from pycocotools.cocoeval import COCOeval
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from unranked_metrics import evaluate as evaluate_set, save_metrics
 from qwen_vl_utils import process_vision_info
 
 from data import sha256, user_message
@@ -34,7 +35,7 @@ def to_detections(response, info, categories):
         w, h = (x2 - x1) * info['width'] / 1000, (y2 - y1) * info['height'] / 1000
         if w > 0 and h > 0:
             dets.append({'category_id': categories[label], 'bbox': [x1 * info['width'] / 1000,
-                         y1 * info['height'] / 1000, w, h], 'score': max(.001, 1 - rank * .001)})
+                         y1 * info['height'] / 1000, w, h], 'score': 1.0})
     return dets
 
 
@@ -96,22 +97,10 @@ def run(model, processor, root, output, order, batch_size=16, max_tokens=1024, m
                     print(f'AP evaluation {len(recorded)}/{len(wanted)}', flush=True)
         if set(recorded) != set(wanted):
             raise ValueError('Incomplete evaluation coverage')
-        detections = [dict(d, image_id=i) for i in wanted for d in recorded[i]['detections']]
-        with contextlib.redirect_stdout(io.StringIO()):
-            if detections:
-                dt = gt.loadRes(detections)
-            else:
-                dt = COCO(); dt.dataset = {'images': [gt.imgs[i] for i in wanted],
-                                          'categories': gt.dataset['categories'], 'annotations': []}; dt.createIndex()
-            evaluator = COCOeval(gt, dt, 'bbox'); evaluator.params.imgIds = wanted
-            evaluator.evaluate(); evaluator.accumulate(); evaluator.summarize()
-        names = ['AP@[.50:.95]', 'AP50', 'AP75', 'AP_small', 'AP_medium', 'AP_large', 'AR@1', 'AR@10', 'AR@100']
-        metrics = {name: float(v) for name, v in zip(names, evaluator.stats)}
-        metrics.update(images=len(wanted), detections=len(detections), input_order=order,
-                       seconds=time.perf_counter() - started, batch_size=batch_size,
-                       score_note='Same generated-order scores and q/999 geometry as original Rex-ID SFT evaluation')
-        (output / 'coco_metrics.json').write_text(json.dumps(metrics, indent=2) + '\n')
-        print('COCO_AP_RESULT', json.dumps(metrics), flush=True)
+        metrics = evaluate_set(gt, {i: recorded[i]['detections'] for i in wanted}, wanted)
+        metrics.update(input_order=order, seconds=time.perf_counter() - started, batch_size=batch_size)
+        save_metrics(output, metrics)
+        print('UNRANKED_SET_RESULT', json.dumps(metrics), flush=True)
         return metrics
     finally:
         processor.tokenizer.padding_side = padding

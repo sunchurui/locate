@@ -2,28 +2,18 @@
 import contextlib
 import io
 from collections import defaultdict
+import sys
+from pathlib import Path
 
 from pycocotools.coco import COCO
-from pycocotools.cocoeval import COCOeval
-
-METRIC_NAMES = ['AP', 'AP50', 'AP75', 'AP_small', 'AP_medium', 'AP_large',
-                'AR1', 'AR10', 'AR100', 'AR_small', 'AR_medium', 'AR_large']
-
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from unranked_metrics import evaluate as evaluate_set
 
 def evaluate(gt, detections, image_ids):
-    with contextlib.redirect_stdout(io.StringIO()):
-        if detections:
-            dt = gt.loadRes(detections)
-        else:
-            dt = COCO()
-            dt.dataset = {'images': [gt.imgs[i] for i in image_ids], 'categories': gt.dataset['categories'],
-                          'annotations': []}
-            dt.createIndex()
-        evaluator = COCOeval(gt, dt, 'bbox')
-        evaluator.params.imgIds = list(image_ids)
-        evaluator.evaluate(); evaluator.accumulate(); evaluator.summarize()
-    return {'images': len(image_ids), 'detections': len(detections),
-            **{name: float(value) for name, value in zip(METRIC_NAMES, evaluator.stats)}}
+    rows = {i: [] for i in image_ids}
+    for prediction in detections:
+        rows[prediction['image_id']].append(prediction)
+    return evaluate_set(gt, rows, image_ids)
 
 
 def evaluate_records(gt, records):
@@ -37,7 +27,8 @@ def evaluate_records(gt, records):
             detections.extend(dict(item, image_id=row['image_id']) for item in predictions)
         output[name] = evaluate(gt, detections, ids)
     for name in variants:
-        output[name]['delta_AP_points'] = (output[name]['AP'] - output['baseline']['AP']) * 100
+        output[name]['delta_F1_50_points'] = 100 * (output[name]['thresholds']['0.50']['micro']['F1'] - output['baseline']['thresholds']['0.50']['micro']['F1'])
+        output[name]['delta_AP_set_points'] = 100 * (output[name]['AP_set_50_95'] - output['baseline']['AP_set_50_95'])
     return output
 
 

@@ -1,5 +1,8 @@
 # Independent M34 / M37 / M38 / M36 Rex-ID LoRA SFT experiments
 
+> **2026-11-02 mandatory evaluation update:** All evaluations ignore scores and output order, count every prediction and report custom single-point AP_set (P*R per class/IoU) plus P/R/F1. Standard ranked AP and constant-score COCOeval are superseded. Read [the exact protocol](../EVALUATION_PROTOCOL.md) and PROJECT_MEMORY.md before using historical instructions/results.
+
+
 These are four separate one-factor experiments, not a combined recipe. M17 is
 owned by another agent and is untouched. All runs start from the same original
 Qwen3-VL-2B-Instruct weights in `model/`, with fresh rank16/alpha32/dropout0.05

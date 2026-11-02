@@ -69,7 +69,7 @@ def detections(boxes, categories, confidence=False):
             continue
         x1, y1, x2, y2 = pred['box']
         result.append({'category_id': categories[pred['label']], 'bbox': [x1, y1, x2 - x1, y2 - y1],
-                       'score': max(1e-9, min(1., pred['confidence'])) if confidence else max(.001, 1 - rank * .001)})
+                       'score': 1.0})  # Legacy field only; set evaluation never reads it.
     return result
 
 
