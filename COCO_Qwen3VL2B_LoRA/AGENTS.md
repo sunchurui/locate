@@ -1,23 +1,25 @@
-# Mandatory COCO evaluation requirements
+# Mandatory evaluation requirements
 
-Read PROJECT_MEMORY.md and EVALUATION_PROTOCOL.md before changing evaluation.
+Read PROJECT_MEMORY.md and EVALUATION_PROTOCOL.md before evaluation changes.
 
-- Follow the actual Rex-Omni / GroundingPI author evaluation; do not invent metrics.
-- Withdrawn: generated-order confidence AP, voting-confidence AP, custom P*R AP_set.
-- Rex detection metrics are author P/R/F1, not AP. Reuse unmodified FastEval C++
-  and official safe_mean/f1 reducers at the locked commit. Generated boxes use
-  the author's constant0.2, never artificial descending or learned scores.
-- Do not claim that the original engine contains no internal sorting, tie handling
-  or maxDets. Do not silently substitute custom Hungarian or micro F1.
-- Keep all outputs for our existing all80-class task. Report the official
-  GT-positive-only filtering reference separately; never silently remove false
-  categories using GT or claim our prompt is the original paper prompt.
-- GroundingPI GAM and Rex FastEval differ in matching/averaging/deduplication.
-  State the exact source, version and task route; do not interchange their names.
-- Use official_metrics.py / rescore_official.py. Old APIs are compatibility shims.
-  Current results are rex_official_metrics.json and rex_official_summary.*.
-- Preserve obsolete results for provenance, mark them withdrawn from primary
-  reporting, and recompute saved predictions rather than regenerating silently.
-- Training GPU memory>=80GB. Never delete model/data/checkpoints.
-
-Known upstream metric issue: read audits/REX_F1_ROOT_CAUSE_20261102.md. Precision carry-over, zero filtering and interpolated PR make small-subset scores optimistic. Diagnostics are separate; do not silently change the selected author protocol.
+- Latest explicit user decision2026-11-02: ALL primary metrics use audited variant E,
+  protocol rex_matching_global_endpoint_micro_v1. Earlier exact-author-reducer
+  requirements are superseded by this authorization.
+- Per IoU=.50:.05:.95, pool original Rex native TP/FP/FN over images AND categories.
+  meanIoU F1=harmonic(mean(P_t),mean(R_t)), not mean(F1_t). Save per-IoU counts.
+- Keep zero classes and absent-GT-category FP; no PR extraction or macro averaging.
+  Do not select metrics to force small/full scores equal. Use identical image IDs
+  and prediction provenance when comparing methods.
+- This is project micro F1, NOT original Rex F1, GroundingPI GAM, AP or AP_set.
+- Native matching/crowd/ignore/maxDets100 and constant0.2 remain; no generated-order,
+  model-token or voting confidence. Native within-image tie handling still exists.
+- Canonical micro_metrics.py/rescore_micro.py. official_metrics.py/unranked_metrics.py
+  are current compatibility APIs; original author code is legacy_rex_metrics.py.
+- Vendored original sources remain hash-locked/untouched. Build isolated counts
+  engine using official_eval/build_counts_engine.py. Recompute SAVED predictions.
+- Current micro_metrics.json/set_metrics.json/evaluation/micro_summary.*. Mark old
+  author/AP results historical and preserve provenance. Never mix old/new curves.
+- Read audits/REX_F1_ROOT_CAUSE_20261102.md: original precision carry-over and zero
+  dropping confirmed; identical input official CLI/wrapper parity verified.
+- Mark incomplete image coverage. Training GPU>=80GB; never delete models/data/
+  checkpoints or restore stopped recurring Codex monitoring.

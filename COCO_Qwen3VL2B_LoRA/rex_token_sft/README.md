@@ -1,3 +1,5 @@
+> **Current evaluation2026-11-02:** global endpoint micro P/R/F1 with Rex matching; original author aggregation is superseded. See [protocol](../EVALUATION_PROTOCOL.md) and [current results](../reports/micro_current.md). Older AP/author-F1 numbers are historical.
+
 # Rex-Omni coordinate-token SFT on Qwen3-VL-2B
 
 These experiments adapt the [Rex-Omni SFT implementation](https://github.com/IDEA-Research/Rex-Omni/tree/6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e/finetuning) to Qwen3-VL-2B with LoRA. Data conversion calls the upstream `GroundingTaskFn` directly for 0–999 coordinate quantization, per-category box ordering, and object/box marker serialization. The training entrypoint follows upstream's Hugging Face `Trainer` flow while replacing its Qwen2.5-VL and full-parameter assumptions with Qwen3-VL, PEFT LoRA and a Qwen3 image collator. Upstream default validation is disabled; this adaptation adds validation loss every 1,000 steps.
@@ -16,8 +18,6 @@ sbatch rex_token_sft/evaluate_rex_id_coco.sbatch
 ```
 
 The mapping generator refuses to overwrite an existing output, validates all 1,000 token IDs with the tokenizer library, and preserves the original structural token IDs. This version uses the same COCO data, output serialization and default batch/optimizer settings as the added-token experiment, but writes to `rex_id_sft_outputs/` and `evaluation/rex_id_val2017/`. It remains an adaptation to Qwen3-VL 2B and LoRA, not the original Rex-Omni pretrained model or its original full-parameter training.
-
-`submit_gpu_candidates.py` can queue alternatives for one existing Rex-ID training job on A100 PCIe 80GB, H100 80GB HBM3 and A800 80GB. All use one GPU, the same microbatch/accumulation settings, and separate output directories. It records job IDs in `rex_id_gpu_candidates.json` and refuses duplicate submission when that registry exists. There is no automatic lock or mutual exclusion in the training code: an operator or periodic monitor must retain the first healthy running candidate and cancel the other candidate training and evaluation jobs. The current experiment has a ten-minute monitor for that purpose. The independently running added-token comparison is outside this candidate set.
 
 The experiment uses all 118,287 train2017 images and the 5,000 val2017 images, excludes crowd and invalid boxes, and retains empty images. The output prompt asks for all COCO categories and Rex-Omni's object and box markers. It starts from the original Qwen3-VL 2B model, in a separate output directory from the JSON LoRA baseline.
 

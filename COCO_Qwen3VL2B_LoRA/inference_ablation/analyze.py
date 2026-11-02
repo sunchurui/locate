@@ -1,4 +1,4 @@
-"""Aggregate frozen inference outputs using score-free, official P/R/F1."""
+"""Aggregate frozen inference outputs using global endpoint micro P/R/F1."""
 import argparse
 import contextlib
 import io
@@ -18,20 +18,20 @@ def interval(gt, records, variant, count, seed):
         boot,base_dt,new_ids=bootstrap_dataset(gt,baseline,draw)
         _,method_dt,_=bootstrap_dataset(gt,method,draw)
         deltas.append(100*(evaluate(boot,method_dt,new_ids)['meanIoU']['F1']-evaluate(boot,base_dt,new_ids)['meanIoU']['F1']))
-        if (index+1)%20==0:print('Author F1 paired bootstrap',index+1,count,flush=True)
+        if (index+1)%20==0:print('Endpoint micro F1 paired bootstrap',index+1,count,flush=True)
     return np.quantile(deltas,[.025,.975]).tolist()
 
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--root',required=True)
-    p.add_argument('--bootstrap',type=int,default=0,help='Optional paired bootstrap of the author F1 endpoint')
+    p.add_argument('--bootstrap',type=int,default=0,help='Optional paired bootstrap of the endpoint micro F1')
     args=p.parse_args();root=Path(args.root);folder=root/'inference_ablation'
     config=json.loads((folder/'config.json').read_text())
     expected=set(json.loads((root/config['manifest']).read_text())['image_ids'])
     with contextlib.redirect_stdout(io.StringIO()):gt=COCO(str(root/'data/coco2017/annotations/instances_val2017.json'))
-    result={'protocol':'rex_omni_official_fasteval_all_output_replay','fixed_image_count':len(expected),'methods':{},
-            'definition':'Original Rex FastEval + author safe_mean/f1 reducers; report P/R/F1 at .50/.95 and meanIoU. No custom AP.',
-            'note':'Ranked AP and custom AP_set are superseded. Author constant0.2, native tie handling/maxDets and original reducers retained.'}
+    result={'protocol':'rex_matching_global_endpoint_micro_v1','fixed_image_count':len(expected),'methods':{},
+            'definition':'Rex native TP/FP/FN pooled across images/categories per IoU; meanIoU=harmonic(mean(P),mean(R)).',
+            'note':'Ranked AP and custom AP_set are superseded. Constant0.2 and native matching/maxDets retained; original reducers replaced.'}
     lines=['# Score-free inference evaluation','',result['definition'],'',
            '| Method | Variant | Images | Coverage | F1mIoU | Delta F1mIoU | P@.5 | R@.5 | F1@.5 |',
            '| --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |']
@@ -50,8 +50,8 @@ def main():
             delta=values['meanIoU']['F1']-metrics['baseline']['meanIoU']['F1']
             lines.append(f'| {method} | {name} | {len(ids)} | {coverage} | {100*values["meanIoU"]["F1"]:.2f} | {100*delta:+.2f} | {100*v["precision"]:.2f} | {100*v["recall"]:.2f} | {100*v["F1"]:.2f} |')
         print(method,coverage,'images',len(ids),'primary F1mIoU',metrics[primary]['meanIoU']['F1'],flush=True)
-    (folder/'results/rex_official_summary.json').write_text(json.dumps(result,indent=2)+'\n')
-    (folder/'results/rex_official_summary.md').write_text('\n'.join(lines)+'\n')
+    (folder/'results/micro_summary.json').write_text(json.dumps(result,indent=2)+'\n')
+    (folder/'results/micro_summary.md').write_text('\n'.join(lines)+'\n')
 
 
 if __name__=='__main__':main()

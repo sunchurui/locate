@@ -1,6 +1,7 @@
+> **Current evaluation2026-11-02:** global endpoint micro P/R/F1 with Rex matching; original author aggregation is superseded. See [protocol](../EVALUATION_PROTOCOL.md) and [current results](../reports/micro_current.md). Older AP/author-F1 numbers are historical.
+
 # Independent M34 / M37 / M38 / M36 Rex-ID LoRA SFT experiments
 
-> **Current protocol:** reuse Rex-Omni original FastEval P/R/F1; custom AP_set is withdrawn. See [../EVALUATION_PROTOCOL.md](../EVALUATION_PROTOCOL.md) and PROJECT_MEMORY.md. No fabricated confidence scores.
 
 
 

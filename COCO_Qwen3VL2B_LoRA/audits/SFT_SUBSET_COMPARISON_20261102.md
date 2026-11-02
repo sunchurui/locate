@@ -1,3 +1,5 @@
+> Historical author-metric audit. Current project results use pooled endpoint micro P/R/F1; see MICRO_MIGRATION_20261102.md and ../reports/micro_current.md.
+
 > Confirmed upstream metric issue: see REX_F1_ROOT_CAUSE_20261102.md for quantitative diagnosis. Historical author results remain unchanged.
 
 # 旧原ID与五轮SFT的同范围比较

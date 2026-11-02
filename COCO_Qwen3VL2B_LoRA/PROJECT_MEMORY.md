@@ -1,3 +1,22 @@
+## Current decision2026-11-02: global endpoint micro P/R/F1
+
+The user explicitly authorized replacing ALL primary results with audited variant E.
+This supersedes earlier exact-author-reducer instructions in the history below.
+Protocol rex_matching_global_endpoint_micro_v1. Per IoU=.50:.05:.95 pool original
+Rex native TP/FP/FN across images AND categories. P=TP/(TP+FP), R=TP/(TP+FN).
+Zeros remain. meanIoU F1=harmonic(mean(P_t),mean(R_t)), NOT mean(F1_t). No PR
+extraction, zero dropping, GT-positive filtering or fabricated confidence. This
+is a PROJECT metric retaining Rex matching, NOT original Rex F1/GroundingPI GAM.
+Similar subset/full scores are an observation, never a requirement of scoring.
+
+Code micro_metrics.py/rescore_micro.py/official_eval/build_counts_engine.py.
+Old official_metrics/unranked APIs import current code for live eval. Author
+reproduction remains legacy_rex_metrics.py. Current micro_metrics.json,
+set_metrics.json and evaluation/micro_summary.*. Keep historical author results,
+but never mix their curves/deltas with current metrics. Read EVALUATION_PROTOCOL.md.
+Native matching/crowd/ignore/maxDets100 remain. Models/data/checkpoints untouched.
+No new recurring Codex monitoring. Historical decisions below do not override this latest user authorization.
+
 # 项目记忆：COCO / Qwen3-VL-2B 定位实验
 
 ## 用户评测要求：直接遵循 Rex-Omni / GroundingPI 原作，禁止自行设计指标

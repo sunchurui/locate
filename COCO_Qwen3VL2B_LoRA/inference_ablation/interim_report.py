@@ -17,4 +17,4 @@ for method in ('m06','m44','m45','m46'):
   ds=[r['details'] for r in records];item['diagnostics']={'strict_integer':sum(d['strict_integer_response'] for d in ds),'conflicts':sum(d['conflict'] for d in ds),'nonempty_rechecks':sum(bool(d['recheck_count']) for d in ds),'changed_counts':sum(d['initial_count']!=d['final_count'] for d in ds)}
  report['methods'][method]=item
  print(method,json.dumps(item),flush=True)
-(root/'inference_ablation/results/interim_rex_official_current.json').write_text(json.dumps(report,indent=2)+'\n')
+(root/'inference_ablation/results/interim_micro_current.json').write_text(json.dumps(report,indent=2)+'\n')

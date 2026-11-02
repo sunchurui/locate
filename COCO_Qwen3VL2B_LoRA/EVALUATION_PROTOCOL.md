@@ -1,55 +1,69 @@
-# Author-aligned evaluation: Rex-Omni P/R/F1
+# Current metric: global endpoint micro P/R/F1
 
-The user requested the existing works' protocol, not an invented no-ranking AP.
-The earlier AP_set=P*R protocol is withdrawn. Standard ranked AP and the custom
-AP_set are not current primary metrics.
+User authorization2026-11-02: replace ALL primary results with audited variant E
+from audits/REX_F1_ROOT_CAUSE_20261102.md. This explicitly supersedes earlier
+exact-author-reducer requirements.
 
-## Exact reference
+## Definition
 
-Rex commit6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e:
+At each IoU t=.50,.55,...,.95, retain original Rex native per-image/category
+matching, then sum TP_t, FP_t, FN_t across ALL images AND categories:
 
-- evaluation/fastevaluate: compile and call the unmodified native evaluator.
-- evaluation/metrics/coco_lvis_metric.py: reuse safe_mean and f1 directly.
-- evaluation/utils/convert_coco_lvis_to_standard_format.py: fixed confidence0.2.
-- evaluate(gt,pred,0,0,"coco"), same native maxDets/crowd/tie behavior.
-- Report P/R/F1 at IoU.50,.95 and averaged-IoU metrics from the author's script.
-  In particular safe_mean excludes entries<=0; the mean-IoU F1 is computed from
-  the returned averaged P and R, not by our own reformulation.
+- P_t=TP_t/(TP_t+FP_t)
+- R_t=TP_t/(TP_t+FN_t)
+- F1_t=2TP_t/(2TP_t+FP_t+FN_t)
 
-The underlying native evaluator contains sorting of fixed-score entries and
-precision-curve code. It is incorrect to claim it has no sorting at all. No
-confidence derived from generated position, model tokens or voting is supplied.
-The primary paper metrics are P/R/F1, not that engine's AP output.
+Zero denominators return0. Zero-performance classes remain in the counts;
+predictions of absent-GT categories contribute FP under native ignore rules.
+Report IoU50 and IoU95. meanIoU: average ten P_t and ten R_t separately, then
+compute their harmonic mean. This is exactly audited variant E, NOT mean(F1_t).
+Per-IoU counts and metrics are saved for verification.
 
-## Prompt/filtering scope
+Project protocol rex_matching_global_endpoint_micro_v1 is NOT original Rex F1,
+GroundingPI GAM, COCO AP or AP_set. Small subsets may still legitimately differ
+from full data. Scoring is never tuned to force scores to agree.
 
-The paper queries GT categories; official eval_coco.sh runs --positive_only.
-Our frozen experiment queries all80 classes. Primary replay keeps every parsed
-output and uses the original metric core. We separately report the source
-script's GT-positive-only filtering reference. This is not a claim to have
-regenerated answers under the paper's GT-category prompt.
+## Retained matching and changed aggregation
 
-GroundingPI's paper also reports P/R/F1. Its current GAM scorer has distinct
-per-image averaging and exact-box deduplication rules. Its source is preserved
-for inspection, but Rex results are not labeled GroundingPI results.
+Base Rex commit6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e. Vendored original source
+and hash lock remain unchanged. official_eval/build_counts_engine.py creates
+an isolated build, exports existing cumulative TP/FP/GT BEFORE PR interpolation,
+includes absent-GT-category FP, and initializes unused legacy precision variables.
+Matching remains unchanged; full5000/fixed256 per-category native counts are
+compared against the audit arrays, and disjoint-image additivity is checked.
 
-## Reproduction
+Retain native IoU/crowd/ignore/maxDets100 per image/category. Every detection has
+constant0.2; generated position, token probability and vote counts do not supply
+scores for evaluation. Native within-image equal-score handling still exists;
+endpoint aggregation does not rank detections across images or use PR curves.
+Do not claim native greedy matching is invariant to within-image box order.
+All parsed outputs from our all80-category task are retained. No GT-positive
+category filtering in the primary metric.
 
-Build the exact original code in an isolated directory, without altering the
-shared training environment:
+## Source of previous issues
+
+Pinned original source has stale/uninitialized precision extraction variables.
+Its safe_mean drops zeros, and precision comes from an interpolated PR curve.
+Category macro averaging is a valid weighting choice, but differs from pooled
+counts. Our external converter was checked against unchanged original converter
+and CLI: identical converted input yields elementwise identical P/R arrays.
+See the root-cause audit for the distinction between bugs and metric definitions.
+
+## Run and outputs
 
 ```bash
-cd official_eval/upstream/rex/evaluation/fastevaluate
-/path/to/venv/bin/python setup.py build_ext --inplace
-cd /path/to/COCO_Qwen3VL2B_LoRA
-venv/bin/python rescore_official.py --root "$PWD"
+venv/bin/python official_eval/build_counts_engine.py  # once per machine
+venv/bin/python audits/verify_micro_migration.py      # needs saved baseline/audit
+venv/bin/python rescore_micro.py --root "$PWD"
 ```
 
-New files: rex_official_metrics.json and evaluation/rex_official_summary.*.
-set_metrics.json is only a compatibility copy of the same current author result.
-Previous custom values are preserved as legacy_custom_set_metrics.json where
-available. No model/checkpoint/data is removed and no inference is redone.
+Canonical micro_metrics.py/rescore_micro.py. official_metrics.py/unranked_metrics.py
+are compatibility APIs for current jobs, not author aggregation. Original author
+reproduction remains in legacy_rex_metrics.py. rescore_official.py and
+rescore_unranked.py delegate to the current metric.
 
-The original source is vendored under official_eval/upstream with its license.
-Each evaluation runs in a short-lived CPU subprocess to isolate the author's
-native allocations; the original code and reducers are not modified.
+Current micro_metrics.json, set_metrics.json compatibility copy, and
+evaluation/micro_summary.json/.md. All results carry protocol, image coverage,
+source annotation hash and native counts. Previous rex_official_metrics and
+other old metrics are historical only; never mix them into current curves or
+deltas. Predictions, models, data, checkpoints and old source records remain.

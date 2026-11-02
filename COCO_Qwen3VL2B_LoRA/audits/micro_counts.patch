@@ -1,0 +1,66 @@
+--- original/cocoeval.cpp
++++ endpoint-counts/cocoeval.cpp
+@@ -413,6 +413,7 @@
+     int A = params.areaRng.size();
+     int M = params.maxDets.size();
+ 
++    count_tp.assign(T*K, 0); count_fp.assign(T*K, 0); count_gt.assign(T*K, 0);
+     precision = new double[T*R*K*A*M];
+     recall = new double[T*K*A*M];
+ 
+@@ -662,7 +663,16 @@
+             for (int i = 0; i < gtIg.size(); i++) {
+                 if (gtIg[i] == 0) npig++;
+             }
+-            if (npig == 0) continue;
++            if (npig == 0) {
++                if (a == 0 && m == M-1) {
++                    for (int t=0; t<T; t++) {
++                        double false_count=0;
++                        for (int j=0; j<dtIg[t].size(); j++) if (!dtIg[t][j]) false_count++;
++                        count_fp[t*K+k]=false_count;
++                    }
++                }
++                continue;
++            }
+ 
+             vector<vector<double> > tps;
+             vector<vector<double> > fps;
+@@ -699,6 +709,11 @@
+                     rc[i] = tp[i] / npig;
+                     pr[i] = tp[i] / (fp[i] + tp[i] + eps);
+                 }  
++                if (a == 0 && m == M-1) {
++                    count_tp[t*K+k] = nd ? tp[nd-1] : 0;
++                    count_fp[t*K+k] = nd ? fp[nd-1] : 0;
++                    count_gt[t*K+k] = npig;
++                }
+                 double q[R]; memset(q, 0, sizeof(q));
+ 
+                 int offset = t*K*A*M + k*A*M + a*M + m;
+@@ -956,6 +971,7 @@
+     if (params.agnostic) K_loop = 1;
+ 
+     for (int k = 0; k < K_loop; k++) {
++        precision50_value = 0; precision95_value = 0;
+         ap = 0; ap_sum = 0;
+         ap50 = 0; ap50_sum = 0;
+         ratp70 = -1; ratp50 = -1; maxprecision = -1;
+@@ -1015,6 +1031,7 @@
+         recall_value = 0;
+         double precision_value_tmp, recall_value_tmp;
+         for (int t = 0; t < T; t++) {
++            precision_value_tmp = 0;
+             for (int r = R-1; r >= 0; r--) {
+                 offset = t*R*K*A*M + r*K*A*M + k*A*M + aind*M + mind;
+                 if (precision[offset] > 0) {
+@@ -1086,6 +1103,9 @@
+         }
+     }
+ 
++    result["count_tp"] = count_tp; result["count_fp"] = count_fp; result["count_gt"] = count_gt;
++    vector<double> count_catids; for (int c : params.catIds) count_catids.push_back(c);
++    result["count_catids"] = count_catids;
+     result["ap"] = vector_ap;
+     result["ap50"] = vector_ap50;
+     result["ratp70"] = vector_ratp70;

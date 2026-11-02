@@ -46,13 +46,13 @@ record={'variant':variant,'policy_adapter':str(adapter),'frozen_reference_adapte
         'distinct_prompts_per_update':32,'responses_per_prompt':8,
         'responses_per_update':256,'microbatch':32,'gradient_accumulation':8,
         'progress_evaluation_steps':[100,200,300],
-        'evaluation':'Original Rex official P/R/F1, all-query outputs; not AP or AP_set'}
+        'evaluation':'Global endpoint micro P/R/F1 with Rex matching; all-query outputs'}
 snapshot=output/'source_snapshot';snapshot.mkdir()
 for directory in ['rex_id_epoch3_rl','rex_id_object_credit','rex_id_grpo']:
     target=snapshot/directory;target.mkdir()
     for source in (root/directory).iterdir():
         if source.is_file():shutil.copy2(source,target/source.name)
-for name in ['unranked_metrics.py','official_metrics.py','rex_token_sft/evaluate_rex_id_coco.py']:
+for name in ['unranked_metrics.py','official_metrics.py','micro_metrics.py','rex_token_sft/evaluate_rex_id_coco.py']:
     target=snapshot/name;target.parent.mkdir(parents=True,exist_ok=True)
     shutil.copy2(root/name,target)
 (output/'paired_experiment.json').write_text(json.dumps(record,indent=2)+'\n')
@@ -81,7 +81,7 @@ class ProgressEval(TrainerCallback):
             status={'returncode':result.returncode}
         except subprocess.TimeoutExpired:
             status={'returncode':None,'error':'progress evaluation timed out after1800 seconds'}
-        status.update(step=state.global_step,metrics=str(target/'rex_official_metrics.json'))
+        status.update(step=state.global_step,metrics=str(target/'micro_metrics.json'))
         (target/'evaluation_status.json').write_text(json.dumps(status,indent=2)+'\n')
         print('PROGRESS_EVAL_END',json.dumps(status),flush=True)
         return control

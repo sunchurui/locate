@@ -25,3 +25,7 @@
 *.resume.json
 .ranges_*/
 .train2017_ranges/
+
+/official_eval/counts_engine/
+/official_eval/counts_engine_*/
+/runtime_tmp/

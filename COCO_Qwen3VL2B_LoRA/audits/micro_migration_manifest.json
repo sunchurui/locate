@@ -1,0 +1,14 @@
+{
+  "protocol": "rex_matching_global_endpoint_micro_v1",
+  "saved_result_groups": 55,
+  "shards_recomputed": 7,
+  "training_curves_recomputed": 4,
+  "all_previous_registry_sources_covered": true,
+  "jobs": {
+    "build": 207836,
+    "verification": 207839,
+    "initial_rescore": 207844
+  },
+  "current_summary": "evaluation/micro_summary.json",
+  "missing_previous_sources": []
+}

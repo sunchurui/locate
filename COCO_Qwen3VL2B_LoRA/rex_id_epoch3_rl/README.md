@@ -1,3 +1,5 @@
+> **Current evaluation2026-11-02:** global endpoint micro P/R/F1 with Rex matching; original author aggregation is superseded. See [protocol](../EVALUATION_PROTOCOL.md) and [current results](../reports/micro_current.md). Older AP/author-F1 numbers are historical.
+
 # Paired RL from SFT epoch3
 
 Both policy and frozen reference load exactly
@@ -16,7 +18,7 @@ per-response population z-score, box/stop weights0.1, independent stop penalty.
 Output directories are separate and never overwrite prior runs.
 
 Checkpoints every50 updates; reward validation every100 updates. At100/200/300,
-a callback also runs actual val256 generation and Rex official P/R/F1 on the
+a callback also runs actual val256 generation and global endpoint micro P/R/F1 with Rex matching on the
 same allocated >=80GB GPU. Failed/timed-out progress evaluations are recorded
 in evaluation_status.json without discarding RL progress. No CPU checkpoint
 readiness task occupies a concurrent-job slot while waiting for future files.
@@ -24,7 +26,7 @@ Full5000-image evaluators run separately after successful training. A separate
 full evaluation of the epoch3 SFT base supplies the common comparison.
 
 On 2026-11-02 the user explicitly selected the latest PROJECT_MEMORY protocol:
-reuse Rex official P/R/F1, not the withdrawn AP_set or generation-order AP.
+reuse global endpoint micro P/R/F1 with Rex matching, not the withdrawn AP_set or generation-order AP.
 All80-class-query outputs are retained as the all-query evaluation input.
 Original FastEval internals (constant confidence, same-score handling and
 maxDets) and the positive-only reference are documented in official_metrics.py;

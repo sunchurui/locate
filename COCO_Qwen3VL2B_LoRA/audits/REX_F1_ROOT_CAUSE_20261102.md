@@ -1,3 +1,5 @@
+> Historical author-metric audit. Current project results use pooled endpoint micro P/R/F1; see MICRO_MIGRATION_20261102.md and ../reports/micro_current.md.
+
 # Rex 官方 F1 小子集偏高：根因审计
 
 结论限定于 Rex commit `6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e`、旧原ID

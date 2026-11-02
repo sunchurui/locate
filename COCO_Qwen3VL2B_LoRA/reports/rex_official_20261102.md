@@ -1,3 +1,5 @@
+> HISTORICAL METRIC SNAPSHOT. Superseded by [micro_current.md](micro_current.md); do not use these scores for current comparisons.
+
 > Confirmed upstream metric issue: see ../audits/REX_F1_ROOT_CAUSE_20261102.md. These are unmodified author scores, not global endpoint F1.
 
 # Rex-Omni official evaluator replay

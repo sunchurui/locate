@@ -1,0 +1,14 @@
+{
+  "base_commit": "6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e",
+  "builder_sha256": "59ffe1a83ba77963de1a0583385912c52d1cbccdbfbfa85b5c718817ad71568a",
+  "original_cpp_sha256": "fc271896d2278ee01c56618d0999575e044d822208eed0cdbbf00767fadaf363",
+  "files": {
+    "fastevaluate/cocoeval.cpp": "677069638324d41931193cd2c7798e45af25179fdba1a5d85af18317d9d64d3f",
+    "fastevaluate/cocoeval.h": "acb5f0e664e7eaea0b5c1fd5f6fc00973f81bed467cce22bc5b7dd9d7cca3b7a",
+    "counts.patch": "a1cececef7324c50179c60cbfc88aef8aad04c86fd4ca0676cccf8cc1de2f014",
+    "fastevaluate.cpython-312-x86_64-linux-gnu.so": "169c0e72193227661d2adb05bed9a2ca569344c02fe8634110a46d86eecec0b7",
+    "build/lib.linux-x86_64-cpython-312/fastevaluate.cpython-312-x86_64-linux-gnu.so": "169c0e72193227661d2adb05bed9a2ca569344c02fe8634110a46d86eecec0b7"
+  },
+  "matching_changed": false,
+  "changes": "Export endpoint TP/FP/GT including absent-GT FP; initialize unused legacy precision."
+}
