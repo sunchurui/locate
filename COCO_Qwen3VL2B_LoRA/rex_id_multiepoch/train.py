@@ -114,11 +114,11 @@ class EpochValidation(TrainerCallback):
                '--annotations', str(self.root / 'data/coco2017/annotations/instances_val2017.json'),
                '--image-dir', str(self.root / 'data/coco2017/val2017'), '--image-ids', str(self.root / 'rl_val_manifest.json'),
                '--output-dir', str(target), '--batch-size', '8']
-        print('EPOCH_AP_START', epoch, flush=True)
+        print('EPOCH_SET_METRICS_START', epoch, flush=True)
         result = subprocess.run(cmd)
         write_json(self.output / 'epochs' / f'epoch{epoch}_evaluation.json',
-                   {'epoch': epoch, 'returncode': result.returncode, 'metrics': str(target / 'coco_metrics.json')})
-        print('EPOCH_AP_END', epoch, result.returncode, flush=True)
+                   {'epoch': epoch, 'returncode': result.returncode, 'metrics': str(target / 'set_metrics.json')})
+        print('EPOCH_SET_METRICS_END', epoch, result.returncode, flush=True)
         return control
 
 
