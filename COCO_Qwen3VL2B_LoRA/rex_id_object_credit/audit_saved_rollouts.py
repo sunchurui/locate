@@ -20,11 +20,12 @@ def main():
     parser.add_argument('--root', required=True)
     parser.add_argument('--rollouts', required=True)
     parser.add_argument('--output', required=True)
+    parser.add_argument('--config', default='rex_id_object_credit/config.json')
     args = parser.parse_args()
     root = Path(args.root)
     sys.path.insert(0, str(root / 'rex_id_grpo'))
     from reward_plugin import core, parse
-    settings = json.loads((root / 'rex_id_object_credit/config.json').read_text())
+    settings = json.loads((root / args.config).read_text())
     tokenizer = AutoTokenizer.from_pretrained(root / 'rex_id_rl_base', local_files_only=True)
     annotator = ObjectAnnotator(tokenizer, parse, settings)
     metadata = json.loads((root / 'rex_id_object_credit/ignore_metadata.json').read_text())['images']
@@ -65,8 +66,10 @@ def main():
                 for pred in annotation.predictions:
                     if len(pred.token_indices) != 4:
                         raise ValueError('Box credit is not mapped to four coordinate tokens')
-                    if not -1 <= pred.credit <= 1:
-                        raise ValueError('Object credit outside bounded range')
+                    k = sum(not p.ignored for p in annotation.predictions)
+                    bound = max(k - 1, 0)**.5 if settings.get('object_credit_normalization') == 'response_zscore' else 1.
+                    if abs(pred.credit) > bound + 1e-6:
+                        raise ValueError('Object credit outside configured theoretical bound')
                     report['matched_boxes'] += pred.gt_index is not None
                     report['extra_boxes'] += pred.gt_index is None and not pred.ignored
                     report['ignored_boxes'] += pred.ignored

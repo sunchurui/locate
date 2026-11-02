@@ -1,0 +1,14 @@
+{
+  "edge_cases_passed": 8,
+  "v1_group_credit_regression_passed": true,
+  "v2_group_hook_passed": true,
+  "real_valid_responses": 79123,
+  "real_boxes": 508941,
+  "degenerate_responses": 10712,
+  "boxes_with_changed_credit": 488263,
+  "raw_box_credit_abs_sum": 136475.68508418195,
+  "normalized_box_credit_abs_sum": 396993.70746246714,
+  "stop_penalties_unchanged": true,
+  "coordinate_token_mapping_checked": true,
+  "scope": "CPU normalization replay and invariant checks, not a new RL run or AP result."
+}

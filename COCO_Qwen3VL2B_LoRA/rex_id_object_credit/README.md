@@ -1,5 +1,33 @@
 # Object-aligned credit with termination penalties
 
+## Optional response-local normalization (v2)
+
+`config.json` and `train.sbatch` retain the original v1 behavior. Run the new
+`train_mcr_norm.sbatch` from the experiment root to opt into v2, writing a
+separate `rex_id_grpo_outputs_object_credit_mcr_norm_v2` directory.
+
+After computing the original raw box credits over each complete 8-response
+group, v2 normalizes the evaluable boxes **within each individual response**:
+`C_norm = (C_raw - mean_response(C_raw)) / (population_std_response(C_raw) + 1e-8)`.
+This follows equations 8--9 of MCR-GRPO: https://arxiv.org/html/2608.01055.
+No normalization is applied across the training microbatch or across tokens.
+Crowd-ignored boxes remain zero and do not affect the mean/std. Zero or one
+eligible box, or zero variance, produces zero box correction. Termination
+penalties remain independent, raw, nonpositive, and on their original tokens.
+
+The box and stop weights stay 0.1 to isolate the normalization change. This is
+**our original credit estimator with MCR-style normalization**, not a complete
+MCR-GRPO reproduction: its leave-one-object-out set-value estimator is not used.
+Normalization is relative: an unmatched box is not guaranteed negative credit
+when all eligible boxes have the same raw score (that response gets zero),
+and normalized box credits can exceed magnitude 1. Their theoretical bound
+is sqrt(K-1), with K the number of eligible predicted boxes.
+
+Audit records include raw box credits, response mean/std, and normalized box
+credits. The four coordinate tokens of each box receive the same normalized
+credit; their total box correction is zero-sum within a response. Raw stop
+penalties deliberately add a separate nonzero negative correction.
+
 This is an optional extension of the **working ms-swift 4.6.0 GRPO path** in
 `../rex_id_grpo`. It does not use the older, incomplete veRL object-credit
 prototype. Scalar set/strict rewards, their GDPO normalization, the upstream

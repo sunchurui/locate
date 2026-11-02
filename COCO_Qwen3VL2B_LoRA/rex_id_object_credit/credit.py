@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 from scipy.optimize import linear_sum_assignment
+from normalization import normalize_object_credit
 
 COORD_FIRST = 150643
 COORD_LAST = 151642
@@ -52,6 +53,7 @@ class Annotation:
     missing: list = field(default_factory=list)
     # (actual response-token index, raw signed credit, reason)
     stops: list = field(default_factory=list)
+    normalization: dict | None = None
 
 
 class ObjectAnnotator:
@@ -169,4 +171,5 @@ def assign_group_credit(annotations, settings):
                 pred.credit = pred.quality - float(mean_quality[pred.gt_index])
             elif not pred.ignored:
                 pred.credit = settings['extra_credit']
+        annotation.normalization = normalize_object_credit(annotation, settings)
     return mean_quality.tolist()

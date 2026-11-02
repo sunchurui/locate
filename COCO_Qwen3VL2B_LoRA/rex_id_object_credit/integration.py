@@ -76,6 +76,14 @@ def install(trainer_class, root, settings_path):
         metrics['object_credit/missing_gt_fraction'].append(n_missing / max(n_gt, 1))
         metrics['object_credit/extra_prediction_fraction'].append(n_extra / max(n_pred, 1))
         metrics['object_credit/valid_response_fraction'].append(sum(a.valid for a in annotations) / len(annotations))
+        if training and settings.get('object_credit_normalization', 'none') == 'response_zscore':
+            eligible = [p.credit for a in annotations for p in a.predictions if not p.ignored]
+            metrics['object_credit/normalized_box_rms'].append(
+                (sum(x*x for x in eligible) / max(1, len(eligible))) ** .5)
+            metrics['object_credit/normalization_degenerate_fraction'].append(
+                sum(a.normalization is not None and
+                    (a.normalization['eligible_boxes'] <= 1 or a.normalization['population_std'] == 0)
+                    for a in annotations) / len(annotations))
         if not training:
             return  # Validation records diagnostics; its advantages/loss stay unchanged.
 
@@ -133,7 +141,8 @@ def install(trainer_class, root, settings_path):
         if not getattr(self, '_object_credit_verified', False):
             print(f'OBJECT_CREDIT_VERIFIED: 32 images x 8 responses; actual token-ID alignment; '
                   f'{n_pred} boxes; {n_extra} extras; {stop_count} penalized actual stop tokens; '
-                  f'box_weight={settings["box_weight"]}, stop_weight={settings["stop_weight"]}', flush=True)
+                  f'box_weight={settings["box_weight"]}, stop_weight={settings["stop_weight"]}; '
+                  f'normalization={settings.get("object_credit_normalization", "none")}', flush=True)
             self._object_credit_verified = True
 
     trainer_class._postprocess_batch = postprocess
