@@ -28,3 +28,26 @@
 Source/data checksums and real-batch shapes are in `data_report.json` and
 `data_audit.json`. Runtime paths and jobs are in the experiment's `jobs.json`.
 Training/evaluation are independent per method; no M17 code/job is changed.
+
+## 2026-11-02 status and recovery
+
+- M34 (206035), M37 (206037), M36 (206041) completed14786 updates/one epoch.
+  Wall times:6h51m59s,4h33m03s,4h01m26s respectively.
+- Their step10000 fixed256-image APs are33.3128,34.1845,33.3480.
+  These are intermediate checkpoints, not final/full5000-image scores.
+  The historical final SFT on the same256-image manifest scores35.2209.
+  Unequal training stages must not be interpreted as final ablation effects.
+- Original M38 (206039) reached approximately6000 updates. Its last complete
+  checkpoint is5000, with fixed256 AP32.3543. Multiprocessing could not create
+  `/tmp/pymp-*` due to node-local disk exhaustion, then the job timed out at12h.
+  All original checkpoints are retained.
+- Standalone evals206036/206038/206042 failed before generation because of an
+  unused access to a missing top-level `Qwen3VLConfig.use_cache` attribute.
+  Removed that access. Corrected full5000 eval jobs:206993/206994/206995.
+- M38 fresh retry206996 uses the same model, data, seed, learning settings and
+  installed packages; A100SXM80, isolated output `m38_retry_20261102`, home-backed
+  per-job TMPDIR and0 dataloader workers. Original GPU smoke is retained and
+  not repeated. Dependent full evaluation206997 loads the retry's own adapter.
+- Runtime registries preserve failed IDs/reasons as history. The stuck original
+  M38 evaluation206040 was cancelled; no model/data/checkpoint was deleted.
+  No other experiment, including M17 and five-epoch training, was modified.

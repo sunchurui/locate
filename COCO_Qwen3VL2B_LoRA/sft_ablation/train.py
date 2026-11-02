@@ -83,6 +83,8 @@ def main():
     parser = argparse.ArgumentParser(); parser.add_argument('--root', required=True)
     parser.add_argument('--method', choices=['m34','m37','m38','m36'], required=True)
     parser.add_argument('--smoke', action='store_true')
+    parser.add_argument('--output-dir', help='Independent output for a fresh retry; never overwrites an earlier run')
+    parser.add_argument('--dataloader-workers', type=int, default=4)
     args = parser.parse_args(); root = Path(args.root).resolve(); folder = root / 'sft_ablation'
     config = json.loads((folder / 'config.json').read_text())
     if sha256(folder / 'baseline_train.py') != config['baseline_trainer_sha256']:
@@ -100,6 +102,10 @@ def main():
         raise ValueError('Original validation data changed')
     order = 'text_first' if args.method == 'm37' else 'image_first'
     output = root / ('sft_ablation_smoke' if args.smoke else 'sft_ablation_outputs') / args.method
+    if args.output_dir:
+        output = Path(args.output_dir).resolve()
+    if args.dataloader_workers < 0:
+        raise ValueError('Dataloader workers must be nonnegative')
     if (output / 'trainer_state.json').exists():
         raise ValueError('Output already has training state; preserve it rather than restarting over it')
     output.mkdir(parents=True, exist_ok=True)
@@ -107,6 +113,8 @@ def main():
                 'train_sha256': sha256(data), 'preparation_report_sha256': sha256(prepared / 'report.json'),
                 'base_model': config['model'], 'initialization': 'fresh Qwen3-VL-2B + fresh LoRA; no previous SFT/RL adapter loaded',
                 'gpu': torch.cuda.get_device_name(0), 'gpu_memory_bytes': torch.cuda.get_device_properties(0).total_memory}
+    metadata['execution'] = {'dataloader_workers': args.dataloader_workers,
+                             'torch_version': torch.__version__, 'fresh_retry_output': args.output_dir}
     (output / 'sft_ablation.json').write_text(json.dumps(metadata, indent=2) + '\n')
     snapshot = output / 'source'; snapshot.mkdir(exist_ok=True)
     for source in list(folder.glob('*.py')) + list(folder.glob('*.sbatch')) + [folder / 'config.json', folder / 'README.md']:
@@ -118,6 +126,7 @@ def main():
         def __init__(self, *positional, **kwargs):
             training_args = kwargs['args']
             training_args.save_total_limit = None  # Retain every checkpoint; never delete previous outputs.
+            training_args.dataloader_num_workers = args.dataloader_workers
             if args.smoke:
                 training_args.max_steps = 2; training_args.dataloader_num_workers = 0
                 training_args.eval_strategy = 'no'; training_args.save_strategy = 'no'; training_args.logging_steps = 1

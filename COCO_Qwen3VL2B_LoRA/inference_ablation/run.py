@@ -65,7 +65,13 @@ def main():
     upstream = Upstream(folder / 'upstream_sources')
     method = importlib.import_module(args.method)
     engine = Engine(root, config, output)
-    (output / 'environment.json').write_text(json.dumps(engine.metadata, indent=2) + '\n')
+    environment_text = json.dumps(engine.metadata, indent=2) + '\n'
+    # A resumed job may use a different BF16-capable GPU. Keep every environment.
+    if not (output / 'environment.json').exists():
+        (output / 'environment.json').write_text(environment_text)
+    environment_runs = output / 'environment_runs'
+    environment_runs.mkdir(exist_ok=True)
+    (environment_runs / f'{os.environ.get("SLURM_JOB_ID", "local")}.json').write_text(environment_text)
     categories = {item['name'].lower(): item['id'] for item in gt.dataset['categories']}
     records = []
     record_folder = output / 'records'
@@ -86,6 +92,7 @@ def main():
         image.close()
         extra_keys = list(set(engine.accessed) - set(base_keys))
         record = {'image_id': image_id, 'baseline': detections(baseline, categories),
+                  'execution_job_id': os.environ.get('SLURM_JOB_ID', 'local'),
                   'variants': variants, 'details': details, 'baseline_cost': engine.cost(base_keys),
                   'extra_cost': engine.cost(extra_keys), 'processing_seconds': time.perf_counter() - started}
         temporary = record_path.with_suffix('.tmp')

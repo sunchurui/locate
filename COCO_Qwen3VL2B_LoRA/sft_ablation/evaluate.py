@@ -72,7 +72,6 @@ def run(model, processor, root, output, order, batch_size=16, max_tokens=1024, m
     categories = {item['name'].lower(): item['id'] for item in gt.dataset['categories']}
     pending = [gt.imgs[i] for i in wanted if i not in recorded]
     was_training, padding = model.training, processor.tokenizer.padding_side
-    old_cache = model.config.use_cache
     processor.tokenizer.padding_side = 'left'; model.eval()
     started = time.perf_counter()
     try:
@@ -115,7 +114,7 @@ def run(model, processor, root, output, order, batch_size=16, max_tokens=1024, m
         print('COCO_AP_RESULT', json.dumps(metrics), flush=True)
         return metrics
     finally:
-        processor.tokenizer.padding_side = padding; model.config.use_cache = old_cache
+        processor.tokenizer.padding_side = padding
         model.train(was_training); gc.collect(); torch.cuda.empty_cache()
 
 

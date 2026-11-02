@@ -12,6 +12,8 @@ cd "$ROOT"
 source "$ROOT/venv/bin/activate"
 export TOKENIZERS_PARALLELISM=false HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 OMP_NUM_THREADS=2
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export TMPDIR="$ROOT/runtime_tmp/${SLURM_JOB_ID}"
+mkdir -p "$TMPDIR"
 : "${METHOD:?Set METHOD=m34,m37,m38,or m36}"
 python -u sft_ablation/evaluate.py --root "$ROOT" \
-  --adapter "$ROOT/sft_ablation_outputs/$METHOD" --output "$ROOT/evaluation/sft_ablation/$METHOD" --batch-size 16
+  --adapter "${ADAPTER_DIR:-$ROOT/sft_ablation_outputs/$METHOD}" --output "$ROOT/evaluation/sft_ablation/$METHOD" --batch-size 16
