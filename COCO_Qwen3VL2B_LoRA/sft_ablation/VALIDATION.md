@@ -44,10 +44,14 @@ Training/evaluation are independent per method; no M17 code/job is changed.
 - Standalone evals206036/206038/206042 failed before generation because of an
   unused access to a missing top-level `Qwen3VLConfig.use_cache` attribute.
   Removed that access. Corrected full5000 eval jobs:206993/206994/206995.
-- M38 fresh retry206996 uses the same model, data, seed, learning settings and
-  installed packages; A100SXM80, isolated output `m38_retry_20261102`, home-backed
+- M38 fresh retry207004 uses the same model, data, seed, learning settings and
+  installed packages; A100PCIe80, isolated output `m38_retry_20261102`, home-backed
   per-job TMPDIR and0 dataloader workers. Original GPU smoke is retained and
-  not repeated. Dependent full evaluation206997 loads the retry's own adapter.
+  not repeated. Dependent full evaluation207005 loads the retry's own adapter.
+  Earlier pending retry206996/evaluation206997 were cancelled before execution.
+  SCIR requires a typed GPU request and rejected an attempt to request an
+  untyped GPU restricted to known80GB nodes; no such job was created.
+  Corrected M34/M37/M36 evaluation requests have8h limits for backfill.
 - Runtime registries preserve failed IDs/reasons as history. The stuck original
   M38 evaluation206040 was cancelled; no model/data/checkpoint was deleted.
   No other experiment, including M17 and five-epoch training, was modified.

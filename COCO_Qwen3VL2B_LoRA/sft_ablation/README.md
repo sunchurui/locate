@@ -121,7 +121,7 @@ under the experiment directory rather than a node's shared `/tmp`.
 For an already smoke-validated method, a fresh independent retry can use:
 
 ```bash
-sbatch --gres=gpu:a100-sxm4-80gb:1 \
+sbatch --gres=gpu:nvidia_a100_80gb_pcie:1 \
   --export=ALL,METHOD=m38,SKIP_SMOKE=1,DATALOADER_WORKERS=0,OUTPUT_DIR="$PWD/sft_ablation_outputs/m38_retry_20261102" \
   sft_ablation/train.sbatch
 sbatch --dependency=afterok:RETRY_JOB \
