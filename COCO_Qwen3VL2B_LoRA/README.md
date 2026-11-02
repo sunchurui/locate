@@ -1,6 +1,8 @@
 # COCO 2017 + Qwen3-VL-2B LoRA baseline
 
-> **2026-11-02 mandatory evaluation update:** All evaluations ignore scores and output order, count every prediction and report custom single-point AP_set (P*R per class/IoU) plus P/R/F1. Standard ranked AP and constant-score COCOeval are superseded. Read [the exact protocol](EVALUATION_PROTOCOL.md) and PROJECT_MEMORY.md before using historical instructions/results.
+> **Current protocol:** reuse Rex-Omni original FastEval P/R/F1; custom AP_set is withdrawn. See [EVALUATION_PROTOCOL.md](EVALUATION_PROTOCOL.md) and PROJECT_MEMORY.md. No fabricated confidence scores.
+
+
 
 
 A reproducible single-GPU supervised fine-tuning (SFT) baseline and fixed reinforcement-learning subset for COCO 2017 object detection using `Qwen/Qwen3-VL-2B-Instruct` and ms-swift. A GroundingPI-inspired adaptation of Rex-Omni's RL code is in progress and is not yet a runnable training recipe.

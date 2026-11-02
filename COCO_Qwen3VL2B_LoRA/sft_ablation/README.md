@@ -1,6 +1,8 @@
 # Independent M34 / M37 / M38 / M36 Rex-ID LoRA SFT experiments
 
-> **2026-11-02 mandatory evaluation update:** All evaluations ignore scores and output order, count every prediction and report custom single-point AP_set (P*R per class/IoU) plus P/R/F1. Standard ranked AP and constant-score COCOeval are superseded. Read [the exact protocol](../EVALUATION_PROTOCOL.md) and PROJECT_MEMORY.md before using historical instructions/results.
+> **Current protocol:** reuse Rex-Omni original FastEval P/R/F1; custom AP_set is withdrawn. See [../EVALUATION_PROTOCOL.md](../EVALUATION_PROTOCOL.md) and PROJECT_MEMORY.md. No fabricated confidence scores.
+
+
 
 
 These are four separate one-factor experiments, not a combined recipe. M17 is

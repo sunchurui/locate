@@ -1,21 +1,21 @@
-# COCO experiment requirements
+# Mandatory COCO evaluation requirements
 
-Read `PROJECT_MEMORY.md` before editing training, validation, inference or reports.
+Read PROJECT_MEMORY.md and EVALUATION_PROTOCOL.md before changing evaluation.
 
-- All evaluations must ignore detection scores and generated order, and count
-  every parsed output box. This applies to baseline, SFT, RL, progress validation
-  and every inference ablation. Extra/duplicate boxes must count as false positives.
-- Never fabricate descending scores from output order, use model/voting scores
-  to rank evaluation boxes, or treat constant-score COCOeval as order-independent.
-- Use same-image/class one-to-one set matching, maximize valid match count before
-  IoU, and document crowd handling. No evaluation-stage top-k, NMS or score cutoff.
-- Algorithm-internal candidate selection is distinct from evaluator ranking.
-  Preserve each method's actual output; do not silently tune/prune it using GT.
-- The user requires modified, score-free AP results. State and persist the exact
-  definition. P/R/F1 are supplemental; do not silently substitute F1 for AP or
-  label a custom no-ranking AP as standard COCO AP.
-- Keep old ranked-AP artifacts for provenance, mark them superseded, and write
-  new results separately. Recompute from saved predictions whenever available.
-- Verify permutation and score invariance, duplicate penalties, maximum-cardinality
-  matching and empty/crowd behavior before publishing changed metric results.
-- Training requires GPU memory >=80GB. Do not delete data/models/checkpoints.
+- Follow the actual Rex-Omni / GroundingPI author evaluation; do not invent metrics.
+- Withdrawn: generated-order confidence AP, voting-confidence AP, custom P*R AP_set.
+- Rex detection metrics are author P/R/F1, not AP. Reuse unmodified FastEval C++
+  and official safe_mean/f1 reducers at the locked commit. Generated boxes use
+  the author's constant0.2, never artificial descending or learned scores.
+- Do not claim that the original engine contains no internal sorting, tie handling
+  or maxDets. Do not silently substitute custom Hungarian or micro F1.
+- Keep all outputs for our existing all80-class task. Report the official
+  GT-positive-only filtering reference separately; never silently remove false
+  categories using GT or claim our prompt is the original paper prompt.
+- GroundingPI GAM and Rex FastEval differ in matching/averaging/deduplication.
+  State the exact source, version and task route; do not interchange their names.
+- Use official_metrics.py / rescore_official.py. Old APIs are compatibility shims.
+  Current results are rex_official_metrics.json and rex_official_summary.*.
+- Preserve obsolete results for provenance, mark them withdrawn from primary
+  reporting, and recompute saved predictions rather than regenerating silently.
+- Training GPU memory>=80GB. Never delete model/data/checkpoints.

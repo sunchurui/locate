@@ -27,8 +27,7 @@ def evaluate_records(gt, records):
             detections.extend(dict(item, image_id=row['image_id']) for item in predictions)
         output[name] = evaluate(gt, detections, ids)
     for name in variants:
-        output[name]['delta_F1_50_points'] = 100 * (output[name]['thresholds']['0.50']['micro']['F1'] - output['baseline']['thresholds']['0.50']['micro']['F1'])
-        output[name]['delta_AP_set_points'] = 100 * (output[name]['AP_set_50_95'] - output['baseline']['AP_set_50_95'])
+        output[name]['delta_F1_meanIoU_points'] = 100*(output[name]['meanIoU']['F1']-output['baseline']['meanIoU']['F1'])
     return output
 
 

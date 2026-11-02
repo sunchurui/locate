@@ -1,0 +1,27 @@
+{
+  "rex_commit": "6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e",
+  "groundingpi_commit": "98641f0b8ed94a091f1457e0e624c49c0ebf3876",
+  "files": {
+    "rex/LICENSE": "5249a075efeaf24ad885ce64cc4fd32d9e9c9023e8fa06f94767237d1ac4247f",
+    "groundingpi/LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "rex/evaluation/inference_text_prompt.py": "d9a3db7958b438e24d16c2f17b97435f47638de70894eba6464e374508c25904",
+    "rex/evaluation/metrics/coco_lvis_metric.py": "ea77f5bf3c950d3933c7aca891c76229743936a7e931673afdbba581d5176a7e",
+    "rex/evaluation/utils/merge_pred.py": "06ae25fb87594110a3c4bf61536ec4709943ac3156379eaa8968513de721d3de",
+    "rex/evaluation/utils/convert_coco_lvis_to_standard_format.py": "5f5e5b58bbca0981c7bb202d35efbb4376761ce1c403070723d524caa076b689",
+    "rex/evaluation/fastevaluate/setup.py": "1dc408ed4bd9277e7201c54793caad60657a10d9bd8671a60bdab18f6da07431",
+    "rex/evaluation/scrpts/eval_coco.sh": "e817330e5a18cd345c263ee7e3a7fd960b1c96e7afd08fe929d864fa3803577c",
+    "rex/evaluation/fastevaluate/fastevaluate/cJSON.h": "c01a8ca5609bb2c956dd1ae836d5d926ec68153ecebc5a75ea0febc2e076da8d",
+    "rex/evaluation/fastevaluate/fastevaluate/maskApi.h": "e4ac18f235054532c5040a143596a1dc5be090a801e9e0a1760b68dd59c4b36f",
+    "rex/evaluation/fastevaluate/fastevaluate/fastevaluate.cpp": "ba6aa248de057c03a5d3f63fbfbc97ec2a73bb6b6f4f4180831b842b7a88dc5f",
+    "rex/evaluation/fastevaluate/fastevaluate/__init__.py": "7f704f425df0e36afa00bd7a2a3d0b7b66aba36ed00e0c32308c9d2707d174c8",
+    "rex/evaluation/fastevaluate/fastevaluate/maskApi.c": "758ceb636eb5700cc6ce39adfeca7359a492539b3124c44801d5e1fb4ea31964",
+    "rex/evaluation/fastevaluate/fastevaluate/cJSON.c": "de63e951ce3bc9b6938c7635575a6c90c3b364595b0b0f4c5ae8f9c83a43c17d",
+    "rex/evaluation/fastevaluate/fastevaluate/cocoeval.cpp": "fc271896d2278ee01c56618d0999575e044d822208eed0cdbbf00767fadaf363",
+    "rex/evaluation/fastevaluate/fastevaluate/cocoeval.h": "53811406c06bfa907f1aec59756a7f5349bc959886f96401ff1e256eb479b93b",
+    "groundingpi/docs/EVALUATION.md": "b856272bff5827132ebea51e46903ebb09d1abf6ba93e782053f092eb523bdfb",
+    "groundingpi/eval/rexomni_jsonl.py": "459e34e664f2d3bb6ab2c26dd2b71879cb6ef231705b89dc712480c6a70d98a9",
+    "groundingpi/eval/metrics/detection_metrics.py": "74253ddc6be681c420063c0de517aba586711b1f5200f1124bbd78894e2c4fbb",
+    "groundingpi/eval/Grounding/utils.py": "0d783890b77bf4ca2d93b1679f611098103b4ece89b976ef622013cc0423a84b",
+    "groundingpi/eval/utils/detection_utils.py": "9d62014e470197b12c4bf499b449fb0662258b2a0eea9467ec6447bd0240543d"
+  }
+}

@@ -1,56 +1,54 @@
 # 项目记忆：COCO / Qwen3-VL-2B 定位实验
 
-## 2026-11-02：用户明确规定，所有评测不按分数排序
+## 用户评测要求：直接遵循 Rex-Omni / GroundingPI 原作，禁止自行设计指标
 
-用户原话：
+用户已明确反对按生成顺序、坐标概率、投票强度人为赋分来计算排序 AP。
+2026-11-02 用户进一步澄清：已有工作怎么评测，我们就怎么评测。
+不得自行发明“不排序AP”。此前提出的 `AP_set=P*R` 已撤回，不能当主结果。
 
-> 所有的评测结果你都按照这个不按分数排序的要求改一下。
-> 把这个评测结果不按分数排序的要求，写到项目的记忆里，再写到github里面。
+### 核实的原作协议
 
-用户当前目标是得到所有重要实验在无排序口径下修改后的 AP。
+- Rex-Omni 论文5.1明确说明生成模型缺少可靠置信度，AP不适用，采用 Recall、
+  Precision、F1；按类别汇总，报告IoU=.50、.95和.50:.05:.95的结果。
+- 直接复用官方源码commit `6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e` 的
+  FastEval C++和 `evaluation/metrics/coco_lvis_metric.py` 的 `safe_mean`/`f1`。
+  原作者转换脚本为所有生成框填固定 `conf=0.2`。不得替换为递减或模型分数。
+- 原版实现内部仍有固定分数的同分处理、排序与maxDets，`safe_mean`只平均
+  大于0的值。必须忠实记录这些细节，不能声称它完全排列不变，不能自行改成
+  Hungarian或另一个微平均F1后仍叫“官方结果”。
+- GroundingPI论文也报告R/P/F1，检测主指标是F1mIoU。当前官方代码commit
+  `98641f0b8ed94a091f1457e0e624c49c0ebf3876` 的GAM类别路径使用逐图类别约束匹配，
+  包含精确重复框去重，再平均逐图P/R后计算F1，各IoU的F1再平均。
+  它与Rex FastEval的聚合实现不完全相同，不能混用名称或分数。
 
-### 必须遵守
+### 当前实验与原作提示协议的差异
 
-1. 评测统计模型实际输出的全部有效框，不读取 score/confidence，也不使用
-   框的生成顺序。不能自行分配 `1-rank*0.001` 等递减分数。
-2. 投票分数、坐标 token 概率可用于明确记录的方法内部候选选择或诊断，
-   不得用于评测排序。不能在评测阶段添加阈值、top-k、NMS 来隐藏误检。
-3. 按图片、类别进行一对一集合匹配，先最大化达到 IoU 阈值的匹配数，
-   再最大化匹配 IoU；多余框和重复框为 FP，未匹配 GT 为 FN。
-4. 非 crowd GT 正常匹配；剩余预测按 COCO crowd IoA 规则判断是否忽略，
-   忽略数量须单列。报告全部预测数、TP/FP/FN、P/R/F1，并注明 IoU 阈值。
-5. 用户需要修改后的无排序 AP。必须写明数学定义，不能用 F1 冒充 AP，
-   也不能把自定义 AP 称作标准 COCO AP。标准 COCO AP 自身使用分数排序；
-   给所有框相同分数仍有内部排序/同分顺序，不能满足这里的强制要求。
-6. 数据范围须明确：完整 val2017 5000张，固定子集256张来自 seed42 哈希
-   抽样。只在同一图片集合上比较方法；部分覆盖必须标注，不作最终结论。
-7. 所有 baseline、SFT、RL、推理方法、中途验证和后续脚本都适用本规则。
+我们固定实验查询全部COCO80类，已有全部输出必须保留，不能用GT偷偷过滤误检。
+Rex官方 `eval_coco.sh` 则使用 `--positive_only`，原论文给模型GT类别提示。
+因此当前回放把全部输出交给官方计分核心，另列官方positive-only过滤参考结果。
+两个口径必须分开标注；仅回放计分不等于完成原作GT提示推理的全面复现。
 
-### 已知错误与纠正
+### 当前入口与文件
 
-此前 Rex 评测人为按生成顺序赋分；M45 使用投票强度作为分数。由此产生的
-历史 AP 不能作为本次无排序评测的结果。尤其 M45 `t0.5_member` 的39.94 AP、
-相对35.44的+4.50属于旧排序口径，不能继续据此声称符合用户要求的提升。
+- `official_metrics.py`：调用原版Rex FastEval及作者reducers；不报告AP/AP_set。
+- `rescore_official.py`：重算全部已有预测；`rescore_unranked.py`保留为兼容入口。
+- 新结果：`rex_official_metrics.json`；`set_metrics.json`仅为同一结果的兼容副本。
+- 总表：`evaluation/rex_official_summary.json`和`.md`。
+- 固定官方源码及许可证：`official_eval/upstream/`；编译产物不入Git。
+- 排序AP、AP_set、之前自写最大匹配F1的文件均为历史诊断，保留追溯，禁止继续
+  据其声称“和Rex/GroundingPI一致”。M45旧的39.94 AP/+4.50提升结论撤回。
+- 不重新训练、不改已有预测来迁就指标；已有预测优先CPU重算。
 
-旧文件保留追溯，新集合统计使用 `set_metrics.json`。统一实现位于
-`unranked_metrics.py`，全量历史重算入口 `rescore_unranked.py`。
-重算不重新推理、不改训练权重、不删除旧结果。
+### 参考
 
-### AP 数学定义状态
+- https://arxiv.org/html/2510.12798v1#S5.SS1
+- https://github.com/IDEA-Research/Rex-Omni/blob/6508981c1e0c3fbb2dbe7b962a4bb745005f3e2e/evaluation/metrics/coco_lvis_metric.py
+- https://arxiv.org/html/2609.39601#S12.SS1
+- https://github.com/groundingpi/GroundingPI/blob/98641f0b8ed94a091f1457e0e624c49c0ebf3876/eval/utils/detection_utils.py
 
-当前实现明确采用以下约定（已向用户提出核对，尚未收到确认；若用户另定
-公式须以其要求更新）：每个类别、每个 IoU 阈值下，
-将全部预测作为一个输出集合，取得单个 P/R 点，单点 PR 面积为 `P*R`，
-再跨类别和 IoU=0.50:0.05:0.95 平均。这个指标必须标为自定义无排序 AP，
-与标准 COCO AP 区分。对应输出字段为 `AP_set_50_95`、`AP_set_50`、
-`AP_set_75`；P/R/F1 是补充，不能用作 AP 的替代名称。无 GT 但有预测的
-类别 AP_set 为0；既无 GT 又无预测的类别不进入该次类别平均。
+### 实验条件
 
-### 基本实验条件
-
-- HPC：`/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA`。
-- 模型：Qwen3-VL-2B，LoRA，复用 Rex 原 ID 坐标表示。
-- 当前基座：`rex_id_sft_outputs_a800_80`。
-- GitHub：`sunchurui/locate`，代码目录 `COCO_Qwen3VL2B_LoRA`。
-- 训练仅使用80GB及以上显存GPU；不删除模型、数据、检查点。
-- 用户曾停止 Codex 自动检查；不要擅自恢复周期自动任务。
+HPC `/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA`，模型Qwen3-VL-2B LoRA，Rex原ID，
+基座 `rex_id_sft_outputs_a800_80`。COCO val5000，固定子集256，seed42。
+不同图片集合不直接比较。训练GPU必须>=80GB，不删除数据/模型/检查点。
+GitHub `sunchurui/locate/COCO_Qwen3VL2B_LoRA`。不要擅自恢复Codex周期自动检查。

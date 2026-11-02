@@ -1501,5 +1501,7 @@
       "AP_set_75": 0.2956931293035898,
       "mean_F1_50_95": 0.3543082493705325
     }
-  ]
+  ],
+  "withdrawn_as_primary": true,
+  "replaced_by": "reports/rex_official_20261102.json"
 }
