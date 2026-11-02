@@ -744,39 +744,39 @@
     },
     {
       "source": "evaluation/sft_ablation/m37/predictions.jsonl",
-      "images": 4896,
-      "detections": 34734,
-      "coverage": "partial",
+      "images": 5000,
+      "detections": 35437,
+      "coverage": "complete",
       "meanIoU": {
-        "precision": 0.46009060643503197,
-        "recall": 0.3967958140242618,
-        "F1": 0.4261055429200313
+        "precision": 0.45943860376964485,
+        "recall": 0.3965605855896409,
+        "F1": 0.42569022031376047
       },
       "IoU50": {
-        "precision": 0.62801545390227,
-        "recall": 0.5466011657702119,
-        "F1": 0.5844868418776581
+        "precision": 0.6271320268697863,
+        "recall": 0.5464308837880136,
+        "F1": 0.5840067108156066
       },
       "IoU95": {
-        "precision": 0.1448656867918605,
-        "recall": 0.115575489921934,
-        "F1": 0.12857354535950316
+        "precision": 0.1449577961672705,
+        "recall": 0.11559679755736145,
+        "F1": 0.1286230020232809
       },
       "official_positive_only_reference": {
         "meanIoU": {
-          "precision": 0.5001560106340524,
-          "recall": 0.3967958140242618,
-          "F1": 0.4425205589035234
+          "precision": 0.49934007995065527,
+          "recall": 0.3965605855896409,
+          "F1": 0.44205479944406495
         },
         "IoU50": {
-          "precision": 0.6842186646964921,
-          "recall": 0.5466011657702119,
-          "F1": 0.607716435025309
+          "precision": 0.6833183525824909,
+          "recall": 0.5464308837880136,
+          "F1": 0.6072559189583012
         },
         "IoU95": {
-          "precision": 0.15711913283814824,
-          "recall": 0.115575489921934,
-          "F1": 0.1331828297168505
+          "precision": 0.15722565207656763,
+          "recall": 0.11559679755736145,
+          "F1": 0.133235237043769
         }
       },
       "metrics": "evaluation/sft_ablation/m37/rex_official_metrics.json"
@@ -2068,5 +2068,6 @@
       },
       "metrics": "inference_ablation/results/m46/rex_official/mcc/rex_official_metrics.json"
     }
-  ]
+  ],
+  "refreshed_at": "2026-11-02T18:24:06.185514+08:00"
 }

@@ -1,6 +1,7 @@
 # Rex-Omni official evaluator replay
 
-Unmodified author FastEval and safe_mean/f1. No invented AP or confidence ranking. Primary retains all outputs of our all80-class prompt; positive-only official filtering reference is separate. Values in percent.
+Updated: 2026-11-02T18:24:06.185514+08:00.
+Unmodified author FastEval and safe_mean/f1. Primary retains all outputs of our all80-class prompt. GT-positive-only reference is separate. Values in percent.
 
 | Source | Images | Coverage | P mIoU | R mIoU | F1 mIoU | F1@.50 | F1@.95 | Positive-only F1 mIoU |
 | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -23,7 +24,7 @@ Unmodified author FastEval and safe_mean/f1. No invented AP or confidence rankin
 | evaluation/rex_token_val2017/predictions.jsonl | 5000 | complete | 43.83 | 40.52 | 42.11 | 57.26 | 13.49 | 43.60 |
 | evaluation/sft_ablation/m34/predictions.jsonl | 5000 | complete | 39.42 | 40.60 | 40.00 | 54.81 | 11.98 | 41.88 |
 | evaluation/sft_ablation/m36/predictions.jsonl | 5000 | complete | 39.24 | 40.80 | 40.01 | 54.70 | 11.80 | 41.97 |
-| evaluation/sft_ablation/m37/predictions.jsonl | 4896 | partial | 46.01 | 39.68 | 42.61 | 58.45 | 12.86 | 44.25 |
+| evaluation/sft_ablation/m37/predictions.jsonl | 5000 | complete | 45.94 | 39.66 | 42.57 | 58.40 | 12.86 | 44.21 |
 | evaluation/val2017/predictions.jsonl | 5000 | complete | 46.93 | 41.89 | 44.27 | 59.60 | 14.50 | 46.33 |
 | rex_id_grpo_outputs_global16_v3/coco_val2017/predictions.jsonl | 5000 | complete | 48.91 | 41.33 | 44.80 | 61.72 | 13.39 | 46.17 |
 | rex_id_grpo_outputs_object_credit_v1/coco_val2017/predictions.jsonl | 5000 | complete | 48.77 | 41.30 | 44.72 | 61.50 | 13.38 | 46.14 |
