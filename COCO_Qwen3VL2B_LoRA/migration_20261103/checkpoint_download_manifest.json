@@ -1,0 +1,292 @@
+{
+  "created_at": "2026-11-03T10:05:57.544502+08:00",
+  "type": "Complete LoRA training checkpoints; original Qwen3-VL-2B model weights are separate",
+  "checkpoints": [
+    {
+      "label": "single_epoch_final",
+      "source": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/rex_id_sft_outputs_a800_80/checkpoint-14786",
+      "local_directory": "checkpoint-14786",
+      "epoch": 1.0,
+      "global_step": 14786,
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 5248,
+          "sha256": "78a341492345734ef678b7b675c4f5a125be132622955ef9652fbc1d5b756084"
+        },
+        {
+          "path": "adapter_config.json",
+          "bytes": 13162,
+          "sha256": "c8ba765715f76a33a52c7891ac6f2aa42817ad408bfc17e17c15586daea3b4cf"
+        },
+        {
+          "path": "adapter_model.safetensors",
+          "bytes": 77980528,
+          "sha256": "b168192d487e6124a972d5c664a2f11178abb61d79714c4aa167573b349e9ea1"
+        },
+        {
+          "path": "added_tokens.json",
+          "bytes": 707,
+          "sha256": "c0284b582e14987fbd3d5a2cb2bd139084371ed9acbae488829a1c900833c680"
+        },
+        {
+          "path": "chat_template.jinja",
+          "bytes": 5292,
+          "sha256": "3636d0f0bd6bef02654cdffdc447b79cb2cef8ab02cc75267345946291a489e4"
+        },
+        {
+          "path": "merges.txt",
+          "bytes": 1663501,
+          "sha256": "cbb96c35b7f1603825748dd1b3f7afd12950b6ec5a54f1f5b94c1031377f049d"
+        },
+        {
+          "path": "optimizer.pt",
+          "bytes": 156175021,
+          "sha256": "c8ce0b9e4834661aa901b00de84fc4067abd4868a81be6c1eb7c586148f46e0c"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 783,
+          "sha256": "4eb7ff2bee4ba6f98e918af9ec4dfa9eb373a8e770138b3aeffab62fb31041bb"
+        },
+        {
+          "path": "rng_state.pth",
+          "bytes": 14244,
+          "sha256": "fdab85ebb17934187be5a6dcf0881033db94f0e7fcfcd23bc7cc6b2f6476f188"
+        },
+        {
+          "path": "scheduler.pt",
+          "bytes": 1064,
+          "sha256": "7338686abd052c71666056693212fc4c3576e60d35679a5900d14839728fc6a8"
+        },
+        {
+          "path": "special_tokens_map.json",
+          "bytes": 13503,
+          "sha256": "0155120657b1f14f7181171b997e704204c45d83528a27731f0a82c141b38009"
+        },
+        {
+          "path": "tokenizer.json",
+          "bytes": 11556730,
+          "sha256": "9964543f3601366e51873b87697bfaf5e07a196bbd3c6a26b90ac8a01d4961ab"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "bytes": 190225,
+          "sha256": "8077b14cb636846a5ad4013f8fd5b8c539b55b609fbce4718965daddc95edb27"
+        },
+        {
+          "path": "trainer_state.json",
+          "bytes": 132376,
+          "sha256": "2aeee79cf18b0772a3a536df5e72a57e6c205cb08220760f39d3452dbb1a2ac4"
+        },
+        {
+          "path": "training_args.bin",
+          "bytes": 5496,
+          "sha256": "e731d55b42a1e709c41dc79ea1e30e2de74bab198698ccbaafdc570ce3face07"
+        },
+        {
+          "path": "video_preprocessor_config.json",
+          "bytes": 817,
+          "sha256": "59c5c9eb52182eb14c06ffb10ca9effd29adce5f238a95de23ca14a38dbd2cb1"
+        },
+        {
+          "path": "vocab.json",
+          "bytes": 2775371,
+          "sha256": "064ead7bbff21d4f6d4849b265d4f23078c441637070e5e664423463d341667c"
+        }
+      ],
+      "total_bytes": 250534068
+    },
+    {
+      "label": "five_epoch_final",
+      "source": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/rex_id_sft_outputs_5epoch_b64/checkpoint-9245",
+      "local_directory": "checkpoint-9245",
+      "epoch": 5.0,
+      "global_step": 9245,
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 5248,
+          "sha256": "78a341492345734ef678b7b675c4f5a125be132622955ef9652fbc1d5b756084"
+        },
+        {
+          "path": "adapter_config.json",
+          "bytes": 13162,
+          "sha256": "c8ba765715f76a33a52c7891ac6f2aa42817ad408bfc17e17c15586daea3b4cf"
+        },
+        {
+          "path": "adapter_model.safetensors",
+          "bytes": 77980528,
+          "sha256": "d2514126487fc6377cc4cb7af5358b4105dcc72e8ded36b843a5ecfc202db806"
+        },
+        {
+          "path": "added_tokens.json",
+          "bytes": 707,
+          "sha256": "c0284b582e14987fbd3d5a2cb2bd139084371ed9acbae488829a1c900833c680"
+        },
+        {
+          "path": "chat_template.jinja",
+          "bytes": 5292,
+          "sha256": "3636d0f0bd6bef02654cdffdc447b79cb2cef8ab02cc75267345946291a489e4"
+        },
+        {
+          "path": "merges.txt",
+          "bytes": 1663501,
+          "sha256": "cbb96c35b7f1603825748dd1b3f7afd12950b6ec5a54f1f5b94c1031377f049d"
+        },
+        {
+          "path": "optimizer.pt",
+          "bytes": 156175021,
+          "sha256": "8981863826a1bfc7aabaa012b5f6bae3c0d3029fef247d317b338dd440fef591"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 783,
+          "sha256": "4eb7ff2bee4ba6f98e918af9ec4dfa9eb373a8e770138b3aeffab62fb31041bb"
+        },
+        {
+          "path": "rng_state.pth",
+          "bytes": 14244,
+          "sha256": "37774369a1b2cf7b8c03288d19ffd78e0d4866e807dc1a0bc629c6535dfb977d"
+        },
+        {
+          "path": "scheduler.pt",
+          "bytes": 1064,
+          "sha256": "c0d20020f958cd4b06e0870ccb4ad26981d112d03849102d89e81f1acc37fa5c"
+        },
+        {
+          "path": "special_tokens_map.json",
+          "bytes": 13503,
+          "sha256": "0155120657b1f14f7181171b997e704204c45d83528a27731f0a82c141b38009"
+        },
+        {
+          "path": "tokenizer.json",
+          "bytes": 11556730,
+          "sha256": "9964543f3601366e51873b87697bfaf5e07a196bbd3c6a26b90ac8a01d4961ab"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "bytes": 190225,
+          "sha256": "8077b14cb636846a5ad4013f8fd5b8c539b55b609fbce4718965daddc95edb27"
+        },
+        {
+          "path": "trainer_state.json",
+          "bytes": 89574,
+          "sha256": "330994e92a387d8b3c40aa7ee688c5ed771aafdfb70eb82859bd6bdfe39d6de9"
+        },
+        {
+          "path": "training_args.bin",
+          "bytes": 5496,
+          "sha256": "a6290b83da0514cb79ecfaf749e9881b0cca800660a01da6e60bf9f375e01cde"
+        },
+        {
+          "path": "video_preprocessor_config.json",
+          "bytes": 817,
+          "sha256": "59c5c9eb52182eb14c06ffb10ca9effd29adce5f238a95de23ca14a38dbd2cb1"
+        },
+        {
+          "path": "vocab.json",
+          "bytes": 2775371,
+          "sha256": "064ead7bbff21d4f6d4849b265d4f23078c441637070e5e664423463d341667c"
+        }
+      ],
+      "total_bytes": 250491266
+    },
+    {
+      "label": "selected_epoch3_rl_base",
+      "source": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/rex_id_sft_outputs_5epoch_b64/checkpoint-5547",
+      "local_directory": "checkpoint-5547",
+      "epoch": 3.0,
+      "global_step": 5547,
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 5248,
+          "sha256": "78a341492345734ef678b7b675c4f5a125be132622955ef9652fbc1d5b756084"
+        },
+        {
+          "path": "adapter_config.json",
+          "bytes": 13162,
+          "sha256": "c8ba765715f76a33a52c7891ac6f2aa42817ad408bfc17e17c15586daea3b4cf"
+        },
+        {
+          "path": "adapter_model.safetensors",
+          "bytes": 77980528,
+          "sha256": "6432882a8e82f709951f28e52e64678715011deb26015ba5f5e67aecd1414fc2"
+        },
+        {
+          "path": "added_tokens.json",
+          "bytes": 707,
+          "sha256": "c0284b582e14987fbd3d5a2cb2bd139084371ed9acbae488829a1c900833c680"
+        },
+        {
+          "path": "chat_template.jinja",
+          "bytes": 5292,
+          "sha256": "3636d0f0bd6bef02654cdffdc447b79cb2cef8ab02cc75267345946291a489e4"
+        },
+        {
+          "path": "merges.txt",
+          "bytes": 1663501,
+          "sha256": "cbb96c35b7f1603825748dd1b3f7afd12950b6ec5a54f1f5b94c1031377f049d"
+        },
+        {
+          "path": "optimizer.pt",
+          "bytes": 156175021,
+          "sha256": "3131f058ff1009d45ca890fbd257ace6283fbe903a9a4b14b0d111638cdd5050"
+        },
+        {
+          "path": "preprocessor_config.json",
+          "bytes": 783,
+          "sha256": "4eb7ff2bee4ba6f98e918af9ec4dfa9eb373a8e770138b3aeffab62fb31041bb"
+        },
+        {
+          "path": "rng_state.pth",
+          "bytes": 14244,
+          "sha256": "4695debc23e8e53359cd920f5f02f97d2ee072542f3789dfc18cec940e4e0876"
+        },
+        {
+          "path": "scheduler.pt",
+          "bytes": 1064,
+          "sha256": "cdd47719c9872dc653017b2365b5d42098ceeda0a603902a98452d6d8fcf08af"
+        },
+        {
+          "path": "special_tokens_map.json",
+          "bytes": 13503,
+          "sha256": "0155120657b1f14f7181171b997e704204c45d83528a27731f0a82c141b38009"
+        },
+        {
+          "path": "tokenizer.json",
+          "bytes": 11556730,
+          "sha256": "9964543f3601366e51873b87697bfaf5e07a196bbd3c6a26b90ac8a01d4961ab"
+        },
+        {
+          "path": "tokenizer_config.json",
+          "bytes": 190225,
+          "sha256": "8077b14cb636846a5ad4013f8fd5b8c539b55b609fbce4718965daddc95edb27"
+        },
+        {
+          "path": "trainer_state.json",
+          "bytes": 54078,
+          "sha256": "49e4e6edec15cc14ed10a960c238e7c386a080284c80e6bcf25e1fdc1b2afa13"
+        },
+        {
+          "path": "training_args.bin",
+          "bytes": 5496,
+          "sha256": "a6290b83da0514cb79ecfaf749e9881b0cca800660a01da6e60bf9f375e01cde"
+        },
+        {
+          "path": "video_preprocessor_config.json",
+          "bytes": 817,
+          "sha256": "59c5c9eb52182eb14c06ffb10ca9effd29adce5f238a95de23ca14a38dbd2cb1"
+        },
+        {
+          "path": "vocab.json",
+          "bytes": 2775371,
+          "sha256": "064ead7bbff21d4f6d4849b265d4f23078c441637070e5e664423463d341667c"
+        }
+      ],
+      "total_bytes": 250455770
+    }
+  ],
+  "total_bytes": 751481104
+}

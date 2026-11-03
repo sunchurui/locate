@@ -13,9 +13,14 @@ PROMPT = ('<image>Detect all objects from the 80 MS COCO categories. Return each
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--root', required=True)
+    p.add_argument('--sft-adapter', help='Tokenizer/processor source; defaults to the legacy single-epoch SFT')
     a = p.parse_args()
     root = Path(a.root).resolve()
-    base, adapter = root/'model', root/'rex_id_sft_outputs_a800_80'
+    base = root/'model'
+    adapter = Path(a.sft_adapter) if a.sft_adapter else root/'rex_id_sft_outputs_a800_80'
+    if not adapter.is_absolute():
+        adapter = root/adapter
+    adapter = adapter.resolve()
     overlay = root/'rex_id_rl_base'
     overlay.mkdir(exist_ok=True)
     for source in base.glob('*.safetensors*'):

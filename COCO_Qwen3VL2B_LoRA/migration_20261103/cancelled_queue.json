@@ -1,0 +1,142 @@
+{
+  "time": "2026-11-03T09:59:59.022561+08:00",
+  "reason": "User requested stop all pending project scripts before platform migration due to quota",
+  "project_root": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+  "targets": [
+    {
+      "job_id": "207004",
+      "state_before": "PENDING",
+      "name": "rex_sft_m38_retry",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_ablation/train.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "207730",
+      "state_before": "PENDING",
+      "name": "ep3_credit_norm_train",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/rex_id_epoch3_rl/train.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "207728",
+      "state_before": "PENDING",
+      "name": "ep3_global_train",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/rex_id_epoch3_rl/train.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208922",
+      "state_before": "PENDING",
+      "name": "m30_random_control_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_curriculum/train.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208920",
+      "state_before": "PENDING",
+      "name": "m30_curriculum_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_curriculum/train.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208931",
+      "state_before": "PENDING",
+      "name": "sft_class_rfs_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/train.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208929",
+      "state_before": "PENDING",
+      "name": "sft_highres_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/train.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208927",
+      "state_before": "PENDING",
+      "name": "sft_projector_lora_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/train.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208925",
+      "state_before": "PENDING",
+      "name": "sft_image_mean_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/train.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208933",
+      "state_before": "PENDING",
+      "name": "eval_control_highres_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208932",
+      "state_before": "PENDING",
+      "name": "eval_class_rfs_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208930",
+      "state_before": "PENDING",
+      "name": "eval_highres_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208928",
+      "state_before": "PENDING",
+      "name": "eval_projector_lora_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208926",
+      "state_before": "PENDING",
+      "name": "eval_image_mean_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208923",
+      "state_before": "PENDING",
+      "name": "m30_random_control_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_curriculum/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "208921",
+      "state_before": "PENDING",
+      "name": "m30_curriculum_pathfix",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_curriculum/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "207005",
+      "state_before": "PENDING",
+      "name": "rex_sft_m38_eval_retry",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_ablation/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "207731",
+      "state_before": "PENDING",
+      "name": "ep3_credit_norm_eval",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/rex_id_epoch3_rl/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    },
+    {
+      "job_id": "207729",
+      "state_before": "PENDING",
+      "name": "ep3_global_eval",
+      "command": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/rex_id_epoch3_rl/evaluate.sbatch",
+      "workdir": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA"
+    }
+  ],
+  "not_targeted": [],
+  "scancel_succeeded": true
+}

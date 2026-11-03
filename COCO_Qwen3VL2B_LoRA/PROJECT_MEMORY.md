@@ -187,3 +187,13 @@ to9.65. This threshold was requested after seeing earlier results and is
 post-hoc/exploratory, not independent confirmation or full5000 performance.
 No new inference or model changes. Script inference_ablation/m45_support48.py;
 report reports/m45_support48_v1.md; exact16/32 predictions match earlier cache.
+
+
+## 2026-11-03：用户停止当前平台并准备迁移
+
+用户明确取消当前COCO实验全部排队作业，原因是当前平台没有额度，需要更换平台。
+已取消19个训练/依赖评测，队列已清空，模型、数据、检查点、日志全部保留。
+未经用户明确恢复，不得在SCIR重提作业或恢复周期监控。代码与迁移说明
+见 PLATFORM_MIGRATION.md；完整取消清单见 migration_20261103/cancelled_queue.json。
+需要本地迁移的单轮最终checkpoint14786、五轮最终checkpoint9245及选定RL基座
+checkpoint5547另行下载校验，不把模型/数据文件提交到GitHub。

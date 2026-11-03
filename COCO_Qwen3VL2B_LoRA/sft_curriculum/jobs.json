@@ -1,26 +1,52 @@
 [
   {
     "variant": "curriculum",
-    "train_job": "207964",
-    "eval_job": "207965",
+    "train_job": "208920",
+    "eval_job": "208921",
     "training_gpu": "nvidia_a100_80gb_pcie",
     "min_training_gpu_memory_gb": 80,
     "smoke_in_allocation": true,
     "output": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_curriculum_outputs/curriculum",
     "preflight_job": "207977",
     "prepare_job": "207949",
-    "evaluation_protocol": "rex_matching_global_endpoint_micro_v1"
+    "evaluation_protocol": "rex_matching_global_endpoint_micro_v1",
+    "history": [
+      {
+        "train_job": "207964",
+        "eval_job": "207965",
+        "reason": "Launch used SLURM_SUBMIT_DIR despite --chdir; activation path absent in submission checkout. Random control failed before any training. Replace pending curriculum as well.",
+        "time": "2026-11-03T09:09:12.179162+08:00"
+      }
+    ],
+    "root_env": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+    "path_fix": "explicit EXPERIMENT_ROOT and PWD fallback; absolute activation path",
+    "platform_status": "CANCELLED_FOR_MIGRATION",
+    "cancelled_at": "2026-11-03",
+    "cancellation_audit": "../migration_20261103/cancelled_queue.json"
   },
   {
     "variant": "random_control",
-    "train_job": "207966",
-    "eval_job": "207967",
+    "train_job": "208922",
+    "eval_job": "208923",
     "training_gpu": "nvidia_a800_80gb_pcie",
     "min_training_gpu_memory_gb": 80,
     "smoke_in_allocation": true,
     "output": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_curriculum_outputs/random_control",
     "preflight_job": "207977",
     "prepare_job": "207949",
-    "evaluation_protocol": "rex_matching_global_endpoint_micro_v1"
+    "evaluation_protocol": "rex_matching_global_endpoint_micro_v1",
+    "history": [
+      {
+        "train_job": "207966",
+        "eval_job": "207967",
+        "reason": "Launch used SLURM_SUBMIT_DIR despite --chdir; activation path absent in submission checkout. Random control failed before any training. Replace pending curriculum as well.",
+        "time": "2026-11-03T09:09:12.240885+08:00"
+      }
+    ],
+    "root_env": "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+    "path_fix": "explicit EXPERIMENT_ROOT and PWD fallback; absolute activation path",
+    "platform_status": "CANCELLED_FOR_MIGRATION",
+    "cancelled_at": "2026-11-03",
+    "cancellation_audit": "../migration_20261103/cancelled_queue.json"
   }
 ]

@@ -1,0 +1,64 @@
+{
+  "scope": "Saved valid training responses only; generated-token denominators, not prompt/padding.",
+  "credit_settings": {
+    "version": 1,
+    "box_weight": 0.1,
+    "stop_weight": 0.1,
+    "group_size": 8,
+    "matching": "same-class maximum-total-IoU one-to-one; strictly positive IoU; dummy unmatched assignments",
+    "matched_credit": "matched IoU minus mean quality for the same GT over all eight responses; missing quality is zero; no standard-deviation scaling",
+    "extra_credit": -1.0,
+    "crowd_ignore_prediction_ioa": 0.5,
+    "class_stop_credit": "negative unmatched-GT fraction within the class, at its last actually generated box_end",
+    "eos_credit": "negative missing-GT count from entirely absent classes divided by all evaluable GT, at an actually generated terminal EOS",
+    "truncated_stop_credit": 0.0,
+    "invalid_format_credit": 0.0,
+    "performance_profile": "batch32",
+    "initialization": "same original-ID SFT adapter as the global-reward baseline; never initialize from the RL baseline"
+  },
+  "totals": {
+    "extra_boxes": 103318,
+    "extra_still_positive": 38893,
+    "stop_penalty_sites": 72853,
+    "valid_responses": 79123,
+    "generated_tokens": 3910117,
+    "modified_tokens": 2025905,
+    "sign_flipped_tokens": 20500,
+    "base_abs_sum": 3027206.0939880563,
+    "delta_abs_sum": 57395.139969106625,
+    "base_square_sum": 3566772.5961659113,
+    "delta_square_sum": 4576.627733903312
+  },
+  "modified_token_fraction": 0.5181187672900837,
+  "sign_flip_fraction_of_modified": 0.010118934500877386,
+  "delta_to_base_l1_ratio": 0.018959772868815148,
+  "delta_to_base_l2_ratio": 0.03582078371040699,
+  "extra_box_still_positive_fraction": 0.3764397297663524,
+  "loss_gradient_probe": {
+    "responses": 32,
+    "baseline_loss": -0.09012101590633392,
+    "credit_loss": -0.07875777781009674,
+    "gradient_changed_tokens": 815,
+    "gradient_delta_l2": 0.0008866363787092268,
+    "gradient_delta_expected_max_error": 1.6007106751203537e-10,
+    "limitation": "Installed loss core, real saved responses/advantages; controlled IS=1 logps, not historical model gradients."
+  },
+  "rex_id_grpo_outputs_global16_v3": {
+    "recomputed_AP": 0.31079708884307555,
+    "AP50": 0.4777974144981859,
+    "AP75": 0.31766914846119815,
+    "matches_saved_metrics": true
+  },
+  "rex_id_grpo_outputs_object_credit_v1": {
+    "recomputed_AP": 0.3108037131137148,
+    "AP50": 0.4762254040714905,
+    "AP75": 0.3174190525030891,
+    "matches_saved_metrics": true
+  },
+  "prediction_comparison": {
+    "images": 5000,
+    "identical_images": 1171,
+    "different_images": 3829,
+    "different_detection_counts": 411
+  }
+}

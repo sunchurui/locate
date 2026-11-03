@@ -1,3 +1,5 @@
+> **Platform migration2026-11-03:** all19 pending SCIR training/evaluation jobs were cancelled at the user's request. Preserve artifacts; do not resubmit on SCIR. See [migration guide](PLATFORM_MIGRATION.md).
+
 > **Current protocol2026-11-02:** global endpoint micro P/R/F1 from pooled Rex native TP/FP/FN. Author aggregation superseded after upstream audit. See [EVALUATION_PROTOCOL.md](EVALUATION_PROTOCOL.md) and [current results](reports/micro_current.md). This is not original Rex F1 or AP.
 
 # COCO 2017 + Qwen3-VL-2B LoRA baseline
@@ -6,7 +8,7 @@
 
 
 
-A reproducible single-GPU supervised fine-tuning (SFT) baseline and fixed reinforcement-learning subset for COCO 2017 object detection using `Qwen/Qwen3-VL-2B-Instruct` and ms-swift. A GroundingPI-inspired adaptation of Rex-Omni's RL code is in progress and is not yet a runnable training recipe.
+A reproducible single-GPU supervised fine-tuning (SFT) baseline and fixed reinforcement-learning subset for COCO 2017 object detection using `Qwen/Qwen3-VL-2B-Instruct` and ms-swift. The working Swift GRPO recipes and paired epoch3 SFT initialization are in `rex_id_grpo/`, `rex_id_object_credit/` and `rex_id_epoch3_rl/`; see their READMEs and the migration guide.
 
 ## Dataset
 

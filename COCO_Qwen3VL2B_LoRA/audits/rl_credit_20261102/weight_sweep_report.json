@@ -1,0 +1,62 @@
+{
+  "scope": "Valid responses from the existing credit run, holding samples and base advantages fixed. Advantage coefficient statistics, not parameter gradients or predicted AP.",
+  "counts": {
+    "responses": 79123,
+    "tokens": 3910117,
+    "modified_tokens": 2025905,
+    "extras": 103318,
+    "stops": 72853
+  },
+  "rows": [
+    {
+      "box_weight": 0.1,
+      "stop_weight": 0.1,
+      "correction_to_base_L1": 0.018959772868815263,
+      "correction_to_base_L2": 0.03582078371040711,
+      "response_mean_normalized_RMS_ratio": 0.029331903069972923,
+      "sign_flip_fraction_of_modified": 0.010118934500877386,
+      "extra_boxes_still_positive_fraction": 0.3764397297663524,
+      "penalized_stops_still_positive_fraction": 0.5287359477303611
+    },
+    {
+      "box_weight": 0.25,
+      "stop_weight": 0.25,
+      "correction_to_base_L1": 0.04739943217203815,
+      "correction_to_base_L2": 0.08955195927601776,
+      "response_mean_normalized_RMS_ratio": 0.0733297576749323,
+      "sign_flip_fraction_of_modified": 0.025573755926363774,
+      "extra_boxes_still_positive_fraction": 0.31893764881240444,
+      "penalized_stops_still_positive_fraction": 0.5063621264738584
+    },
+    {
+      "box_weight": 0.5,
+      "stop_weight": 0.5,
+      "correction_to_base_L1": 0.0947988643440763,
+      "correction_to_base_L2": 0.17910391855203553,
+      "response_mean_normalized_RMS_ratio": 0.1466595153498646,
+      "sign_flip_fraction_of_modified": 0.05329321957347457,
+      "extra_boxes_still_positive_fraction": 0.21395110242164966,
+      "penalized_stops_still_positive_fraction": 0.46687164564259537
+    },
+    {
+      "box_weight": 1.0,
+      "stop_weight": 1.0,
+      "correction_to_base_L1": 0.1895977286881526,
+      "correction_to_base_L2": 0.35820783710407106,
+      "response_mean_normalized_RMS_ratio": 0.2933190306997292,
+      "sign_flip_fraction_of_modified": 0.09310061429336519,
+      "extra_boxes_still_positive_fraction": 0.07802125476683637,
+      "penalized_stops_still_positive_fraction": 0.38311394177315966
+    },
+    {
+      "box_weight": 2.0,
+      "stop_weight": 2.0,
+      "correction_to_base_L1": 0.3791954573763052,
+      "correction_to_base_L2": 0.7164156742081421,
+      "response_mean_normalized_RMS_ratio": 0.5866380613994584,
+      "sign_flip_fraction_of_modified": 0.12959492177570026,
+      "extra_boxes_still_positive_fraction": 0.0042199810294430784,
+      "penalized_stops_still_positive_fraction": 0.2508201446748933
+    }
+  ]
+}
