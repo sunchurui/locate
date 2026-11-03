@@ -34,9 +34,9 @@ use training-only75th percentile of max per-class object count. It is5 here:
 
 ```bash
 venv/bin/python sft_curriculum/prepare.py --root "$PWD"
-sbatch --export=ALL,VARIANT=curriculum sft_curriculum/train.sbatch
-sbatch --export=ALL,VARIANT=random_control sft_curriculum/train.sbatch
-sbatch --dependency=afterok:TRAIN_JOB --export=ALL,VARIANT=curriculum sft_curriculum/evaluate.sbatch
+sbatch --export=ALL,EXPERIMENT_ROOT="$PWD",VARIANT=curriculum sft_curriculum/train.sbatch
+sbatch --export=ALL,EXPERIMENT_ROOT="$PWD",VARIANT=random_control sft_curriculum/train.sbatch
+sbatch --dependency=afterok:TRAIN_JOB --export=ALL,EXPERIMENT_ROOT="$PWD",VARIANT=curriculum sft_curriculum/evaluate.sbatch
 ```
 
 Input/source hashes and exact ordered image IDs are in prepared/report.json and
@@ -47,3 +47,12 @@ Check initial trainable hashes match between the two formal runs when they start
 GPU jobs are in jobs.json. No locks, no duplicate training candidates, no recurring
 monitor. Never delete models/data/checkpoints. Generated training rows excluded
 from Git; frozen image-ID manifests and preparation metadata are included.
+
+
+## Startup path recovery (2026-11-03)
+
+Original random-control207966 failed before model initialization: --chdir did
+not change SLURM_SUBMIT_DIR, which still pointed to the submission checkout.
+Launchers now honor PWD or explicit EXPERIMENT_ROOT and activate the absolute
+venv path. Replacements208920/208922 and full evaluators208921/208923 preserve
+all data, learning parameters and old logs. Runtime history is in jobs.json.

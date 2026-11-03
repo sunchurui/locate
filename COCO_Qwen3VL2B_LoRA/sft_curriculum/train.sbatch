@@ -7,9 +7,10 @@
 #SBATCH --job-name=m30_sft
 #SBATCH --output=logs/%x_%j.log
 set -euo pipefail
-ROOT="${EXPERIMENT_ROOT:-$SLURM_SUBMIT_DIR}"
+# --chdir sets PWD; SLURM_SUBMIT_DIR can still name a staging checkout.
+ROOT="${EXPERIMENT_ROOT:-$PWD}"
 cd "$ROOT"
-source venv/bin/activate
+source "$ROOT/venv/bin/activate"
 export TOKENIZERS_PARALLELISM=false WANDB_MODE=disabled HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 export OMP_NUM_THREADS=2 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export TMPDIR="$ROOT/runtime_tmp/$SLURM_JOB_ID"
