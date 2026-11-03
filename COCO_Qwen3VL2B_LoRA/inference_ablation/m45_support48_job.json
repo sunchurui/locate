@@ -1,0 +1,6 @@
+{
+  "execution": "bounded CPU cached-count replay; no model inference",
+  "elapsed_seconds": 6.494206566130742,
+  "reason": "CPU Slurm submission rejected by prepaid account reservation extension; no job created. Lightweight4-variant replay bounded15CPU/25wall seconds.",
+  "protocol": "rex_matching_global_endpoint_micro_v1"
+}

@@ -2688,6 +2688,35 @@
       },
       "metrics": "inference_ablation/results/m46/micro/mcc/micro_metrics.json",
       "protocol": "rex_matching_global_endpoint_micro_v1"
+    },
+    {
+      "source": "inference_ablation/results/m45_support48_v1/t0.5_member_s48_nms70/predictions.jsonl",
+      "images": 256,
+      "detections": 1030,
+      "coverage": "complete",
+      "meanIoU": {
+        "precision": 0.6058150839181558,
+        "recall": 0.3286486486486487,
+        "F1": 0.4261274177303312
+      },
+      "IoU50": {
+        "precision": 0.8710629921259843,
+        "recall": 0.4783783783783784,
+        "F1": 0.6175854849965108
+      },
+      "IoU95": {
+        "precision": 0.13866396761133604,
+        "recall": 0.07405405405405406,
+        "F1": 0.09654686398872446
+      },
+      "native_limit": {
+        "max_detections_per_image_category": 100,
+        "observed_max": 12,
+        "detections_above_cap": 0
+      },
+      "protocol": "rex_matching_global_endpoint_micro_v1",
+      "metrics": "inference_ablation/results/m45_support48_v1/t0.5_member_s48_nms70/micro_metrics.json",
+      "interpretation": "Post-hoc threshold extension requested after inspecting 16/32 results; exploratory on the same 256 images."
     }
   ]
 }

@@ -102,3 +102,4 @@ Current project metric: original Rex matching with pooled TP/FP/FN, no PR reduct
 | inference/m45/t0.7_vote | 256 | complete | 3.95 | 28.12 | 6.93 | 13.60 | 0.54 |
 | inference/m46/baseline | 256 | complete | 34.88 | 36.10 | 35.48 | 51.89 | 9.37 |
 | inference/m46/mcc | 256 | complete | 35.77 | 35.08 | 35.42 | 51.82 | 9.33 |
+| inference_ablation/results/m45_support48_v1/t0.5_member_s48_nms70/predictions.jsonl | 256 | complete | 60.58 | 32.86 | 42.61 | 61.76 | 9.65 |

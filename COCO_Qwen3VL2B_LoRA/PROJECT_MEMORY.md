@@ -175,3 +175,15 @@ Explicit EXPERIMENT_ROOT, absolute activation path, bash syntax/venv existence
 checked. Same source/config/budget, training>=80GB, no model/data/checkpoint
 removal, no recurring automation. sft_followups/jobs.json retains history.
 Epoch3 RL207728/207730 and M38 retry207004 still PENDING.
+
+
+## 2026-11-03: user-requested M45 support48 cache extension
+
+Same frozen256 images and64 T=.5 generations, member-box extent/NMS.7.
+Support16 P42.68/R37.99/F140.20,1754boxes; support32 P53.46/R35.25/F142.49,
+1273boxes; support48 P60.58/R32.86/F142.61,1030boxes. Baseline35.48.
+48 improves only0.12F1 over32; F1@.50 drops64.38 to61.76, @.95 rises9.11
+to9.65. This threshold was requested after seeing earlier results and is
+post-hoc/exploratory, not independent confirmation or full5000 performance.
+No new inference or model changes. Script inference_ablation/m45_support48.py;
+report reports/m45_support48_v1.md; exact16/32 predictions match earlier cache.
