@@ -1,0 +1,126 @@
+{
+  "time": "2026-11-03T09:15:30.126664+08:00",
+  "events": [
+    {
+      "job": "208925",
+      "command": [
+        "sbatch",
+        "--parsable",
+        "--chdir=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA,VARIANT=image_mean",
+        "--job-name=sft_image_mean_pathfix",
+        "--gres=gpu:nvidia_a100_80gb_pcie:1",
+        "--time=12:00:00",
+        "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/train.sbatch"
+      ]
+    },
+    {
+      "job": "208926",
+      "command": [
+        "sbatch",
+        "--parsable",
+        "--chdir=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA,VARIANT=image_mean",
+        "--job-name=eval_image_mean_pathfix",
+        "--dependency=afterok:208925",
+        "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch"
+      ]
+    },
+    {
+      "job": "208927",
+      "command": [
+        "sbatch",
+        "--parsable",
+        "--chdir=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA,VARIANT=projector_lora",
+        "--job-name=sft_projector_lora_pathfix",
+        "--gres=gpu:a100-sxm4-80gb:1",
+        "--time=12:00:00",
+        "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/train.sbatch"
+      ]
+    },
+    {
+      "job": "208928",
+      "command": [
+        "sbatch",
+        "--parsable",
+        "--chdir=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA,VARIANT=projector_lora",
+        "--job-name=eval_projector_lora_pathfix",
+        "--dependency=afterok:208927",
+        "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch"
+      ]
+    },
+    {
+      "job": "208929",
+      "command": [
+        "sbatch",
+        "--parsable",
+        "--chdir=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA,VARIANT=highres",
+        "--job-name=sft_highres_pathfix",
+        "--gres=gpu:nvidia_h100_80gb_hbm3:1",
+        "--time=16:00:00",
+        "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/train.sbatch"
+      ]
+    },
+    {
+      "job": "208930",
+      "command": [
+        "sbatch",
+        "--parsable",
+        "--chdir=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA,VARIANT=highres",
+        "--job-name=eval_highres_pathfix",
+        "--dependency=afterok:208929",
+        "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch"
+      ]
+    },
+    {
+      "job": "208931",
+      "command": [
+        "sbatch",
+        "--parsable",
+        "--chdir=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA,VARIANT=class_rfs",
+        "--job-name=sft_class_rfs_pathfix",
+        "--gres=gpu:nvidia_a800_80gb_pcie:1",
+        "--time=12:00:00",
+        "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/train.sbatch"
+      ]
+    },
+    {
+      "job": "208932",
+      "command": [
+        "sbatch",
+        "--parsable",
+        "--chdir=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA,VARIANT=class_rfs",
+        "--job-name=eval_class_rfs_pathfix",
+        "--dependency=afterok:208931",
+        "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch"
+      ]
+    },
+    {
+      "job": "208933",
+      "command": [
+        "sbatch",
+        "--parsable",
+        "--chdir=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA",
+        "--export=ALL,EXPERIMENT_ROOT=/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA,VARIANT=control",
+        "--job-name=eval_control_highres_pathfix",
+        "--dependency=afterok:208922",
+        "/home/crsun/sunchurui/COCO_Qwen3VL2B_LoRA/sft_followups/evaluate.sbatch"
+      ]
+    }
+  ]
+}

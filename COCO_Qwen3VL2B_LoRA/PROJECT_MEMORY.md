@@ -155,3 +155,23 @@ On>=80GB allocation do2 real gradient smoke steps before fresh formal training;
 loss validation every1000, fixed256 generation5000/10000, full5000 afterok.
 Current micro protocol unchanged, no AP/confidence ranking, no checkpoints
 removed, no new Codex recurring monitor. Jobs/source locks in package.
+
+
+## 2026-11-03 09:15 CST: full SFT comparison and follow-up launch recovery
+
+Both full5000 generation jobs completed and were rescored with current micro protocol:
+epoch3=40.08 F1mIoU (P42.00/R38.33), epoch5=38.81 (P39.51/R38.14).
+Old Rex original-ID full5000=35.51; epoch3 gain+4.57, epoch5+3.30.
+This is fresh five-epoch batch64 recipe vs old batch8, not an epochs-only ablation.
+M30 paired launches replaced by pathfix208920/208921 and208922/208923.
+Follow-ups old highres208046/class_rfs208048 failed before training because
+the submitted Slurm snapshot sourced the venv under the submission checkout.
+On-disk scripts were already fixed but pending snapshots208042/208044 were stale.
+Replaced only those follow-up jobs and associated dependent evaluations:
+image_mean208925/208926, projector_lora208927/208928,
+highres208929/208930, class_rfs208931/208932; control highres eval208933
+after random_control208922. All PENDING at this check, no training steps.
+Explicit EXPERIMENT_ROOT, absolute activation path, bash syntax/venv existence
+checked. Same source/config/budget, training>=80GB, no model/data/checkpoint
+removal, no recurring automation. sft_followups/jobs.json retains history.
+Epoch3 RL207728/207730 and M38 retry207004 still PENDING.

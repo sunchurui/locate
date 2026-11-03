@@ -59,23 +59,23 @@
     },
     {
       "source": "evaluation/epoch3_rl/base_full/predictions.jsonl",
-      "images": 3440,
-      "detections": 24865,
-      "coverage": "partial",
+      "images": 5000,
+      "detections": 35989,
+      "coverage": "complete",
       "meanIoU": {
-        "precision": 0.4234101124461249,
-        "recall": 0.3830692441768341,
-        "F1": 0.4022307339167123
+        "precision": 0.4199790241449354,
+        "recall": 0.38332461813678276,
+        "F1": 0.4008155586063122
       },
       "IoU50": {
-        "precision": 0.6067771607080875,
-        "recall": 0.5539930280462684,
-        "F1": 0.5791849581711256
+        "precision": 0.6017513972324338,
+        "recall": 0.5541213705793312,
+        "F1": 0.5769550391151103
       },
       "IoU95": {
-        "precision": 0.11116528522671867,
-        "recall": 0.09935034067501189,
-        "F1": 0.10492626294320678
+        "precision": 0.10991523873406915,
+        "recall": 0.09921563231044447,
+        "F1": 0.10429172753966992
       },
       "native_limit": {
         "max_detections_per_image_category": 100,
@@ -423,23 +423,23 @@
     },
     {
       "source": "evaluation/rex_id_sft_outputs_5epoch_b64_full/checkpoint-9245/predictions.jsonl",
-      "images": 2432,
-      "detections": 18436,
-      "coverage": "partial",
+      "images": 5000,
+      "detections": 38003,
+      "coverage": "complete",
       "meanIoU": {
-        "precision": 0.4003922666383498,
-        "recall": 0.3835720350976507,
-        "F1": 0.39180170885778615
+        "precision": 0.3951416742811417,
+        "recall": 0.3813568184945645,
+        "F1": 0.38812688797323636
       },
       "IoU50": {
-        "precision": 0.5694859621358654,
-        "recall": 0.5500141522785168,
-        "F1": 0.559580717617923
+        "precision": 0.5644326251167001,
+        "recall": 0.5490849043621853,
+        "F1": 0.5566529951731257
       },
       "IoU95": {
-        "precision": 0.11055067647756943,
-        "recall": 0.1054627795075007,
-        "F1": 0.10794680881884289
+        "precision": 0.10659636655395725,
+        "recall": 0.10238062474198431,
+        "F1": 0.10444597307427737
       },
       "native_limit": {
         "max_detections_per_image_category": 100,

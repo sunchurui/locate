@@ -8,7 +8,7 @@ Current project metric: original Rex matching with pooled TP/FP/FN, no PR reduct
 | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
 | evaluation/base_val2017_first1600/predictions.jsonl | 1600 | partial | 25.30 | 18.51 | 21.38 | 29.04 | 6.86 |
 | evaluation/base_val2017_full/predictions.jsonl | 5000 | complete | 24.39 | 18.00 | 20.71 | 28.28 | 6.42 |
-| evaluation/epoch3_rl/base_full/predictions.jsonl | 3440 | partial | 42.34 | 38.31 | 40.22 | 57.92 | 10.49 |
+| evaluation/epoch3_rl/base_full/predictions.jsonl | 5000 | complete | 42.00 | 38.33 | 40.08 | 57.70 | 10.43 |
 | evaluation/progress_val256/global16_step100/predictions.jsonl | 256 | complete | 38.57 | 36.57 | 37.54 | 54.29 | 9.74 |
 | evaluation/progress_val256/global16_step200/predictions.jsonl | 256 | complete | 40.24 | 37.43 | 38.78 | 56.30 | 10.01 |
 | evaluation/progress_val256/global16_step300/predictions.jsonl | 256 | complete | 41.62 | 37.04 | 39.19 | 57.16 | 10.10 |
@@ -21,7 +21,7 @@ Current project metric: original Rex matching with pooled TP/FP/FN, no PR reduct
 | evaluation/rex_id_sft_outputs_5epoch_b64/epoch3_val256/predictions.jsonl | 256 | complete | 41.91 | 38.61 | 40.19 | 58.98 | 10.40 |
 | evaluation/rex_id_sft_outputs_5epoch_b64/epoch4_val256/predictions.jsonl | 256 | complete | 37.49 | 37.57 | 37.53 | 54.99 | 9.99 |
 | evaluation/rex_id_sft_outputs_5epoch_b64/epoch5_val256/predictions.jsonl | 256 | complete | 39.45 | 38.46 | 38.95 | 57.13 | 10.76 |
-| evaluation/rex_id_sft_outputs_5epoch_b64_full/checkpoint-9245/predictions.jsonl | 2432 | partial | 40.04 | 38.36 | 39.18 | 55.96 | 10.79 |
+| evaluation/rex_id_sft_outputs_5epoch_b64_full/checkpoint-9245/predictions.jsonl | 5000 | complete | 39.51 | 38.14 | 38.81 | 55.67 | 10.44 |
 | evaluation/rex_id_val2017_a800_80/predictions.jsonl | 5000 | complete | 36.63 | 34.46 | 35.51 | 50.64 | 9.72 |
 | evaluation/rex_id_val2017_a800_80/predictions.jsonl#fixed256 | 256 | complete | 35.70 | 35.26 | 35.48 | 52.03 | 8.93 |
 | evaluation/rex_token_val2017/predictions.jsonl | 5000 | complete | 36.11 | 35.23 | 35.67 | 50.77 | 9.82 |
