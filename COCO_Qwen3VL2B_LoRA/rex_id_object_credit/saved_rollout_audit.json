@@ -1,0 +1,723 @@
+{
+  "source": "rex_id_grpo_outputs_aligned_fast64/completions.jsonl",
+  "scope": "real saved text retokenized; actual generation alignment checked at runtime",
+  "responses": 768,
+  "valid_responses": 758,
+  "boxes": 5556,
+  "matched_boxes": 3779,
+  "extra_boxes": 1500,
+  "ignored_boxes": 277,
+  "class_stop_penalties": 444,
+  "positive_box_credit": 2435,
+  "negative_box_credit": 2844,
+  "steps": [
+    1,
+    2,
+    3
+  ],
+  "examples": [
+    {
+      "step": 1,
+      "image_id": 130732,
+      "missing_gt": [
+        1,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "stop_credit": [
+        [
+          40,
+          -0.25,
+          "class_stop:bottle"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "book",
+          "gt_index": 0,
+          "iou": 0.7736864502059467,
+          "credit": 0.04729229572137705
+        },
+        {
+          "label": "bottle",
+          "gt_index": 2,
+          "iou": 0.5892373807705736,
+          "credit": 0.0006090027992252667
+        },
+        {
+          "label": "bottle",
+          "gt_index": 3,
+          "iou": 0.4434643132964293,
+          "credit": 0.30378206726613816
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "bottle",
+          "gt_index": 4,
+          "iou": 0.4961021767800969,
+          "credit": 0.23348225530006694
+        },
+        {
+          "label": "hair drier",
+          "gt_index": 15,
+          "iou": 0.8455518620955107,
+          "credit": 0.17150581182878066
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "person",
+          "gt_index": 16,
+          "iou": 0.9828996900960018,
+          "credit": 0.017393799475346028
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "sink",
+          "gt_index": 17,
+          "iou": 0.21985670332541735,
+          "credit": 0.15375215169038597
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 130732,
+      "missing_gt": [
+        1,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "stop_credit": [
+        [
+          35,
+          -0.25,
+          "class_stop:bottle"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "book",
+          "gt_index": 0,
+          "iou": 0.8494677435382109,
+          "credit": 0.12307358905364119
+        },
+        {
+          "label": "bottle",
+          "gt_index": 2,
+          "iou": 0.6934117356671468,
+          "credit": 0.10478335769579838
+        },
+        {
+          "label": "bottle",
+          "gt_index": 3,
+          "iou": 0.030488284330654706,
+          "credit": -0.10919396169963647
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "bottle",
+          "gt_index": 4,
+          "iou": 0.14944396569506005,
+          "credit": -0.11317595578496989
+        },
+        {
+          "label": "hair drier",
+          "gt_index": 15,
+          "iou": 0.8833512029059414,
+          "credit": 0.20930515263921134
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "person",
+          "gt_index": 16,
+          "iou": 0.9438887015971392,
+          "credit": -0.021617189023516503
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "refrigerator",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "refrigerator",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "sink",
+          "gt_index": 17,
+          "iou": 0.1033774923194583,
+          "credit": 0.037272940684426936
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 130732,
+      "missing_gt": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        17
+      ],
+      "stop_credit": [
+        [
+          35,
+          -0.5,
+          "class_stop:bottle"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "book",
+          "gt_index": 0,
+          "iou": 0.7849673897870362,
+          "credit": 0.0585732353024665
+        },
+        {
+          "label": "book",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "bottle",
+          "gt_index": 2,
+          "iou": 0.7204426675109825,
+          "credit": 0.13181428953963414
+        },
+        {
+          "label": "bottle",
+          "gt_index": 1,
+          "iou": 0.4048452127748255,
+          "credit": 0.24181101602469346
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "cup",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "hair drier",
+          "gt_index": 15,
+          "iou": 0.729756319603683,
+          "credit": 0.055710269336953
+        },
+        {
+          "label": "knife",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "person",
+          "gt_index": 16,
+          "iou": 0.9703513195738735,
+          "credit": 0.004845428953217823
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 130732,
+      "missing_gt": [
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        17
+      ],
+      "stop_credit": [
+        [
+          19,
+          -0.5,
+          "class_stop:bottle"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "bottle",
+          "gt_index": 2,
+          "iou": 0.6618548418882964,
+          "credit": 0.07322646391694798
+        },
+        {
+          "label": "bottle",
+          "gt_index": 3,
+          "iou": 0.22139033618017873,
+          "credit": 0.08170809014988756
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "book",
+          "gt_index": 0,
+          "iou": 0.8537041045775106,
+          "credit": 0.12730995009294088
+        },
+        {
+          "label": "bowl",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "cup",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "hair drier",
+          "gt_index": 15,
+          "iou": 0.7440951476477512,
+          "credit": 0.07004909738102116
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "person",
+          "gt_index": 16,
+          "iou": 0.9791178248283363,
+          "credit": 0.013611934207680587
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "toilet",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 130732,
+      "missing_gt": [
+        1,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        17
+      ],
+      "stop_credit": [
+        [
+          35,
+          -0.25,
+          "class_stop:bottle"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "book",
+          "gt_index": 0,
+          "iou": 0.8385422836370443,
+          "credit": 0.11214812915247463
+        },
+        {
+          "label": "bottle",
+          "gt_index": 2,
+          "iou": 0.5922507398562834,
+          "credit": 0.0036223618849350325
+        },
+        {
+          "label": "bottle",
+          "gt_index": 3,
+          "iou": 0.20432217490868235,
+          "credit": 0.06463992887839118
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "bottle",
+          "gt_index": 4,
+          "iou": 0.1120268582413802,
+          "credit": -0.15059306323864974
+        },
+        {
+          "label": "cup",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "hair drier",
+          "gt_index": 15,
+          "iou": 0.866742220277841,
+          "credit": 0.19269617001111095
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "person",
+          "gt_index": 16,
+          "iou": 0.9658111535019853,
+          "credit": 0.00030526288132959323
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 130732,
+      "missing_gt": [
+        0,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "stop_credit": [
+        [
+          39,
+          -0.25,
+          "class_stop:bottle"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "bottle",
+          "gt_index": 1,
+          "iou": 0.5154421194236498,
+          "credit": 0.3524079226735178
+        },
+        {
+          "label": "bottle",
+          "gt_index": 2,
+          "iou": 0.6260895185378911,
+          "credit": 0.037461140566542706
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "bottle",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "bottle",
+          "gt_index": 4,
+          "iou": 0.6037367303446478,
+          "credit": 0.34111680886461787
+        },
+        {
+          "label": "bowl",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "person",
+          "gt_index": 16,
+          "iou": 0.9781383922094129,
+          "credit": 0.012632501588757172
+        },
+        {
+          "label": "person",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        },
+        {
+          "label": "sink",
+          "gt_index": 17,
+          "iou": 0.11092019331448592,
+          "credit": 0.044815641679454565
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 476324,
+      "missing_gt": [
+        0
+      ],
+      "stop_credit": [
+        [
+          9,
+          -0.5,
+          "class_stop:airplane"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "airplane",
+          "gt_index": 1,
+          "iou": 0.8559870363607978,
+          "credit": -0.011376301661793486
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 476324,
+      "missing_gt": [
+        0
+      ],
+      "stop_credit": [
+        [
+          9,
+          -0.5,
+          "class_stop:airplane"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "airplane",
+          "gt_index": 1,
+          "iou": 0.8737768097739267,
+          "credit": 0.006413471751335442
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 476324,
+      "missing_gt": [
+        0
+      ],
+      "stop_credit": [
+        [
+          9,
+          -0.5,
+          "class_stop:airplane"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "airplane",
+          "gt_index": 1,
+          "iou": 0.8631285923075829,
+          "credit": -0.00423474571500837
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 476324,
+      "missing_gt": [
+        0
+      ],
+      "stop_credit": [
+        [
+          9,
+          -0.5,
+          "class_stop:airplane"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "airplane",
+          "gt_index": 1,
+          "iou": 0.9111039761346772,
+          "credit": 0.04374063811208595
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 476324,
+      "missing_gt": [
+        0
+      ],
+      "stop_credit": [
+        [
+          9,
+          -0.5,
+          "class_stop:airplane"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "airplane",
+          "gt_index": 1,
+          "iou": 0.7746687446741436,
+          "credit": -0.09269459334844765
+        },
+        {
+          "label": "traffic light",
+          "gt_index": null,
+          "iou": 0.0,
+          "credit": -1.0
+        }
+      ]
+    },
+    {
+      "step": 1,
+      "image_id": 476324,
+      "missing_gt": [
+        0
+      ],
+      "stop_credit": [
+        [
+          9,
+          -0.5,
+          "class_stop:airplane"
+        ]
+      ],
+      "box_credit": [
+        {
+          "label": "airplane",
+          "gt_index": 1,
+          "iou": 0.864959208247412,
+          "credit": -0.002404129775179231
+        }
+      ]
+    }
+  ]
+}
